@@ -1,13 +1,44 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
-    <router-view/>
+    <div v-if="loggedInState" class="private">
+      <Header />
+      <router-view :key="$route.name + ($route.params.id || '')"></router-view>
+      <Footer />
+    </div>
+    <div v-if="!loggedInState" class="public">
+      <public-main></public-main>
+    </div>
   </div>
 </template>
 
 <script>
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
+import PublicMain from "@/pages/PublicMain";
+import axios from "@/axios-auth";
+import * as types from "@/store/mutation-types";
+
 export default {
-  name: 'App',
+  name: "App",
+  components: {
+    Header,
+    PublicMain,
+    Footer,
+  },
+  data () {
+    return {
+    };
+  },
+  created () {
+    this.$store.commit("LOGIN");
+  },
+  methods: {
+  },
+  computed: {
+    loggedInState () {
+      return this.$store.getters.loggedInState;
+    }
+  }
 };
 </script>
 
@@ -155,5 +186,13 @@ a {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow: hidden;
+}
+
+.component-slide-fade-leave-active {
+  transition: all 0.4s ease-in;
+}
+
+.component-slide-fade-leave-to {
+  transform: translateY(-2000px);
 }
 </style>
