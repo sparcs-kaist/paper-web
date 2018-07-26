@@ -42,7 +42,7 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
 /* http://meyerweb.com/eric/tools/css/reset/
    v2.0 | 20110126
    License: none (public domain)
@@ -186,13 +186,5 @@ a {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow: hidden;
-}
-
-.component-slide-fade-leave-active {
-  transition: all 0.4s ease-in;
-}
-
-.component-slide-fade-leave-to {
-  transform: translateY(-2000px);
 }
 </style>

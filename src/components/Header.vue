@@ -3,10 +3,14 @@
     <div class="topLine"></div>
     <div class="headerWrapper">
       <div class="column">
-        <img src="@/assets/logo.png" class="logo">
+        <img @click="mainPage" src="@/assets/logo.png" class="logo">
+        <router-link to="/create">어플라이 생성하기</router-link>
+        <router-link to="/participate">어플라이 참여하기</router-link>
       </div>
       <div class="column">
         <img src="@/assets/userProfile.jpg" class="profileImage">
+        <span class="userName">userName</span>
+        <v-icon medium sclass="arrowIcon">arrow_drop_down</v-icon>
       </div>
     </div>
   </div>
@@ -23,6 +27,9 @@ export default {
   props: {
   },
   methods: {
+    mainPage () {
+      this.$router.push({ name: "" })
+    }
   },
   computed: {
   }
@@ -44,7 +51,7 @@ export default {
   .topLine {
     height: 5px;
     width: 100%;
-    background-color: blue;
+    background-color: #393f5a;
   }
   .headerWrapper {
     width: 100%;
@@ -63,6 +70,10 @@ export default {
       &:last-child {
         justify-content: flex-end;
       }
+      a {
+        color: rgba(0, 0, 0, 0.87);
+        font-size: 15px;
+      }
       .logo {
         height: 37px;
       }
@@ -70,6 +81,11 @@ export default {
         width: 25px;
         height: 25px;
         border-radius: 50%;
+      }
+      .userName {
+        font-size: 18px;
+        font-weight: 400;
+        margin-left: 10px;
       }
     }
   }

@@ -1,6 +1,6 @@
 <template lang=''>
 <div class="totalWrapper">
-  This is private!
+
 </div>
 </template>
 <script>
