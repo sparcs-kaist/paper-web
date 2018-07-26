@@ -5,8 +5,6 @@ import Vue from "vue";
 import Vuetify from "vuetify";
 import vuexI18n from "vuex-i18n";
 
-import "vuetify/dist/vuetify.min.css";
-
 import translationEn from "./lang/en.json";
 import translationKr from "./lang/kr.json";
 

@@ -72,7 +72,7 @@ exports.cssLoaders = function(options) {
     postcss: generateLoaders(),
     less: generateLoaders("less"),
     sass: generateLoaders("sass", sassOptions),
-    //  Make custom SASS available to all components https://github.com/webpack-contrib/sass-loader
+    // https://stackoverflow.com/questions/38928380/vue-js-always-load-a-settings-scss-file-in-every-vue-style-section/46015906#46015906
     scss: generateLoaders("sass", scssOptions),
     stylus: generateLoaders("stylus"),
     styl: generateLoaders("stylus")
