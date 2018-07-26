@@ -74,6 +74,7 @@ export default {
       this.isZabologin = !this.isZabologin;
     },
     login () {
+      this.$store.commit("LOGIN");
       // this.$store.commit("START_AJAX");
       // axios
       //   .post("/api-token-auth/", {

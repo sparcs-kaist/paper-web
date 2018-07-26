@@ -8,10 +8,22 @@
         <span @click="selectTab('tab2')" :class="tab2 ? 'selectedTab' : 'tabs'">어플라이 찾아보기</span>
       </div>
       <div class="column">
-        <img src="@/assets/userProfile.jpg" class="profileImage">
-        <span class="userName">userName</span>
-        <v-icon medium sclass="arrowIcon">arrow_drop_down</v-icon>
+        <img @click="profileModalState = !profileModalState" src="@/assets/userProfile.jpg" class="profileImage">
+        <span @click="profileModalState = !profileModalState" class="userName">userName</span>
+        <v-icon @click="profileModalState = !profileModalState" medium class="arrowIcon">arrow_drop_down</v-icon>
       </div>
+      <div class="profileModalWrapper" v-show="profileModalState">
+        <div @click="logout" class="singleTapWrapper">
+          <v-icon medium class="profileIcons">power_settings_new</v-icon>
+          <span class="profileSpan">{{$t('로그아웃')}}</span>
+        </div>
+        <div @click="profilePush" class="singleTapWrapper">
+          <v-icon medium class="profileIcons">person</v-icon>
+          <span class="profileSpan">{{$t('프로필 관리')}}</span>
+        </div>
+      </div>
+      <div v-show="profileModalState" class="profileTriangle"></div>
+      <div v-show="profileModalState" class="profileTriangle profileTriangleBorder"></div>
     </div>
   </div>
 </template>
@@ -26,7 +38,8 @@ export default {
     return {
       tab1: false,
       tab2: false,
-      selectedTab: ""
+      selectedTab: "",
+      profileModalState: false
     }
   },
   props: {
@@ -47,6 +60,12 @@ export default {
         this.tab1 = false;
         this.$router.push({ name: "SearchForApply" })
       }
+    },
+    logout () {
+      this.$store.commit("LOGOUT");
+    },
+    profilePush () {
+      this.$router.push({ name: "MyPage" })
     }
   },
 };
@@ -116,12 +135,65 @@ export default {
         width: 25px;
         height: 25px;
         border-radius: 50%;
+        cursor: pointer;
+        &:hover {
+          box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.3);
+        }
       }
       .userName {
         font-size: 18px;
         font-weight: 400;
         margin-left: 10px;
+        cursor: pointer;
       }
+      .arrowIcon {
+        cursor: pointer;
+      }
+    }
+    .profileModalWrapper {
+      position: absolute;
+      top: 74px;
+      right: 24px;
+      background-color: white;
+      box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.3);
+      display: flex;
+      flex-direction: column;
+      z-index: 300;
+      padding: 0px 5px;
+      .singleTapWrapper {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        padding: 10px;
+        font-size: 1em;
+        cursor: pointer;
+        color: rgba(0, 0, 0, 0.87);
+        &:first-child {
+          border-bottom: 1px solid #ececec;
+        }
+        .profileIcons {
+          margin-right: 0.25em;
+        }
+        .profileSpan {
+          font-size: 1.125em;
+        }
+      }
+    }
+    .profileTriangle {
+      position: absolute;
+      width: 0;
+      height: 0;
+      top: 65px;
+      right: 40px;
+      border-left: 11px solid transparent;
+      border-right: 11px solid transparent;
+      border-bottom: 10px solid white;
+      z-index: 301;
+    }
+    .profileTriangleBorder {
+      top: 64px;
+      border-bottom: 10px solid #e0e0e0;
+      z-index: 2;
     }
   }
 }
