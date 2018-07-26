@@ -7,17 +7,15 @@ import CreatedPaperDetail from "@/pages/CreatedPaperDetail.vue";
 import ParticipatedPaperDetail from "@/pages/ParticipatedPaperDetail.vue";
 import ParticipatePaper from "@/pages/ParticipatePaper.vue";
 import SearchForPaper from "@/pages/SearchForPaper.vue";
+import Credit from "@/pages/Credit.vue";
+import License from "@/pages/License.vue";
+import CodeOfConduct from "@/pages/CodeOfConduct.vue";
 
 Vue.use(Router);
 
 export default new Router({
   mode: "history",
   routes: [
-    {
-      path: "/",
-      name: "MainPage",
-      component: MainPage
-    },
     {
       path: "/user/profile",
       name: "MyPage",
@@ -47,6 +45,26 @@ export default new Router({
       path: "/user/participated/:paperId",
       name: "ParticipatedPaperDetail",
       component: ParticipatedPaperDetail
+    },
+    {
+      path: "/credit",
+      name: "Credit",
+      component: Credit
+    },
+    {
+      path: "/codeofconduct",
+      name: "CodeOfConduct",
+      component: CodeOfConduct
+    },
+    {
+      path: "/license",
+      name: "License",
+      component: License
+    },
+    {
+      path: "/",
+      name: "MainPage",
+      component: MainPage
     }
   ]
 });
