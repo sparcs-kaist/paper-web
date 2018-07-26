@@ -6,7 +6,7 @@
       <span class="essential"> *필수 항목</span>
     </div>
     <div class="categoryWrapper">
-      <span class="categoryHeading">카테고리</span>
+      <span class="categoryHeading">카테고리 </span>
       <input name="recruiting" type="radio" class="radio" :value="selectedCategory"/>
       <label for="recruiting" class="label" >리크루팅</label>
       <input name="recruiting" type="radio" class="radio" :value="selectedCategory"/>
