@@ -2,11 +2,11 @@ import Vue from "vue";
 import Router from "vue-router";
 import MainPage from "@/pages/MainPage.vue";
 import MyPage from "@/pages/MyPage.vue";
-import CreateApply from "@/pages/CreateApply.vue";
-import CreatedApplyDetail from "@/pages/CreatedApplyDetail.vue";
-import ParticipatedApplyDetail from "@/pages/ParticipatedApplyDetail.vue";
-import ParticipateApply from "@/pages/ParticipateApply.vue";
-import SearchForApply from "@/pages/SearchForApply.vue";
+import CreatePaper from "@/pages/CreatePaper.vue";
+import CreatedPaperDetail from "@/pages/CreatedPaperDetail.vue";
+import ParticipatedPaperDetail from "@/pages/ParticipatedPaperDetail.vue";
+import ParticipatePaper from "@/pages/ParticipatePaper.vue";
+import SearchForPaper from "@/pages/SearchForPaper.vue";
 
 Vue.use(Router);
 
@@ -24,29 +24,29 @@ export default new Router({
       component: MyPage
     },
     {
-      path: "/apply/create",
-      name: "CreateApply",
-      component: CreateApply
+      path: "/paper/create",
+      name: "CreatePaper",
+      component: CreatePaper
     },
     {
-      path: "/apply/participate/:applyId",
-      name: "ParticipateApply",
-      component: ParticipateApply
+      path: "/paper/participate/:PaperId",
+      name: "ParticipatePaper",
+      component: ParticipatePaper
     },
     {
-      path: "/apply/search",
-      name: "SearchForApply",
-      component: SearchForApply
+      path: "/paper/search",
+      name: "SearchForPaper",
+      component: SearchForPaper
     },
     {
-      path: "/user/created/:applyId",
-      name: "CreatedApplyDetail",
-      component: CreatedApplyDetail
+      path: "/user/created/:paperId",
+      name: "CreatedPaperDetail",
+      component: CreatedPaperDetail
     },
     {
-      path: "/user/participated/:applyId",
-      name: "ParticipatedApplyDetail",
-      component: ParticipatedApplyDetail
+      path: "/user/participated/:paperId",
+      name: "ParticipatedPaperDetail",
+      component: ParticipatedPaperDetail
     }
   ]
 });

@@ -54,18 +54,20 @@ export default {
       if (tabName == 'tab1') {
         this.tab1 = true;
         this.tab2 = false;
-        this.$router.push({ name: "CreateApply" })
+        this.$router.push({ name: "CreatePaper" })
       } else {
         this.tab2 = true;
         this.tab1 = false;
-        this.$router.push({ name: "SearchForApply" })
+        this.$router.push({ name: "SearchForPaper" })
       }
     },
     logout () {
       this.$store.commit("LOGOUT");
+      this.profileModalState = false;
     },
     profilePush () {
       this.$router.push({ name: "MyPage" })
+      this.profileModalState = false;
     }
   },
 };
