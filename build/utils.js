@@ -56,14 +56,24 @@ exports.cssLoaders = function(options) {
       return ["vue-style-loader"].concat(loaders);
     }
   }
+  var sassOptions = {
+    indentedSyntax: true
+  };
+
+  var scssOptions = {
+    // includePaths: ["./src/config"],
+    data: `@import "@/config/_variables.scss";`
+    // data: '@import ' + __dirname + "/src/config/_variables.scss"
+  };
 
   // https://vue-loader.vuejs.org/en/configurations/extract-css.html
   return {
     css: generateLoaders(),
     postcss: generateLoaders(),
     less: generateLoaders("less"),
-    sass: generateLoaders("sass", { indentedSyntax: true }),
-    scss: generateLoaders("sass"),
+    sass: generateLoaders("sass", sassOptions),
+    //  Make custom SASS available to all components https://github.com/webpack-contrib/sass-loader
+    scss: generateLoaders("sass", scssOptions),
     stylus: generateLoaders("stylus"),
     styl: generateLoaders("stylus")
   };
