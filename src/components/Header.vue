@@ -110,7 +110,7 @@ export default {
       }
       .tabs {
         color: rgba(0, 0, 0, 0.54);
-        font-size: $big-font-size;
+        font-size: $normal-font-size;
         font-weight: $big-font-weight;
         margin-left: 24px;
         margin-top: 5px;
@@ -122,7 +122,7 @@ export default {
       }
       .selectedTab {
         color: rgba(0, 0, 0, 0.87);
-        font-size: $big-font-size;
+        font-size: $normal-font-size;
         font-weight: $big-font-weight;
         margin-left: 24px;
         margin-top: 5px;
@@ -143,7 +143,7 @@ export default {
         }
       }
       .userName {
-        font-size: $big-font-size;
+        font-size: $normal-font-size;
         font-weight: $small-font-weight;
         margin-left: 10px;
         cursor: pointer;
@@ -177,7 +177,7 @@ export default {
           margin-right: 4px;
         }
         .profileSpan {
-          font-size: $big-font-size;
+          font-size: $normal-font-size;
         }
       }
     }
