@@ -18,11 +18,7 @@ export default {
 </script>
 <style lang='scss' scoped>
 .totalWrapper {
-  position: absolute;
-  top: 64px;
-  bottom: 68px;
-  left: 0;
-  right: 0;
+  @include pageDefault();
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -33,12 +29,12 @@ export default {
     width: 400px;
   }
   .header {
-    font-size: 30px;
+    font-size: $biggest-font-size;
     margin: 20px 0 50px 0;
     text-align: center;
   }
   .explaination {
-    font-size: 20px;
+    font-size: $big-font-size;
     text-align: center;
   }
 }

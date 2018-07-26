@@ -21,6 +21,6 @@ export default {
 input {
   width: 100%;
   padding: 5px 10px;
-  font-size: 15px;
+  font-size: $normal-font-size;
 }
 </style>

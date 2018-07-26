@@ -4,8 +4,8 @@
     <div class="headerWrapper">
       <div class="column">
         <img @click="mainPage" src="@/assets/logo.png" class="logo">
-        <span @click="selectTab('tab1')" :class="tab1 ? 'selectedTab' : 'tabs'">어플라이 생성하기</span>
-        <span @click="selectTab('tab2')" :class="tab2 ? 'selectedTab' : 'tabs'">어플라이 찾아보기</span>
+        <span @click="selectTab('tab1')" :class="tab1 ? 'selectedTab' : 'tabs'">{{$t('페이퍼 생성하기')}}</span>
+        <span @click="selectTab('tab2')" :class="tab2 ? 'selectedTab' : 'tabs'">{{$t('페이퍼 찾아보기')}}</span>
       </div>
       <div class="column">
         <img @click="profileModalState = !profileModalState" src="@/assets/userProfile.jpg" class="profileImage">
@@ -97,7 +97,7 @@ export default {
     justify-content: space-between;
     align-items: center;
     padding: 0 24px;
-    background-color: rgba(255, 255, 255, 0.9);
+    background-color: $transparent-white;
     .column {
       height: 59px;
       display: flex;
@@ -110,8 +110,8 @@ export default {
       }
       .tabs {
         color: rgba(0, 0, 0, 0.54);
-        font-size: 18px;
-        font-weight: 700;
+        font-size: $big-font-size;
+        font-weight: $big-font-weight;
         margin-left: 24px;
         margin-top: 5px;
         transition: all 0.2s ease-in-out;
@@ -122,8 +122,8 @@ export default {
       }
       .selectedTab {
         color: rgba(0, 0, 0, 0.87);
-        font-size: 18px;
-        font-weight: 700;
+        font-size: $big-font-size;
+        font-weight: $big-font-weight;
         margin-left: 24px;
         margin-top: 5px;
         cursor: pointer;
@@ -139,12 +139,12 @@ export default {
         border-radius: 50%;
         cursor: pointer;
         &:hover {
-          box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.3);
+          @include smallBoxShadow();
         }
       }
       .userName {
-        font-size: 18px;
-        font-weight: 400;
+        font-size: $big-font-size;
+        font-weight: $small-font-weight;
         margin-left: 10px;
         cursor: pointer;
       }
@@ -157,7 +157,7 @@ export default {
       top: 74px;
       right: 24px;
       background-color: white;
-      box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.3);
+      @include smallBoxShadow();
       display: flex;
       flex-direction: column;
       z-index: 300;
@@ -167,17 +167,17 @@ export default {
         align-items: center;
         justify-content: flex-start;
         padding: 10px;
-        font-size: 1em;
+        font-size: $normal-font-size;
         cursor: pointer;
         color: rgba(0, 0, 0, 0.87);
         &:first-child {
           border-bottom: 1px solid #ececec;
         }
         .profileIcons {
-          margin-right: 0.25em;
+          margin-right: 4px;
         }
         .profileSpan {
-          font-size: 1.125em;
+          font-size: $big-font-size;
         }
       }
     }

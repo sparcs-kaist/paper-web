@@ -8,15 +8,8 @@ export default {
 
 }
 </script>
-<style scoped lang=''>
+<style scoped lang='scss'>
 .totalWrapper {
-  display: flex;
-  justify-content: center;
-  position: absolute;
-  top: 90px;
-  bottom: 68px;
-  left: 0;
-  right: 0;
-  font-size: 2em;
+  @include footerTabs();
 }
 </style>
