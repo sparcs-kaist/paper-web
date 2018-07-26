@@ -4,8 +4,8 @@
     <div class="headerWrapper">
       <div class="column">
         <img @click="mainPage" src="@/assets/logo.png" class="logo">
-        <router-link to="/create">어플라이 생성하기</router-link>
-        <router-link to="/participate">어플라이 참여하기</router-link>
+        <span @click="selectTab('tab1')" :class="tab1 ? 'selectedTab' : 'tabs'">어플라이 생성하기</span>
+        <span @click="selectTab('tab2')" :class="tab2 ? 'selectedTab' : 'tabs'">어플라이 찾아보기</span>
       </div>
       <div class="column">
         <img src="@/assets/userProfile.jpg" class="profileImage">
@@ -23,16 +23,32 @@ export default {
   components: {
   },
   data () {
+    return {
+      tab1: false,
+      tab2: false,
+      selectedTab: ""
+    }
   },
   props: {
   },
   methods: {
     mainPage () {
-      this.$router.push({ name: "" })
+      this.tab1 = false;
+      this.tab2 = false;
+      this.$router.push({ name: "MainPage" })
+    },
+    selectTab (tabName) {
+      if (tabName == 'tab1') {
+        this.tab1 = true;
+        this.tab2 = false;
+        this.$router.push({ name: "CreateApply" })
+      } else {
+        this.tab2 = true;
+        this.tab1 = false;
+        this.$router.push({ name: "SearchForApply" })
+      }
     }
   },
-  computed: {
-  }
 };
 </script>
 
@@ -51,7 +67,7 @@ export default {
   .topLine {
     height: 5px;
     width: 100%;
-    background-color: #393f5a;
+    background-color: #673ab7;
   }
   .headerWrapper {
     width: 100%;
@@ -60,6 +76,7 @@ export default {
     justify-content: space-between;
     align-items: center;
     padding: 0 24px;
+    background-color: rgba(255, 255, 255, 0.9);
     .column {
       height: 59px;
       display: flex;
@@ -70,12 +87,30 @@ export default {
       &:last-child {
         justify-content: flex-end;
       }
-      a {
+      .tabs {
+        color: rgba(0, 0, 0, 0.54);
+        font-size: 18px;
+        font-weight: 700;
+        margin-left: 24px;
+        margin-top: 5px;
+        transition: all 0.2s ease-in-out;
+        cursor: pointer;
+        &:hover {
+          color: rgba(0, 0, 0, 87);
+        }
+      }
+      .selectedTab {
         color: rgba(0, 0, 0, 0.87);
-        font-size: 15px;
+        font-size: 18px;
+        font-weight: 700;
+        margin-left: 24px;
+        margin-top: 5px;
+        cursor: pointer;
       }
       .logo {
         height: 37px;
+        cursor: pointer;
+        margin-right: 20px;
       }
       .profileImage {
         width: 25px;

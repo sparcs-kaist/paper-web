@@ -6,6 +6,7 @@ import CreateApply from "@/pages/CreateApply.vue";
 import CreatedApplyDetail from "@/pages/CreatedApplyDetail.vue";
 import ParticipatedApplyDetail from "@/pages/ParticipatedApplyDetail.vue";
 import ParticipateApply from "@/pages/ParticipateApply.vue";
+import SearchForApply from "@/pages/SearchForApply.vue";
 
 Vue.use(Router);
 
@@ -14,7 +15,7 @@ export default new Router({
   routes: [
     {
       path: "/",
-      name: "MyPage",
+      name: "MainPage",
       component: MainPage
     },
     {
@@ -33,8 +34,13 @@ export default new Router({
       component: ParticipateApply
     },
     {
+      path: "/apply/search",
+      name: "SearchForApply",
+      component: SearchForApply
+    },
+    {
       path: "/user/created/:applyId",
-      name: "ParticipateApply",
+      name: "CreatedApplyDetail",
       component: CreatedApplyDetail
     },
     {

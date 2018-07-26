@@ -6,5 +6,5 @@ export default {
 
 }
 </script>
-<style lang=''>
+<style lang='' scoped>
 </style>
