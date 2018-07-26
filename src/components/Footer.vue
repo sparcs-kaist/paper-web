@@ -2,7 +2,7 @@
   <footer class="footerWrapper">
     <div class="column">
       <div class="imageWrapper">
-        <img src="@/assets/logo.png" class="image"/>
+        <img src="@/assets/sparcslogo.png" class="image"/>
       </div>
       <div class="tapWrapper">
         <router-link to="/credit"><span class="tap">Credit</span></router-link>
@@ -55,5 +55,6 @@ export default {
 }
 .image {
   height: 23px;
+  margin-top: 2px;
 }
 </style>

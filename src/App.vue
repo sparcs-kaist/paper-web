@@ -6,7 +6,7 @@
       <Footer />
     </div>
     <div v-if="!loggedInState" class="public">
-      <public-main></public-main>
+      <login></login>
     </div>
   </div>
 </template>
@@ -14,7 +14,7 @@
 <script>
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import PublicMain from "@/pages/PublicMain";
+import Login from "@/pages/Login";
 import axios from "@/axios-auth";
 import * as types from "@/store/mutation-types";
 
@@ -22,7 +22,7 @@ export default {
   name: "App",
   components: {
     Header,
-    PublicMain,
+    Login,
     Footer,
   },
   data () {
