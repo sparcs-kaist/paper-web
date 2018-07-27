@@ -57,7 +57,7 @@ export default {
       title: "스팍스 리크루팅",
       explaination: "스팍스는 컴퓨터 동아리입니다. 스팍스는 컴퓨터 동아리입니다. 스팍스는 컴퓨터 동아리입니다.",
       time: "2018-01-01T01:03",
-      url: "https://www.sparcs.org/",
+      url: "https://zabo.sparcs.org/zabo/98",
       currentTotalState: "start",
       questions: [
         {

@@ -1,13 +1,13 @@
 <template lang=''>
   <div class="formWrapper" :class="margin && 'marginTop'">
     <div class="formTitleWrapper">
-      <v-text-field class="formTitle" single-line label="제목" outline style="font-size: 18px; height: 55px;" @change.native="$emit('update:title', formTitle)" v-model="formTitle"></v-text-field>
+      <v-text-field class="formTitle" single-line label="제목" outline style="font-size: 18px; max-height: 50px;" @change.native="$emit('update:title', formTitle)" v-model="formTitle"></v-text-field>
       <div class="tabsWrapper">
         <div class="singleTabWrapper">
           <v-icon :color="optionsType == 'checkbox' ? 'purple darken-2' : ''">mdi-checkbox-marked-outline</v-icon>
           <span :class="optionsType == 'checkbox' ? 'themeSpan' : ''">체크박스</span>
         </div>
-        <div  class="singleTabWrapper">
+        <div class="singleTabWrapper">
           <v-icon :color="optionsType == 'radio' ? 'purple darken-2' : ''">mdi-radiobox-marked</v-icon>
           <span :class="optionsType == 'radio' ? 'themeSpan' : ''">객관식 질문</span>
         </div>
@@ -18,10 +18,10 @@
       </div>
     </div>
     <v-radio-group v-if="optionsType == 'radio'" class="optionsWrapper">
-      <v-radio v-for="(option, index) in inputOptions" :key="index" style="height: 50px; margin: 0;" @click.native="$emit('update:options', inputOptions)" :label="inputOptions[index].content" :value="inputOptions[index].content"></v-radio>
+      <v-radio v-for="(option, index) in inputOptions" :key="index" style="height: 40px; margin: 0; padding: 0;" @click.native="$emit('update:options', inputOptions)" :label="inputOptions[index].content" :value="inputOptions[index].content"></v-radio>
     </v-radio-group>
     <div v-for="(option, index) in inputOptions" :key="index" v-if="optionsType == 'checkbox'" class="optionsWrapper">
-      <v-checkbox style="height: 50px; margin: 0;" @click.native="$emit('update:options', inputOptions)" v-model="inputOptions.choice" :label="inputOptions[index].content" :value="inputOptions[index].content"></v-checkbox>
+      <v-checkbox style="height: 40px; margin: 0; padding: 0;" @click.native="$emit('update:options', inputOptions)" v-model="inputOptions.choice" :label="inputOptions[index].content" :value="inputOptions[index].content"></v-checkbox>
     </div>
     <textarea v-if="optionsType == 'longtext'" disabled class="textArea" placeholder="장문형 텍스트" :value="inputOptions[0]"/>
   </div>
@@ -75,7 +75,6 @@ export default {
     width: 100%;
     display: flex;
     align-items: center;
-    margin-bottom: 12px;
     .formTitle {
       font-size: $big-font-size;
       font-weight: $big-font-weight;
@@ -91,6 +90,7 @@ export default {
       display: flex;
       justify-content: flex-end;
       align-items: center;
+      max-height: 50px;
       .singleTabWrapper {
         display: flex;
         justify-content: flex-end;
@@ -130,6 +130,6 @@ export default {
   }
 }
 .marginTop {
-  margin-top: 35px;
+  margin-top: 30px;
 }
 </style>
