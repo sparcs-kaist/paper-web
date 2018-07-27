@@ -1,20 +1,87 @@
 <template lang=''>
 <div class="totalWrapper">
-
+  <div class="row">
+    <img class="profileImage" src="@/assets/userProfile.jpg" >
+    <div class="nickName">SPARCS</div>
+    <div class="bio">SPARCS는 교양분관에 있는 웹 개발 동아리입니다.</div>
+  </div>
+  <div class="row">
+    <div class="tabsWrapper">
+      <div class="tab">생성한 어플라이</div>
+      <div class="tab">참여한 어플라이</div>
+    </div>
+    <div class="contentWrapper">
+      <MyPagePaperTab />
+    </div>
+  </div>
 </div>
 </template>
 <script>
-export default {
+import MyPagePaperTab from '@/components/MyPagePaperTab';
 
+export default {
+  components: {
+    MyPagePaperTab
+  }
 }
 </script>
 <style lang='scss' scoped>
 .totalWrapper {
-  position: absolute;
-  top: 64px;
-  left: 0;
-  right: 0;
-  height: 40px;
-  font-size: 60px;
+  @include marginPage();
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  margin-top: 80px;
+  .row {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    &:first-child {
+      margin-bottom: 40px;
+      .profileImage {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        margin-bottom: 15px;
+      }
+      .nickName {
+        font-size: $biggest-font-size;
+        font-weight: $big-font-weight;
+        margin-bottom: 15px;
+      }
+      .bio {
+        font-size: $normal-font-size;
+      }
+    }
+    &:last-child {
+      .tabsWrapper {
+        display: flex;
+        width: 100%;
+        align-items: center;
+        justify-content: center;
+        .tab {
+          flex: 1;
+          font-size: $big-font-size;
+          &:first-child {
+            text-align: right;
+            margin-right: 15px;
+          }
+          &:last-child {
+            text-align: left;
+            margin-left: 15px;
+          }
+        }
+      }
+      .contentWrapper {
+        width: 100%;
+        height: 400px;
+        background-color: gray;
+        margin-top: 25px;
+      }
+    }
+  }
 }
 </style>
