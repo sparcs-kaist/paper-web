@@ -35,8 +35,7 @@
     </div>
     <div class="row">
       <div class="column">
-        <form-wrapper :required="true" :toggle="false" type="text" :margin="true" title="제목" placeholder="제목을 입력하세요." :content.sync="title" ></form-wrapper>
-        <paper-input-form v-for="(question, index) in questions" :key="index" :margin="true" :options.sync="question.options" :title.sync="question.title"></paper-input-form>
+        <paper-input-form v-for="(question, index) in questions" :key="index" :margin="true" :options.sync="question.options" :title.sync="question.title" :type="question.type"></paper-input-form>
         <button @click="addQuestion" class="addQuestion">+ 질문 추가</button>
       </div>
       <div class="column">
@@ -65,6 +64,7 @@ export default {
         {
           title: '',
           options: [''],
+          type: ''
         }
       ],
     }

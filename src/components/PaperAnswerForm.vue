@@ -3,27 +3,25 @@
     <div class="formTitleWrapper">
       <v-text-field class="formTitle" single-line label="제목" outline style="font-size: 18px; height: 55px;" @change.native="$emit('update:title', formTitle)" v-model="formTitle"></v-text-field>
       <div class="tabsWrapper">
-        <div @click="selectType('checkbox')" class="singleTabWrapper">
+        <div class="singleTabWrapper">
           <v-icon :color="optionsType == 'checkbox' ? 'purple darken-2' : ''">mdi-checkbox-marked-outline</v-icon>
           <span :class="optionsType == 'checkbox' ? 'themeSpan' : ''">체크박스</span>
         </div>
-        <div @click="selectType('radio')"  class="singleTabWrapper">
+        <div  class="singleTabWrapper">
           <v-icon :color="optionsType == 'radio' ? 'purple darken-2' : ''">mdi-radiobox-marked</v-icon>
           <span :class="optionsType == 'radio' ? 'themeSpan' : ''">객관식 질문</span>
         </div>
-        <div @click="selectType('longtext')"  class="singleTabWrapper">
+        <div class="singleTabWrapper">
           <v-icon :color="optionsType == 'longtext' ? 'purple darken-2' : ''">mdi-text</v-icon>
           <span :class="optionsType == 'longtext' ? 'themeSpan' : ''">주관식</span>
         </div>
       </div>
     </div>
-    <div v-for="(option, index) in inputOptions" :key="index" v-if="optionsType == 'radio'" class="optionsWrapper">
-      <v-icon>mdi-radiobox-blank</v-icon>
-      <v-text-field single-line regular :label="'옵션' + `${index}`" @keyup.enter="addOption($event, index)" @change.native="$emit('update:options', inputOptions)" v-model="inputOptions[index+1]"></v-text-field>
-    </div>
+    <v-radio-group v-if="optionsType == 'radio'" class="optionsWrapper">
+      <v-radio v-for="(option, index) in inputOptions" :key="index" style="height: 50px; margin: 0;" @click.native="$emit('update:options', inputOptions)" :label="inputOptions[index].content" :value="inputOptions[index].content"></v-radio>
+    </v-radio-group>
     <div v-for="(option, index) in inputOptions" :key="index" v-if="optionsType == 'checkbox'" class="optionsWrapper">
-      <v-icon>mdi-checkbox-blank-outline</v-icon>
-      <v-text-field @keyup.enter="addOption($event, index)" single-line regular :label="'옵션' + `${index+1}`" @change.native="$emit('update:options', inputOptions)" v-model="inputOptions[index]"></v-text-field>
+      <v-checkbox style="height: 50px; margin: 0;" @click.native="$emit('update:options', inputOptions)" v-model="inputOptions.choice" :label="inputOptions[index].content" :value="inputOptions[index].content"></v-checkbox>
     </div>
     <textarea v-if="optionsType == 'longtext'" disabled class="textArea" placeholder="장문형 텍스트" />
   </div>
@@ -98,7 +96,6 @@ export default {
         justify-content: flex-end;
         align-items: center;
         margin-left: 20px;
-        cursor: pointer;
         .themeSpan {
           color: $theme-color;
           font-weight: $big-font-weight;

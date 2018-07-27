@@ -4,8 +4,8 @@
       <span class="formTitle">{{title}}<span class="requiredSpan" v-show="required">*</span></span>
         <v-switch @click.native="clearInput" v-if="toggle" color="success" style="padding: 0;margin-top: 0px; max-height: 20px; " label="포함하기" v-model="toggleState"></v-switch>
     </div>
-    <input :disabled="toggle ? !toggleState : false" v-if="!textarea" :type="type" @change="$emit('update:content', input)" v-model="input" :placeholder="placeholder" />
-    <textarea maxlength="1500" v-model="input" class="textArea" @change="$emit('update:content', input)" :placeholder="placeholder" v-else />
+    <input :disabled="toggle ? !toggleState : disabled ? true : false" v-if="!textarea" :type="type" @change="$emit('update:content', input)" v-model="input" :placeholder="placeholder" />
+    <textarea :disabled="toggle ? !toggleState : disabled ? true : false" maxlength="1500" v-model="input" class="textArea" @change="$emit('update:content', input)" :placeholder="placeholder" v-else />
   </div>
 </template>
 <script>
@@ -19,6 +19,7 @@ export default {
     margin: Boolean,
     required: Boolean,
     toggle: Boolean,
+    disabled: Boolean
   },
   data () {
     return {
