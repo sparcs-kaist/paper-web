@@ -3,8 +3,10 @@ import Router from "vue-router";
 import MainPage from "@/pages/MainPage.vue";
 import MyPage from "@/pages/MyPage.vue";
 import CreatePaper from "@/pages/CreatePaper.vue";
+import CreateSubmitted from "@/pages/CreateSubmitted.vue";
 import CreatedPaperDetail from "@/pages/CreatedPaperDetail.vue";
 import ParticipatedPaperDetail from "@/pages/ParticipatedPaperDetail.vue";
+import ParticipateSubmitted from "@/pages/ParticipateSubmitted.vue";
 import ParticipatePaper from "@/pages/ParticipatePaper.vue";
 import SearchForPaper from "@/pages/SearchForPaper.vue";
 import Credit from "@/pages/Credit.vue";
@@ -30,6 +32,16 @@ export default new Router({
       path: "/paper/participate/:PaperId",
       name: "ParticipatePaper",
       component: ParticipatePaper
+    },
+    {
+      path: "/paper/participate/submitted",
+      name: "ParticipateSubmitted",
+      component: ParticipateSubmitted
+    },
+    {
+      path: "/paper/create/submitted",
+      name: "CreateSubmitted",
+      component: CreateSubmitted
     },
     {
       path: "/paper/search",
