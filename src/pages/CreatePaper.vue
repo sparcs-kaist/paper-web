@@ -152,7 +152,7 @@ export default {
         &:last-child {
           flex: 2;
           .goNext {
-            @include largeButton(blue);
+            @include largeButton(theme);
             margin-top: 12px;
           }
         }
