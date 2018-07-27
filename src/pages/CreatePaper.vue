@@ -15,13 +15,14 @@
   </div>
   <div class="row">
     <div class="column">
-      <form-wrapper type="text" :margin="true" title="제목" placeholder="제목을 입력하세요." :content.sync="title" ></form-wrapper>
-      <form-wrapper type="datetime-local" :margin="true" title="날짜 기한(Deadline)" placeholder="제목을 입력하세요." :content.sync="time" ></form-wrapper>
-      <form-wrapper type="text" :textarea="true" :margin="true" title="페이퍼 설명(1500자 이내)" placeholder="이 어플라이에 대한 설명을 입력해주세요." :content.sync="explaination" ></form-wrapper>
+      <form-wrapper :required="true" :toggle="false" type="text" :margin="true" title="제목" placeholder="제목을 입력하세요." :content.sync="title" ></form-wrapper>
+      <form-wrapper :required="true" :toggle="false" type="datetime-local" :margin="true" title="날짜 기한(Deadline)" placeholder="제목을 입력하세요." :content.sync="time" ></form-wrapper>
+      <form-wrapper :required="true" :toggle="false" type="text" :textarea="true" :margin="true" title="페이퍼 설명(1500자 이내)" placeholder="이 어플라이에 대한 설명을 입력해주세요." :content.sync="explaination" ></form-wrapper>
     </div>
     <div class="column">
-      <form-wrapper type="text" :margin="true" title="URL(자보, 아라)" placeholder="ex) https://zabo.sparcs.org/zabo/24" :content.sync="url" ></form-wrapper>
-      <mini-view></mini-view>
+      <form-wrapper :required="true" :toggle="true" type="text" :margin="true" title="URL(자보, 아라)" placeholder="ex) https://zabo.sparcs.org/zabo/24" :content.sync="url" ></form-wrapper>
+      <mini-view :url="url"></mini-view>
+      <button class="goNext">질문지 만들러 가기</button>
     </div>
   </div>
 </div>
@@ -99,9 +100,9 @@ export default {
         }
         &:last-child {
           flex: 2;
-        }
-        .formWrapper {
-          .formTitle {
+          .goNext {
+            @include largeButton(blue);
+            margin-top: 12px;
           }
         }
       }
