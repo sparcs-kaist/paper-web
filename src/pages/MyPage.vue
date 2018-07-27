@@ -7,10 +7,13 @@
   </div>
   <div class="row">
     <div class="tabsWrapper">
-      <div class="tab">생성한 어플라이</div>
-      <div class="tab">참여한 어플라이</div>
+      <div :class="selectedTab == 1 ? 'selectedTab tab' : 'tab'" @click="selectTab(1)"><span class="tabSpan">생성한 어플라이</span></div>
+      <div :class="selectedTab == 2 ? 'selectedTab tab' : 'tab'" @click="selectTab(2)"><span class="tabSpan"> 참여한 어플라이</span></div>
     </div>
-    <div class="contentWrapper">
+    <div v-show="selectedTab == 1" class="contentWrapper">
+      <my-page-paper-tab v-for="(n, index) in 6" :key="index" title="스팍스 2018 봄 지원 질문지"></my-page-paper-tab>
+    </div>
+    <div v-show="selectedTab == 2" class="contentWrapper">
       <my-page-paper-tab v-for="(n, index) in 6" :key="index" title="스팍스 2018 봄 지원 질문지"></my-page-paper-tab>
     </div>
   </div>
@@ -22,6 +25,16 @@ import MyPagePaperTab from '@/components/MyPagePaperTab';
 export default {
   components: {
     MyPagePaperTab
+  },
+  data () {
+    return {
+      selectedTab: 1
+    }
+  },
+  methods: {
+    selectTab (num) {
+      this.selectedTab = num;
+    }
   }
 }
 </script>
@@ -64,7 +77,10 @@ export default {
         justify-content: center;
         .tab {
           flex: 1;
-          font-size: $big-font-size;
+          .tabSpan {
+            font-size: $big-font-size;
+            cursor: pointer;
+          }
           &:first-child {
             text-align: right;
             margin-right: 15px;
@@ -73,6 +89,9 @@ export default {
             text-align: left;
             margin-left: 15px;
           }
+        }
+        .selectedTab {
+          font-weight: $big-font-weight;
         }
       }
       .contentWrapper {
