@@ -30,8 +30,7 @@
   <div v-show="currentTotalState == 'end'" class="totalWrapper">
     <div class="row">
       <div class="headingWrapper">
-        <span class="headingTitle">질문지 작성 | </span>
-        <span class="essential"> *필수 항목</span>
+        <span class="headingTitle"><v-icon @click="currentTotalState = 'start'" class="arrowIcon">mdi-arrow-left</v-icon>질문지 작성</span>
       </div>
     </div>
     <div class="row">
@@ -41,7 +40,7 @@
         <button @click="addQuestion" class="addQuestion">+ 질문 추가</button>
       </div>
       <div class="column">
-        <form-wrapper :required="true" :toggle="true" type="text" :margin="true" title="URL(자보, 아라)" placeholder="ex) https://zabo.sparcs.org/zabo/24" :content.sync="url" ></form-wrapper>
+        <form-wrapper :toggle="true" type="text" :margin="true" title="URL(자보, 아라)" placeholder="ex) https://zabo.sparcs.org/zabo/24" :content.sync="url" ></form-wrapper>
         <button @click="submitPaper" class="goNext">질문지 생성하기</button>
       </div>
     </div>
@@ -111,6 +110,12 @@ export default {
         .headingTitle {
           font-size: $big-font-size;
           font-weight: $big-font-weight;
+          display: flex;
+          align-items: center;
+          .arrowIcon {
+            margin-right: 10px;
+            cursor: pointer;
+          }
         }
         .essential {
           font-size: $normal-font-size;
