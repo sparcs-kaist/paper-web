@@ -4,11 +4,11 @@
       <v-text-field class="formTitle" single-line label="제목" outline style="font-size: 18px; height: 55px;" @change.native="$emit('update:title', formTitle)" v-model="formTitle"></v-text-field>
       <div class="tabsWrapper">
         <div @click="selectType('checkbox')" class="singleTabWrapper">
-          <v-icon :color="optionsType == 'checkbox' ? 'purple darken-2' : ''">mdi-checkbox-marked-outline</v-icon>
+          <v-icon :color="optionsType == 'checkbox' ? 'purple darken-2' : ''">mdi-checkbox-blank-outline</v-icon>
           <span :class="optionsType == 'checkbox' ? 'themeSpan' : ''">체크박스</span>
         </div>
         <div @click="selectType('radio')"  class="singleTabWrapper">
-          <v-icon :color="optionsType == 'radio' ? 'purple darken-2' : ''">mdi-radiobox-marked</v-icon>
+          <v-icon :color="optionsType == 'radio' ? 'purple darken-2' : ''">mdi-radiobox-blank</v-icon>
           <span :class="optionsType == 'radio' ? 'themeSpan' : ''">객관식 질문</span>
         </div>
         <div @click="selectType('longtext')"  class="singleTabWrapper">
@@ -18,11 +18,11 @@
       </div>
     </div>
     <div v-for="(option, index) in inputOptions" :key="index" v-if="optionsType == 'radio'" class="optionsWrapper">
-      <v-icon>mdi-radiobox-marked</v-icon>
+      <v-icon>mdi-radiobox-blank</v-icon>
       <v-text-field single-line regular :label="'옵션' + `${index}`" @keyup.enter="addOption($event, index)" @change.native="$emit('update:options', inputOptions)" v-model="inputOptions[index+1]"></v-text-field>
     </div>
     <div v-for="(option, index) in inputOptions" :key="index" v-if="optionsType == 'checkbox'" class="optionsWrapper">
-      <v-icon>mdi-checkbox-marked-outline</v-icon>
+      <v-icon>mdi-checkbox-blank-outline</v-icon>
       <v-text-field @keyup.enter="addOption($event, index)" single-line regular :label="'옵션' + `${index+1}`" @change.native="$emit('update:options', inputOptions)" v-model="inputOptions[index]"></v-text-field>
     </div>
     <textarea v-if="optionsType == 'longtext'" disabled class="textArea" placeholder="장문형 텍스트" />
