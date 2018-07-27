@@ -63,6 +63,22 @@ $iphone6plus-width: 550px;
 @mixin bigBoxShadow() {
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
 }
+@mixin largeButton ($color) {
+  color: white;
+  height: 36px;
+  width: 100%;
+  padding: 10px 0 8px 0;
+  font-size: $normal-font-size;
+  @if $color == blue  {
+    background-color: $blue-color;
+  }
+  @if $color == green  {
+    background-color: $green-color;
+  }
+  @if $color == red  {
+    background-color: $red-color;
+  }
+}
 @mixin footerTabs() {
   display: flex;
   justify-content: center;
