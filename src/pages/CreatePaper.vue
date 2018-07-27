@@ -37,8 +37,8 @@
     <div class="row">
       <div class="column">
         <form-wrapper :required="true" :toggle="false" type="text" :margin="true" title="제목" placeholder="제목을 입력하세요." :content.sync="title" ></form-wrapper>
-        <form-wrapper :required="true" :toggle="false" type="datetime-local" :margin="true" title="날짜 기한(Deadline)" placeholder="제목을 입력하세요." :content.sync="time" ></form-wrapper>
-        <form-wrapper :required="true" :toggle="false" type="text" :textarea="true" :margin="true" title="페이퍼 설명(1500자 이내)" placeholder="이 어플라이에 대한 설명을 입력해주세요." :content.sync="explaination" ></form-wrapper>
+        <paper-input-form v-for="(question, index) in questions" :key="index" :margin="true" :options.sync="question.options" :title.sync="question.title"></paper-input-form>
+        <button @click="addQuestion" class="addQuestion">+ 질문 추가</button>
       </div>
       <div class="column">
         <form-wrapper :required="true" :toggle="true" type="text" :margin="true" title="URL(자보, 아라)" placeholder="ex) https://zabo.sparcs.org/zabo/24" :content.sync="url" ></form-wrapper>
@@ -50,7 +50,8 @@
 </template>
 <script>
 import FormWrapper from '@/components/FormWrapper';
-import MiniView from '@/components/MiniView.vue';
+import MiniView from '@/components/MiniView';
+import PaperInputForm from '@/components/PaperInputForm';
 
 export default {
   data () {
@@ -60,16 +61,30 @@ export default {
       explaination: "",
       time: "",
       url: "",
-      currentTotalState: "start"
+      currentTotalState: "start",
+      questions: [
+        {
+          title: '',
+          options: [''],
+        }
+      ],
     }
   },
   components: {
     FormWrapper,
-    MiniView
+    MiniView,
+    PaperInputForm
   },
   methods: {
     submitPaper () {
-      this.$router.push({name: "CreateSubmitted"})
+      this.$router.push({ name: "CreateSubmitted" })
+    },
+    addQuestion () {
+      this.questions.push({
+        title: '',
+        options: [''],
+      })
+      console.log(this.questions);
     }
   },
 }
@@ -118,10 +133,16 @@ export default {
       }
     }
     &:last-child {
+      margin-bottom: 68px;
       .column {
+        margin-bottom: 100px;
         &:first-child {
           flex: 3;
           margin-right: 80px;
+          .addQuestion {
+            @include largeButton(green);
+            margin-top: 12px;
+          }
         }
         &:last-child {
           flex: 2;

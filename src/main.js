@@ -12,9 +12,13 @@ import store from "./store";
 import App from "./App";
 import router from "./router";
 
+import "@mdi/font/css/materialdesignicons.css";
+
 Vue.config.productionTip = false;
 
-Vue.use(Vuetify);
+Vue.use(Vuetify, {
+  iconfont: "mdi"
+});
 
 Vue.use(vuexI18n.plugin, store, {
   moduleName: "i18n",

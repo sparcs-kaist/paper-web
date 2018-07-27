@@ -51,56 +51,56 @@ export default {
    License: none (public domain)
 */
 .v-input--switch {
-    &__track,
-    &__thumb {
-        background-color: #bbbbbb;
-        pointer-events: none;
-        transition: inherit;
-    }
+  &__track,
+  &__thumb {
+    background-color: #bbbbbb;
+    pointer-events: none;
+    transition: inherit;
+  }
 
-    &__track {
-        border-radius: 0.5rem;
-        height: 0.875rem;
-        left: 0.125rem;
-        opacity: 0.6;
-        position: absolute;
-        right: 0.125rem;
-        top: calc(50% - 7px);
-    }
+  &__track {
+    border-radius: 0.5rem;
+    height: 0.875rem;
+    left: 0.125rem;
+    opacity: 0.6;
+    position: absolute;
+    right: 0.125rem;
+    top: calc(50% - 7px);
+  }
 
-    &__thumb {
-        @include elevation(4);
-        border-radius: 50%;
-        height: 1.25rem;
-        position: relative;
-        top: calc(50% - 10px);
-        width: 1.25rem;
-    }
+  &__thumb {
+    @include elevation(4);
+    border-radius: 50%;
+    height: 1.25rem;
+    position: relative;
+    top: calc(50% - 10px);
+    width: 1.25rem;
+  }
 
-    .v-input--selection-controls__input {
-        width: 2.375rem;
-    }
+  .v-input--selection-controls__input {
+    width: 2.375rem;
+  }
 
-    .v-input--selection-controls__ripple {
-        left: -0.875rem;
-        top: calc(50% - 24px);
-    }
+  .v-input--selection-controls__ripple {
+    left: -0.875rem;
+    top: calc(50% - 24px);
+  }
 
-    &.v-input--is-dirty {
-        .v-input--selection-controls__ripple,
-        .v-input--switch__thumb {
-            transform: translate(1rem, 0);
-        }
-        .v-input--switch__thumb, .v-input--switch__track {
-          background-color: $theme-color;
-        }
-        .v-label {
-          font-weight: $big-font-weight;
-          color: $theme-color;
-        }
+  &.v-input--is-dirty {
+    .v-input--selection-controls__ripple,
+    .v-input--switch__thumb {
+      transform: translate(1rem, 0);
     }
+    .v-input--switch__thumb,
+    .v-input--switch__track {
+      background-color: $theme-color;
+    }
+    .v-label {
+      font-weight: $big-font-weight;
+      color: $theme-color;
+    }
+  }
 }
-
 
 html,
 body,
@@ -108,7 +108,6 @@ div,
 span,
 applet,
 object,
-iframe,
 h1,
 h2,
 h3,
@@ -143,7 +142,6 @@ tt,
 var,
 b,
 u,
-i,
 center,
 dl,
 dt,
@@ -153,7 +151,6 @@ ul,
 li,
 fieldset,
 form,
-label,
 legend,
 table,
 caption,
@@ -183,6 +180,7 @@ time,
 mark,
 audio,
 video {
+  font-family: "NanumSquare", sans-serif;
   margin: 0;
   padding: 0;
   border: 0;
