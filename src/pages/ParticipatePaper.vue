@@ -26,7 +26,7 @@
       </div>
     </div>
   </div>
-  <div v-show="currentTotalState == 'end'" class="totalWrapper">
+  <div id="participateScreenshot" v-show="currentTotalState == 'end'" class="totalWrapper">
     <div class="row">
       <div class="headingWrapper">
         <span class="headingTitle"><v-icon @click="currentTotalState = 'start'" class="arrowIcon">mdi-arrow-left</v-icon>질문지 답변 작성</span>
@@ -48,6 +48,7 @@
 import FormWrapper from '@/components/FormWrapper';
 import MiniView from '@/components/MiniView';
 import PaperAnswerForm from '@/components/PaperAnswerForm';
+import html2canvas from 'html2canvas';
 
 export default {
   data () {
@@ -101,7 +102,12 @@ export default {
   },
   methods: {
     submitPaper () {
-      this.$router.push({ name: "CreateSubmitted" })
+      // this.$router.push({ name: "CreateSubmitted" })
+      html2canvas(document.querySelector("#participateScreenshot")).then(canvas => {
+        canvas.toBlob(function(blob) {
+          console.log(new File([blob], `sbagi${Date.now()}`, {type: blob.type, lastModified: Date.now()}))
+        }, 'image/jpeg', 0.95);
+      })
     },
     addQuestion () {
       this.questions.push({
