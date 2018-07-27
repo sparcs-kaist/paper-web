@@ -23,7 +23,7 @@
     <div v-for="(option, index) in inputOptions" :key="index" v-if="optionsType == 'checkbox'" class="optionsWrapper">
       <v-checkbox style="height: 50px; margin: 0;" @click.native="$emit('update:options', inputOptions)" v-model="inputOptions.choice" :label="inputOptions[index].content" :value="inputOptions[index].content"></v-checkbox>
     </div>
-    <textarea v-if="optionsType == 'longtext'" disabled class="textArea" placeholder="장문형 텍스트" />
+    <textarea v-if="optionsType == 'longtext'" disabled class="textArea" placeholder="장문형 텍스트" :value="inputOptions[0]"/>
   </div>
 </template>
 <script>
