@@ -11,7 +11,7 @@
       <div class="tab">참여한 어플라이</div>
     </div>
     <div class="contentWrapper">
-      <MyPagePaperTab />
+      <my-page-paper-tab v-for="(n, index) in 6" :key="index" title="스팍스 2018 봄 지원 질문지"></my-page-paper-tab>
     </div>
   </div>
 </div>
@@ -77,9 +77,16 @@ export default {
       }
       .contentWrapper {
         width: 100%;
-        height: 400px;
         background-color: gray;
         margin-top: 25px;
+        padding: 25px 0;
+        max-height: 400px;
+        overflow-y: scroll;
+        overflow-x: hidden;
+        display: flex;
+        justify-content: space-around;
+        align-items: flex-start;
+        flex-wrap: wrap;
       }
     }
   }
