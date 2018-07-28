@@ -1,27 +1,27 @@
 <template lang=''>
   <div class="formWrapper" :class="margin && 'marginTop'">
     <div class="formTitleWrapper">
-      <v-text-field class="formTitle" single-line label="제목" outline style="font-size: 18px; max-height: 50px;" @change.native="$emit('update:title', formTitle)" v-model="formTitle"></v-text-field>
+      <v-text-field class="formTitle" disabled single-line label="제목" outline style="font-size: 18px; max-height: 50px;" v-model="formTitle"></v-text-field>
       <div class="tabsWrapper">
         <div class="singleTabWrapper">
-          <v-icon :color="optionsType == 'checkbox' ? 'purple darken-2' : ''">mdi-checkbox-marked-outline</v-icon>
-          <span :class="optionsType == 'checkbox' ? 'themeSpan' : ''">체크박스</span>
+          <v-icon :color="optionsType == 'checkbox' ? 'purple darken-2' : 'grey darken-1'">mdi-checkbox-marked-outline</v-icon>
+          <span :class="optionsType == 'checkbox' ? 'themeSpan optionSpan' : 'optionSpan'">체크박스</span>
         </div>
         <div class="singleTabWrapper">
-          <v-icon :color="optionsType == 'radio' ? 'purple darken-2' : ''">mdi-radiobox-marked</v-icon>
-          <span :class="optionsType == 'radio' ? 'themeSpan' : ''">객관식 질문</span>
+          <v-icon :color="optionsType == 'radio' ? 'purple darken-2' : 'grey darken-1'">mdi-radiobox-marked</v-icon>
+          <span :class="optionsType == 'radio' ? 'themeSpan optionSpan' : 'optionSpan'">객관식 질문</span>
         </div>
         <div class="singleTabWrapper">
-          <v-icon :color="optionsType == 'longtext' ? 'purple darken-2' : ''">mdi-text</v-icon>
-          <span :class="optionsType == 'longtext' ? 'themeSpan' : ''">주관식</span>
+          <v-icon :color="optionsType == 'longtext' ? 'purple darken-2' : 'grey darken-1'">mdi-text</v-icon>
+          <span :class="optionsType == 'longtext' ? 'themeSpan optionSpan' : 'optionSpan'">주관식</span>
         </div>
       </div>
     </div>
     <v-radio-group v-if="optionsType == 'radio'" class="optionsWrapper">
-      <v-radio v-for="(option, index) in inputOptions" :key="index" style="height: 40px; margin: 0; padding: 0;" @click.native="$emit('update:options', inputOptions)" :label="inputOptions[index].content" :value="inputOptions[index].content"></v-radio>
+      <v-radio :disabled="disabled" v-for="(option, index) in inputOptions" :key="index" style="height: 40px; margin: 0; padding: 0;" @click.native="$emit('update:options', inputOptions)" :label="inputOptions[index].content" :value="inputOptions[index].content"></v-radio>
     </v-radio-group>
     <div v-for="(option, index) in inputOptions" :key="index" v-if="optionsType == 'checkbox'" class="optionsWrapper">
-      <v-checkbox style="height: 40px; margin: 0; padding: 0;" @click.native="$emit('update:options', inputOptions)" v-model="inputOptions.choice" :label="inputOptions[index].content" :value="inputOptions[index].content"></v-checkbox>
+      <v-checkbox :disabled="disabled" style="height: 40px; margin: 0; padding: 0;" @click.native="$emit('update:options', inputOptions)" v-model="inputOptions.choice" :label="inputOptions[index].content" :value="inputOptions[index].content"></v-checkbox>
     </div>
     <textarea v-if="optionsType == 'longtext'" disabled class="textArea" placeholder="장문형 텍스트" :value="inputOptions[0]"/>
   </div>
@@ -35,7 +35,8 @@ export default {
     textarea: Boolean,
     margin: Boolean,
     required: Boolean,
-    toggle: Boolean
+    toggle: Boolean,
+    disabled: Boolean
   },
   data() {
     return {
@@ -105,6 +106,14 @@ export default {
         justify-content: flex-end;
         align-items: center;
         margin-left: 20px;
+        &:nth-child(2) {
+          margin-left: 5px;
+        }
+        .optionSpan {
+          color: $font-black-light;
+          font-weight: $big-font-weight;
+          min-width: 78px;
+        }
         .themeSpan {
           color: $theme-color;
           font-weight: $big-font-weight;

@@ -93,6 +93,7 @@ export default {
         }
         .selectedTab {
           font-weight: $big-font-weight;
+          color: $theme-color;
         }
       }
       .contentWrapper {
