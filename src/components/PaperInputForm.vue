@@ -107,7 +107,11 @@ export default {
         justify-content: flex-end;
         align-items: center;
         margin-left: 20px;
+        min-width: 105px;
         cursor: pointer;
+        &:nth-child(3) {
+          margin-left: -10px;
+        }
         .themeSpan {
           color: $theme-color;
           font-weight: $big-font-weight;
