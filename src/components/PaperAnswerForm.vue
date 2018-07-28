@@ -35,36 +35,45 @@ export default {
     textarea: Boolean,
     margin: Boolean,
     required: Boolean,
-    toggle: Boolean,
+    toggle: Boolean
   },
-  data () {
+  data() {
     return {
       toggleState: false,
       optionsType: "",
       inputOptions: [],
       formTitle: ""
-    }
+    };
   },
-  created () {
-    console.log(this.optionsType)
+  created() {
+    console.log(this.optionsType);
     this.optionsType = this.type;
     this.formTitle = this.title;
     this.inputOptions = this.options;
   },
   methods: {
-    selectType (name) {
+    selectType(name) {
       this.optionsType = name;
     },
-    addOption (event, index) {
+    addOption(event, index) {
       if (this.inputOptions.length == index + 1) {
-        this.inputOptions.push("")
-        setTimeout(() => { document.getElementsByClassName("optionsWrapper")[document.getElementsByClassName("optionsWrapper").length - 1].getElementsByTagName('input')[0].focus() }, 50);
+        this.inputOptions.push("");
+        setTimeout(() => {
+          document
+            .getElementsByClassName("optionsWrapper")
+            [
+              document.getElementsByClassName("optionsWrapper").length - 1
+            ].getElementsByTagName("input")[0]
+            .focus();
+        }, 50);
       } else {
-        event.srcElement.parentNode.parentNode.parentNode.parentNode.parentNode.nextSibling.getElementsByTagName('input')[0].focus()
+        event.srcElement.parentNode.parentNode.parentNode.parentNode.parentNode.nextSibling
+          .getElementsByTagName("input")[0]
+          .focus();
       }
     }
   }
-}
+};
 </script>
 <style lang='scss' scoped>
 .formWrapper {
@@ -116,7 +125,7 @@ export default {
     width: 100%;
     padding: 8px 10px;
     font-size: $normal-font-size;
-    font-weight: $small-font-weight;
+    font-weight: $normal-font-weight;
     resize: none;
     outline: none;
     height: 150px;

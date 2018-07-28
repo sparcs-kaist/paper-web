@@ -48,13 +48,13 @@
 </div>
 </template>
 <script>
-import FormWrapper from '@/components/FormWrapper';
-import MiniView from '@/components/MiniView';
-import PaperInputForm from '@/components/PaperInputForm';
-import html2canvas from 'html2canvas';
+import FormWrapper from "@/components/FormWrapper";
+import MiniView from "@/components/MiniView";
+import PaperInputForm from "@/components/PaperInputForm";
+import html2canvas from "html2canvas";
 
 export default {
-  data () {
+  data() {
     return {
       selectedCategory: "",
       title: "",
@@ -64,13 +64,13 @@ export default {
       currentTotalState: "start",
       questions: [
         {
-          title: '',
-          options: [''],
-          type: ''
+          title: "",
+          options: [""],
+          type: ""
         }
       ],
       imageUrl: ""
-    }
+    };
   },
   components: {
     FormWrapper,
@@ -78,23 +78,32 @@ export default {
     PaperInputForm
   },
   methods: {
-    submitPaper () {
+    submitPaper() {
       // this.$router.push({ name: "CreateSubmitted" })
       html2canvas(document.querySelector("#createScreenshot")).then(canvas => {
-        canvas.toBlob(function(blob) {
-          console.log(new File([blob], `sbagi${Date.now()}`, {type: blob.type, lastModified: Date.now()}))
-        }, 'image/jpeg', 0.95);
-      })
+        canvas.toBlob(
+          function(blob) {
+            console.log(
+              new File([blob], `sbagi${Date.now()}`, {
+                type: blob.type,
+                lastModified: Date.now()
+              })
+            );
+          },
+          "image/jpeg",
+          0.95
+        );
+      });
     },
-    addQuestion () {
+    addQuestion() {
       this.questions.push({
-        title: '',
-        options: [''],
-      })
+        title: "",
+        options: [""]
+      });
       console.log(this.questions);
     }
-  },
-}
+  }
+};
 </script>
 <style lang='scss' scoped>
 .totalWrapper {
@@ -148,7 +157,7 @@ export default {
     &:last-child {
       margin-bottom: 68px;
       .column {
-        margin-bottom: 100px;
+        @include footerRegardingMargin();
         &:first-child {
           flex: 3;
           margin-right: 80px;

@@ -23,19 +23,17 @@ export default {
   components: {
     Header,
     Login,
-    Footer,
+    Footer
   },
-  data () {
-    return {
-    };
+  data() {
+    return {};
   },
-  created () {
+  created() {
     this.$store.commit("LOGIN");
   },
-  methods: {
-  },
+  methods: {},
   computed: {
-    loggedInState () {
+    loggedInState() {
       return this.$store.getters.loggedInState;
     }
   }
@@ -226,6 +224,7 @@ table {
 }
 body {
   margin: 0;
+  @include scrollBarDark(big);
 }
 p {
   line-height: 1.6;

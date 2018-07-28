@@ -55,7 +55,7 @@
 import axios from "@/axios-auth";
 
 export default {
-  data () {
+  data() {
     return {
       email: "",
       password: "",
@@ -70,10 +70,10 @@ export default {
     };
   },
   methods: {
-    zabologin () {
+    zabologin() {
       this.isZabologin = !this.isZabologin;
     },
-    login () {
+    login() {
       this.$store.commit("LOGIN");
       // this.$store.commit("START_AJAX");
       // axios
@@ -107,7 +107,7 @@ export default {
       //       });
       //   });
     }
-  },
+  }
 };
 </script>
 <style lang='' scoped>

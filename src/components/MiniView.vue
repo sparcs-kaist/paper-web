@@ -34,16 +34,16 @@
   </div>
 </template>
 <script>
-import axios from '@/axios-auth';
+import axios from "@/axios-auth";
 
 export default {
   props: {
     url: String
   },
   computed: {
-    miniview () {
+    miniview() {
       var expUrl = /^http[s]?\:\/\/zabo.sparcs.org\/zabo\//;
-      return expUrl.test(this.url)
+      return expUrl.test(this.url);
     }
   },
   data() {
@@ -59,55 +59,77 @@ export default {
       content: "",
       likeCount: 0,
       loading: true
-    }
+    };
   },
-  mounted () {
+  mounted() {
     if (this.miniview) {
-      let zabo = this.url.split('/');
-      let zaboId = zabo[zabo.length-1];
-      axios.get('http://ssal.sparcs.org:16133/api/zaboes/'+zaboId).then(res => {
-        const {title, category, author: {nickName, profile_image}, content, location, posters, like_count, link_url} = res.data
-        this.category = category;
-        this.title = title;
-        this.profileImage = profile_image;
-        this.nickName = nickName;
-        this.content = content;
-        this.location = location;
-        this.posterImage = posters[0].image_thumbnail
-        this.likeCount = like_count;
-        this.loading = false;
-      })
-    }
-  },
-  methods: {
-    gotoZabo () {
-      window.location.replace(this.url)
-    }
-  },
-  watch: {
-    miniview (val) {
-      if (val) {
-        let zabo = this.url.split('/');
-        let zaboId = zabo[zabo.length-1];
-        axios.get('http://ssal.sparcs.org:16133/api/zaboes/'+zaboId).then(res => {
-          const {title, category, author: {nickName, profile_image}, content, location, posters, like_count, link_url} = res.data
+      let zabo = this.url.split("/");
+      let zaboId = zabo[zabo.length - 1];
+      axios
+        .get("http://ssal.sparcs.org:16133/api/zaboes/" + zaboId)
+        .then(res => {
+          const {
+            title,
+            category,
+            author: { nickName, profile_image },
+            content,
+            location,
+            posters,
+            like_count,
+            link_url
+          } = res.data;
           this.category = category;
           this.title = title;
           this.profileImage = profile_image;
           this.nickName = nickName;
           this.content = content;
           this.location = location;
-          this.posterImage = posters[0].image_thumbnail
+          this.posterImage = posters[0].image_thumbnail;
           this.likeCount = like_count;
           this.loading = false;
-        })
+        });
+    }
+  },
+  methods: {
+    gotoZabo() {
+      window.location.replace(this.url);
+    }
+  },
+  watch: {
+    miniview(val) {
+      if (val) {
+        let zabo = this.url.split("/");
+        let zaboId = zabo[zabo.length - 1];
+        axios
+          .get("http://ssal.sparcs.org:16133/api/zaboes/" + zaboId)
+          .then(res => {
+            const {
+              title,
+              category,
+              author: { nickName, profile_image },
+              content,
+              location,
+              posters,
+              like_count,
+              link_url
+            } = res.data;
+            this.category = category;
+            this.title = title;
+            this.profileImage = profile_image;
+            this.nickName = nickName;
+            this.content = content;
+            this.location = location;
+            this.posterImage = posters[0].image_thumbnail;
+            this.likeCount = like_count;
+            this.loading = false;
+          });
       }
     }
   }
-}
+};
 </script>
 <style lang="scss" scoped>
-.yesMiniView{
+.yesMiniView {
   margin-top: 12px;
   @include smallBoxShadow();
   width: 100%;
@@ -140,7 +162,7 @@ export default {
         color: transparent;
         z-index: 20;
         background-color: transparent;
-        transition: all .2s ease-in-out;
+        transition: all 0.2s ease-in-out;
       }
       &:hover {
         .posterOverlay {
@@ -161,41 +183,41 @@ export default {
       justify-content: flex-start;
       margin-left: 10px;
       flex: 1;
-        .author {
-          display: flex;
-          width: 100%;
-          align-items: center;
-          .profileImage {
-            width: 25px;
-            height: 25px;
-            border-radius: 50%;
-          }
-          .authorSpan {
-            font-size: $normal-font-size;
-            font-weight: $big-font-weight;
-            margin-left: 10px;
-          }
+      .author {
+        display: flex;
+        width: 100%;
+        align-items: center;
+        .profileImage {
+          width: 25px;
+          height: 25px;
+          border-radius: 50%;
         }
-        .explainationTitle {
+        .authorSpan {
           font-size: $normal-font-size;
           font-weight: $big-font-weight;
-          margin-top: 8px;
-        }
-        .category {
-          font-size: $normal-font-size;
-          font-weight: $big-font-weight;
-          margin-top: 8px;
-        }
-        .explainationLocation {
-          font-size: $normal-font-size;
-          font-weight: $big-font-weight;
-          margin-top: 8px;
-        }
-        .explainationContent {
-          font-size: $normal-font-size;
-          margin-top: 8px;
+          margin-left: 10px;
         }
       }
+      .explainationTitle {
+        font-size: $normal-font-size;
+        font-weight: $big-font-weight;
+        margin-top: 8px;
+      }
+      .category {
+        font-size: $normal-font-size;
+        font-weight: $big-font-weight;
+        margin-top: 8px;
+      }
+      .explainationLocation {
+        font-size: $normal-font-size;
+        font-weight: $big-font-weight;
+        margin-top: 8px;
+      }
+      .explainationContent {
+        font-size: $normal-font-size;
+        margin-top: 8px;
+      }
+    }
   }
 }
 .noMiniView {

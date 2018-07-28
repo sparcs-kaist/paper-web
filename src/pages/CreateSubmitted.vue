@@ -11,16 +11,16 @@
 <script>
 export default {
   methods: {
-    routing (str) {
-      if (str == 'Main') {
-        this.$router.push({ name: "MainPage" })
+    routing(str) {
+      if (str == "Main") {
+        this.$router.push({ name: "MainPage" });
       }
-      if (str == 'MyPage') {
-        this.$router.push({ name: "MyPage" })
+      if (str == "MyPage") {
+        this.$router.push({ name: "MyPage" });
       }
     }
   }
-}
+};
 </script>
 <style scoped lang='scss'>
 .totalWrapper {

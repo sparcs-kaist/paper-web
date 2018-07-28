@@ -29,47 +29,44 @@
 </template>
 
 <script>
-
 export default {
   name: "Header",
-  components: {
-  },
-  data () {
+  components: {},
+  data() {
     return {
       tab1: false,
       tab2: false,
       selectedTab: "",
       profileModalState: false
-    }
+    };
   },
-  props: {
-  },
+  props: {},
   methods: {
-    mainPage () {
+    mainPage() {
       this.tab1 = false;
       this.tab2 = false;
-      this.$router.push({ name: "MainPage" })
+      this.$router.push({ name: "MainPage" });
     },
-    selectTab (tabName) {
-      if (tabName == 'tab1') {
+    selectTab(tabName) {
+      if (tabName == "tab1") {
         this.tab1 = true;
         this.tab2 = false;
-        this.$router.push({ name: "CreatePaper" })
+        this.$router.push({ name: "CreatePaper" });
       } else {
         this.tab2 = true;
         this.tab1 = false;
-        this.$router.push({ name: "SearchForPaper" })
+        this.$router.push({ name: "SearchForPaper" });
       }
     },
-    logout () {
+    logout() {
       this.$store.commit("LOGOUT");
       this.profileModalState = false;
     },
-    profilePush () {
-      this.$router.push({ name: "MyPage" })
+    profilePush() {
+      this.$router.push({ name: "MyPage" });
       this.profileModalState = false;
     }
-  },
+  }
 };
 </script>
 
@@ -144,7 +141,7 @@ export default {
       }
       .userName {
         font-size: $normal-font-size;
-        font-weight: $small-font-weight;
+        font-weight: $normal-font-weight;
         margin-left: 10px;
         cursor: pointer;
       }
@@ -156,8 +153,7 @@ export default {
       position: absolute;
       top: 74px;
       right: 24px;
-      background-color: white;
-      @include smallBoxShadow();
+      @include modalTabCss();
       display: flex;
       flex-direction: column;
       z-index: 300;

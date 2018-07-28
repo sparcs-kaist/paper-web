@@ -45,55 +45,56 @@
 </div>
 </template>
 <script>
-import FormWrapper from '@/components/FormWrapper';
-import MiniView from '@/components/MiniView';
-import PaperAnswerForm from '@/components/PaperAnswerForm';
-import html2canvas from 'html2canvas';
+import FormWrapper from "@/components/FormWrapper";
+import MiniView from "@/components/MiniView";
+import PaperAnswerForm from "@/components/PaperAnswerForm";
+import html2canvas from "html2canvas";
 
 export default {
-  data () {
+  data() {
     return {
       selectedCategory: "recruiting",
       title: "스팍스 리크루팅",
-      explaination: "스팍스는 컴퓨터 동아리입니다. 스팍스는 컴퓨터 동아리입니다. 스팍스는 컴퓨터 동아리입니다.",
+      explaination:
+        "스팍스는 컴퓨터 동아리입니다. 스팍스는 컴퓨터 동아리입니다. 스팍스는 컴퓨터 동아리입니다.",
       time: "2018-01-01T01:03",
       url: "https://zabo.sparcs.org/zabo/98",
       currentTotalState: "start",
       questions: [
         {
-          title: '왜 이 동아리에 지원하셨나요?',
+          title: "왜 이 동아리에 지원하셨나요?",
           options: [
             {
               id: 1,
-              content: '심심해서',
+              content: "심심해서"
             },
             {
               id: 2,
-              content: '너무 멋있어서'
+              content: "너무 멋있어서"
             }
           ],
           ismultiple: true,
-          type: 'checkbox',
+          type: "checkbox",
           choice: []
         },
         {
-          title: '왜 이 동아리에 지원하셨나요?',
+          title: "왜 이 동아리에 지원하셨나요?",
           options: [
             {
               id: 1,
-              content: '심심해서',
+              content: "심심해서"
             },
             {
               id: 2,
-              content: '너무 멋있어서'
+              content: "너무 멋있어서"
             }
           ],
           ismultiple: false,
-          type: 'radio',
+          type: "radio",
           choice: []
         }
-      ],
-    }
+      ]
+    };
   },
   components: {
     FormWrapper,
@@ -101,23 +102,34 @@ export default {
     PaperAnswerForm
   },
   methods: {
-    submitPaper () {
+    submitPaper() {
       // this.$router.push({ name: "CreateSubmitted" })
-      html2canvas(document.querySelector("#participateScreenshot")).then(canvas => {
-        canvas.toBlob(function(blob) {
-          console.log(new File([blob], `sbagi${Date.now()}`, {type: blob.type, lastModified: Date.now()}))
-        }, 'image/jpeg', 0.95);
-      })
+      html2canvas(document.querySelector("#participateScreenshot")).then(
+        canvas => {
+          canvas.toBlob(
+            function(blob) {
+              console.log(
+                new File([blob], `sbagi${Date.now()}`, {
+                  type: blob.type,
+                  lastModified: Date.now()
+                })
+              );
+            },
+            "image/jpeg",
+            0.95
+          );
+        }
+      );
     },
-    addQuestion () {
+    addQuestion() {
       this.questions.push({
-        title: '',
-        options: [''],
-      })
+        title: "",
+        options: [""]
+      });
       console.log(this.questions);
     }
-  },
-}
+  }
+};
 </script>
 <style lang='scss' scoped>
 .totalWrapper {
@@ -171,7 +183,7 @@ export default {
     &:last-child {
       margin-bottom: 68px;
       .column {
-        margin-bottom: 100px;
+        @include footerRegardingMargin();
         &:first-child {
           flex: 3;
           margin-right: 80px;

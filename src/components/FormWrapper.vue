@@ -21,24 +21,24 @@ export default {
     toggle: Boolean,
     disabled: Boolean
   },
-  data () {
+  data() {
     return {
       input: "",
       toggleState: false
-    }
+    };
   },
-  created () {
+  created() {
     this.input = this.content;
   },
   methods: {
-    clearInput () {
+    clearInput() {
       if (!this.toggleState) {
         this.input = "";
-        this.$emit('update:content', this.input)
+        this.$emit("update:content", this.input);
       }
     }
   }
-}
+};
 </script>
 <style lang='scss' scoped>
 .formWrapper {
@@ -51,9 +51,9 @@ export default {
     align-items: center;
     margin-bottom: 12px;
     .formTitle {
-    font-size: $h1-font-size;
-    font-weight: $big-font-weight;
-    min-width: 180px;
+      font-size: $h1-font-size;
+      font-weight: $big-font-weight;
+      min-width: 180px;
     }
     .requiredSpan {
       margin-left: 10px;
@@ -67,7 +67,7 @@ export default {
     width: 100%;
     padding: 8px 10px;
     font-size: $normal-font-size;
-    font-weight: $small-font-weight;
+    font-weight: $normal-font-weight;
     resize: none;
     outline: none;
     height: 400px;
