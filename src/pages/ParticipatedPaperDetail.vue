@@ -5,36 +5,23 @@
       <v-icon class="arrowIcon">mdi-arrow-left</v-icon>
       <span class="headingTitle">스팍스 2018 봄 지원 설문지</span>
     </div>
-    <div class="tabsWrapper">
-      <div :class="selectedTab == 1 ? 'singleTabWrapper selectedTab' : 'singleTabWrapper'">
-        <span class="singleTabSpan">응답</span>
-        <span class="singleTabSpan">56</span>
-      </div>
-      <div :class="selectedTab == 2 ? 'singleTabWrapper selectedTab' : 'singleTabWrapper'">
-        <span class="singleTabSpan">메일링</span>
-      </div>
-    </div>
   </div>
   <div class="row">
     <div class="column">
-      <div class="paperTabs">
-        <span class="paperTab">개별 응답</span>
-        <span class="paperTab">통계</span>
-      </div>
       <div class="paperWrapper">
         <paper-answer-form v-for="(question, index) in questions" :key="index" :margin="true" :options.sync="question.options" :title.sync="question.title" :type="question.type" :choice.sync="question.choice"></paper-answer-form>
       </div>
     </div>
     <div class="column">
       <div class="manageTitleWrapper">
-        <span class="manageTitle">상태 관리 창</span>
+        <span class="manageTitle">유의 사항</span>
       </div>
       <div class="manageTabWrapper">
-        <div class="singleUserWrapper">
-          <img src="#" class="profileImage">
-          <span></span>
-        </div>
+        <div class="singleManagement">다음과 같은 유의사항이 있습니다.</div>
+        <div class="singleManagement">다음과 같은 유의사항이 있습니다.</div>
+        <div class="singleManagement">다음과 같은 유의사항이 있습니다.</div>
       </div>
+      <button @click="submitPaper" class="goNext">질문지 생성하기</button>
     </div>
   </div>
 </div>
@@ -46,6 +33,10 @@ export default {
   data() {
     return {
       selectedTab: 1,
+      selectedPaperTab: 1,
+      selectedUser: 0,
+      selectedQuestion: [],
+      nickName: "sbagi",
       questions: [
         {
           title: "왜 이 동아리에 지원하셨나요?",
@@ -81,6 +72,20 @@ export default {
         }
       ]
     };
+  },
+  components: {
+    PaperAnswerForm
+  },
+  created() {
+    this.selectedQuestion = this.users[this.selectedUser].questions;
+  },
+  watch: {
+    selectedUser(val) {
+      this.selectedQuestion = this.users[this.selectedUser].questions;
+    },
+    selectedQuestion() {
+      console.log(this.selectedQuestion);
+    }
   }
 };
 </script>
@@ -112,35 +117,48 @@ export default {
           font-weight: $big-font-weight;
         }
       }
-      .tabsWrapper {
-        width: 230px;
-        height: 40px;
-        margin-left: 30px;
-        display: flex;
-        align-items: center;
-        justify-content: space-around;
-        border-bottom: 3px solid #ececec;
-        .singleTabWrapper {
-          flex: 1;
-          height: 40px;
-          font-size: $h1-font-size;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          .singleTabSpan:nth-child(2) {
-            color: white;
-            background-color: $transparent-black-dark;
-            padding: 5px 10px;
-            margin-left: 8px;
-            border-radius: 3px;
-          }
+    }
+    &:last-child {
+      width: 100%;
+      display: flex;
+      justify-content: flex-start;
+      align-items: flex-start;
+      .column {
+        &:first-child {
+          flex: 3;
         }
-        .selectedTab {
-          border-bottom: 3px solid $theme-color;
-          color: $theme-color;
-          font-weight: $big-font-weight;
-          .singleTabSpan:nth-child(2) {
-            background-color: $theme-color;
+        &:last-child {
+          flex: 2;
+          .manageTitleWrapper {
+            margin-top: 30px;
+            margin-bottom: 20px;
+            .manageTitle {
+              font-size: $h1-font-size;
+              font-weight: $big-font-weight;
+            }
+          }
+          .manageTabWrapper {
+            @include modalTabCss();
+            background-color: white;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            padding: 20px;
+            .singleManagement {
+              display: flex;
+              align-items: center;
+              justify-content: flex-start;
+              margin: 10px 0;
+              font-size: $h1-font-size;
+              font-weight: $big-font-weight;
+            }
+          }
+          .goNext {
+            @include largeButton(theme);
+            margin-top: 12px;
           }
         }
       }
