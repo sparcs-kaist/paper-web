@@ -11,32 +11,32 @@
       <div :class="selectedTab == 2 ? 'selectedTab tab' : 'tab'" @click="selectTab(2)"><span class="tabSpan"> 참여한 어플라이</span></div>
     </div>
     <div v-show="selectedTab == 1" class="contentWrapper">
-      <my-page-paper-tab v-for="(n, index) in 6" :key="index" title="스팍스 2018 봄 지원 질문지"></my-page-paper-tab>
+      <my-page-paper-tab v-for="(n, index) in 6" :key="index" deadline="2018-06-07 04:25" url="https://zabo.sparcs.org/zabo/96" title="스팍스 2018 봄 지원 질문지"></my-page-paper-tab>
     </div>
     <div v-show="selectedTab == 2" class="contentWrapper">
-      <my-page-paper-tab v-for="(n, index) in 6" :key="index" title="스팍스 2018 봄 지원 질문지"></my-page-paper-tab>
+      <my-page-paper-tab v-for="(n, index) in 6" :key="index" deadline="2018-06-07 04:25" url="https://zabo.sparcs.org/zabo/96" title="스팍스 2018 봄 지원 질문지"></my-page-paper-tab>
     </div>
   </div>
 </div>
 </template>
 <script>
-import MyPagePaperTab from '@/components/MyPagePaperTab';
+import MyPagePaperTab from "@/components/MyPagePaperTab";
 
 export default {
   components: {
     MyPagePaperTab
   },
-  data () {
+  data() {
     return {
       selectedTab: 1
-    }
+    };
   },
   methods: {
-    selectTab (num) {
+    selectTab(num) {
       this.selectedTab = num;
     }
   }
-}
+};
 </script>
 <style lang='scss' scoped>
 .totalWrapper {
@@ -70,6 +70,7 @@ export default {
       }
     }
     &:last-child {
+      @include footerRegardingMargin();
       .tabsWrapper {
         display: flex;
         width: 100%;
@@ -96,16 +97,17 @@ export default {
       }
       .contentWrapper {
         width: 100%;
-        background-color: gray;
+        background-color: #ececec;
         margin-top: 25px;
-        padding: 25px 0;
+        padding: 25px 20px;
         max-height: 400px;
         overflow-y: scroll;
         overflow-x: hidden;
         display: flex;
-        justify-content: space-around;
+        justify-content: space-between;
         align-items: flex-start;
         flex-wrap: wrap;
+        @include scrollBarDark(small);
       }
     }
   }
