@@ -85,7 +85,7 @@ export default {
   .topLine {
     height: 5px;
     width: 100%;
-    background-color: #684a93;
+    background-color: $theme-color;
   }
   .headerWrapper {
     width: 100%;
