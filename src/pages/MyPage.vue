@@ -11,10 +11,10 @@
       <div :class="selectedTab == 2 ? 'selectedTab tab' : 'tab'" @click="selectTab(2)"><span class="tabSpan"> 참여한 어플라이</span></div>
     </div>
     <div v-show="selectedTab == 1" class="contentWrapper">
-      <my-page-paper-tab v-for="(n, index) in 6" :key="index" deadline="2018-06-07 04:25" url="https://zabo.sparcs.org/zabo/96" title="스팍스 2018 봄 지원 질문지"></my-page-paper-tab>
+      <my-page-paper-tab type="created" v-for="(n, index) in 6" :key="index" :createdId="index" deadline="2018-06-07 04:25" url="https://zabo.sparcs.org/zabo/96" title="스팍스 2018 봄 지원 질문지"></my-page-paper-tab>
     </div>
     <div v-show="selectedTab == 2" class="contentWrapper">
-      <my-page-paper-tab v-for="(n, index) in 6" :key="index" deadline="2018-06-07 04:25" url="https://zabo.sparcs.org/zabo/96" title="스팍스 2018 봄 지원 질문지"></my-page-paper-tab>
+      <my-page-paper-tab type="participated" v-for="(n, index) in 6" :key="index" :participatedId="index" deadline="2018-06-07 04:25" url="https://zabo.sparcs.org/zabo/96" title="스팍스 2018 봄 지원 질문지"></my-page-paper-tab>
     </div>
   </div>
 </div>

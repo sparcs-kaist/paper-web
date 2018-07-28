@@ -1,6 +1,6 @@
 <template lang=''>
   <div class="paperTabWrapper">
-    <img src="@/assets/userProfile.jpg" class="imageWrapper">
+    <img @click="goToDetail" src="@/assets/userProfile.jpg" class="imageWrapper">
     <div class="imageTitleWrapper">
       <span class="imageTitle">{{computedTitle}}</span>
       <span class="imageDeadline">{{deadline}}</span>
@@ -8,7 +8,13 @@
     <div @click="modalState = !modalState" class="paperTabController">
       <v-icon color="grey darken-2">mdi-dots-vertical</v-icon>
     </div>
-    <div v-show="modalState" class="tabModalWrapper">
+    <div v-show="modalState" v-if="type == 'participated'" class="tabModalWrapper">
+      <div class="singleModalWrapper">
+        <v-icon class="modalIcon">mdi-delete</v-icon>
+        <a :href="url" target="_blank" class="modalSpan">지원 링크로 가기</a>
+      </div>
+    </div>
+    <div v-show="modalState" v-else  class="tabModalWrapper">
       <div class="singleModalWrapper">
         <v-icon class="modalIcon">mdi-delete</v-icon>
         <span class="modalSpan">삭제하기</span>
@@ -28,7 +34,10 @@ export default {
     image: String,
     title: String,
     deadline: String,
-    url: String
+    url: String,
+    createdId: Number,
+    participatedId: Number,
+    type: String
   },
   data() {
     return {
@@ -38,6 +47,23 @@ export default {
   computed: {
     computedTitle() {
       return this.title.slice(0, 16) + "...";
+    }
+  },
+  methods: {
+    goToDetail() {
+      console.log("why!");
+      if (this.type == "participated") {
+        this.$router.push({
+          name: "ParticipatedPaperDetail",
+          params: { paperId: this.participatedId }
+        });
+      }
+      if (this.type == "created") {
+        this.$router.push({
+          name: "CreatedPaperDetail",
+          params: { paperId: this.createdId }
+        });
+      }
     }
   }
 };
