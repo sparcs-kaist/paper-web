@@ -22,7 +22,7 @@
         <span @click="selectedPaperTab = 2" :class="selectedPaperTab == 2 ? 'selectedPaperTab paperTab' : 'paperTab'">통계</span>
       </div>
       <div class="paperWrapper">
-        <paper-answer-form :disabled="true" v-for="(question, index) in questions" :key="index" :margin="true" :options="question.options" :title="question.title" :type="question.type" :choice="question.choice"></paper-answer-form>
+        <paper-answer-form :disabled="true" v-for="(question, index) in selectedQuestion" :key="index" :margin="true" :options="question.options" :title="question.title" :type="question.type" :choice="question.choice"></paper-answer-form>
       </div>
     </div>
     <div class="column">
@@ -30,9 +30,9 @@
         <span class="manageTitle">상태 관리 창</span>
       </div>
       <div class="manageTabWrapper">
-        <div class="singleUserWrapper">
-          <img src="#" class="profileImage">
-          <span></span>
+        <div v-for="(user, index) in users" :key="index" @click="selectedUser = index" class="singleUserWrapper">
+          <img src="@/assets/userProfile.jpg" class="profileImage">
+          <span :class="selectedUser == index ?'selectedUser nickName' : 'nickName'">{{user.nickName}}</span>
         </div>
       </div>
     </div>
@@ -47,44 +47,136 @@ export default {
     return {
       selectedTab: 1,
       selectedPaperTab: 1,
-      questions: [
+      selectedUser: 0,
+      selectedQuestion: [],
+      users: [
         {
-          title: "왜 이 동아리에 지원하셨나요?",
-          options: [
+          nickName: "sbagi",
+          questions: [
             {
-              id: 1,
-              content: "심심해서"
+              title: "왜 이 동아리에 지원하셨나요?",
+              options: [
+                {
+                  id: 1,
+                  content: "심심해서"
+                },
+                {
+                  id: 2,
+                  content: "너무 멋있어서"
+                }
+              ],
+              ismultiple: true,
+              type: "checkbox",
+              choice: []
             },
             {
-              id: 2,
-              content: "너무 멋있어서"
+              title: "왜 이 동아리에 지원하셨나요?",
+              options: [
+                {
+                  id: 1,
+                  content: "심심해서"
+                },
+                {
+                  id: 2,
+                  content: "너무 멋있어서"
+                }
+              ],
+              ismultiple: false,
+              type: "radio",
+              choice: []
             }
-          ],
-          ismultiple: true,
-          type: "checkbox",
-          choice: []
+          ]
         },
         {
-          title: "왜 이 동아리에 지원하셨나요?",
-          options: [
+          nickName: "jara",
+          questions: [
             {
-              id: 1,
-              content: "심심해서"
+              title: "왜 이 동아리에 지원하셨나요?",
+              options: [
+                {
+                  id: 1,
+                  content: "심심해서"
+                },
+                {
+                  id: 2,
+                  content: "너무 멋있어서"
+                }
+              ],
+              ismultiple: true,
+              type: "checkbox",
+              choice: []
             },
             {
-              id: 2,
-              content: "너무 멋있어서"
+              title: "왜 이 동아리에 지원하셨나요?",
+              options: [
+                {
+                  id: 1,
+                  content: "테스트용으로"
+                },
+                {
+                  id: 2,
+                  content: "만든놈임."
+                }
+              ],
+              ismultiple: false,
+              type: "radio",
+              choice: []
             }
-          ],
-          ismultiple: false,
-          type: "radio",
-          choice: []
+          ]
+        },
+        {
+          nickName: "joyb",
+          questions: [
+            {
+              title: "왜 이 동아리에 지원하셨나요?",
+              options: [
+                {
+                  id: 1,
+                  content: "심심해서"
+                },
+                {
+                  id: 2,
+                  content: "너무 멋있어서"
+                }
+              ],
+              ismultiple: true,
+              type: "checkbox",
+              choice: []
+            },
+            {
+              title: "왜 이 동아리에 지원하셨나요?",
+              options: [
+                {
+                  id: 1,
+                  content: "테스트용으로"
+                },
+                {
+                  id: 2,
+                  content: "만든놈임."
+                }
+              ],
+              ismultiple: false,
+              type: "radio",
+              choice: []
+            }
+          ]
         }
       ]
     };
   },
   components: {
     PaperAnswerForm
+  },
+  created() {
+    this.selectedQuestion = this.users[this.selectedUser].questions;
+  },
+  watch: {
+    selectedUser(val) {
+      this.selectedQuestion = this.users[this.selectedUser].questions;
+    },
+    selectedQuestion() {
+      console.log(this.selectedQuestion);
+    }
   }
 };
 </script>
@@ -182,6 +274,53 @@ export default {
         }
         &:last-child {
           flex: 2;
+          .manageTitleWrapper {
+            margin-top: 30px;
+            margin-bottom: 20px;
+            .manageTitle {
+              font-size: $h1-font-size;
+              font-weight: $big-font-weight;
+            }
+          }
+          .manageTabWrapper {
+            @include modalTabCss();
+            background-color: white;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            padding: 20px;
+            .singleUserWrapper {
+              display: flex;
+              align-items: center;
+              justify-content: flex-start;
+              // margin-bottom: ;
+              min-width: 100px;
+              height: 35px;
+              width: 30%;
+              cursor: pointer;
+              &:hover {
+                .profileImage {
+                  @include smallBoxShadow();
+                }
+              }
+              .profileImage {
+                width: 25px;
+                height: 25px;
+                border-radius: 50%;
+                transition: all 0.3s ease-in-out;
+              }
+              .nickName {
+                margin-left: 8px;
+                font-size: $normal-font-size;
+                font-weight: $big-font-weight;
+              }
+              .selectedUser {
+                color: $theme-color;
+              }
+            }
+          }
         }
       }
     }
