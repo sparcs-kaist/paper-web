@@ -10,8 +10,8 @@
     </div>
     <div v-show="modalState" v-if="type == 'participated'" class="tabModalWrapper">
       <div class="singleModalWrapper">
-        <v-icon class="modalIcon">mdi-delete</v-icon>
-        <a :href="url" target="_blank" class="modalSpan">지원 링크로 가기</a>
+        <v-icon class="modalIcon">mdi-square-edit-outline</v-icon>
+        <router-link :to="`/user/participated/${participatedId}`" class="modalSpan">지원지 수정하기</router-link>
       </div>
     </div>
     <div v-show="modalState" v-else  class="tabModalWrapper">
@@ -20,8 +20,8 @@
         <span class="modalSpan">삭제하기</span>
       </div>
       <div class="singleModalWrapper">
-        <v-icon class="modalIcon">mdi-delete</v-icon>
-        <a :href="url" target="_blank" class="modalSpan">지원 링크로 가기</a>
+        <v-icon class="modalIcon">mdi-link-variant</v-icon>
+        <router-link :to="`/user/created/${createdId}`" class="modalSpan">지원지 관리하기</router-link>
       </div>
     </div>
     <div v-show="modalState" class="modalTabTriangle"></div>
@@ -118,14 +118,15 @@ export default {
     flex-direction: column;
     justify-content: center;
     width: 200px;
-    height: 70px;
+    padding: 10px 0;
     .singleModalWrapper {
       display: flex;
       justify-content: flex-start;
       align-items: center;
       padding-left: 10px;
-      &:first-child {
-        margin-bottom: 8px;
+      margin-bottom: 8px;
+      &:last-child {
+        margin-bottom: 0;
       }
       .modalIcon {
         margin-right: 8px;
