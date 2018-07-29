@@ -135,7 +135,7 @@ export default {
   width: 100%;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   .miniViewSpan {
     font-size: $big-font-size;
   }
@@ -172,7 +172,7 @@ export default {
       }
       .posterImage {
         position: absolute;
-        width: 100%;
+        width: 200px;
         height: 250px;
       }
     }
