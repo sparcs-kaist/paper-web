@@ -21,7 +21,7 @@
         <div class="singleManagement">다음과 같은 유의사항이 있습니다.</div>
         <div class="singleManagement">다음과 같은 유의사항이 있습니다.</div>
       </div>
-      <button @click="submitPaper" class="goNext">질문지 생성하기</button>
+      <button @click="submitPaper" class="goNext">질문지 수정하기</button>
     </div>
   </div>
 </div>

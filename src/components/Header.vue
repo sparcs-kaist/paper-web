@@ -58,7 +58,7 @@ export default {
         this.$router.push({ name: "SearchForPaper" });
       }
     },
-    logout() {
+    logout(event) {
       this.$store.commit("LOGOUT");
       this.profileModalState = false;
     },

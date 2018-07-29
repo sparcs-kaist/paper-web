@@ -39,9 +39,15 @@
         <button @click="addQuestion" class="addQuestion">+ 질문 추가</button>
       </div>
       <div class="column">
-        <form-wrapper :toggle="true" type="text" :margin="true" title="URL(자보, 아라)" placeholder="ex) https://zabo.sparcs.org/zabo/24" :content.sync="url" ></form-wrapper>
-        <button @click="submitPaper" class="goNext">질문지 생성하기</button>
-        <img :src="imageUrl" />
+        <div class="manageTitleWrapper">
+          <span class="manageTitle">유의 사항</span>
+        </div>
+        <div class="manageTabWrapper">
+          <div class="singleManagement">다음과 같은 유의사항이 있습니다.</div>
+          <div class="singleManagement">다음과 같은 유의사항이 있습니다.</div>
+          <div class="singleManagement">다음과 같은 유의사항이 있습니다.</div>
+        </div>
+        <button @click="submitPaper" class="goNext">질문지 수정하기</button>
       </div>
     </div>
   </div>
@@ -168,6 +174,33 @@ export default {
         }
         &:last-child {
           flex: 2;
+          .manageTitleWrapper {
+            margin-top: 30px;
+            margin-bottom: 20px;
+            .manageTitle {
+              font-size: $h1-font-size;
+              font-weight: $big-font-weight;
+            }
+          }
+          .manageTabWrapper {
+            @include modalTabCss();
+            background-color: white;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            padding: 20px;
+            .singleManagement {
+              display: flex;
+              align-items: center;
+              justify-content: flex-start;
+              margin: 10px 0;
+              font-size: $h1-font-size;
+              font-weight: $big-font-weight;
+            }
+          }
           .goNext {
             @include largeButton(theme);
             margin-top: 12px;
