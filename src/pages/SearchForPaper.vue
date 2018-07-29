@@ -70,6 +70,7 @@ export default {
     justify-content: space-between;
     align-items: flex-start;
     padding: 20px 20px;
+    margin-bottom: 100px;
   }
 }
 </style>
