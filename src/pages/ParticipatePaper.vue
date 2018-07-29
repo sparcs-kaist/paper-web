@@ -189,18 +189,42 @@ export default {
     }
     &:last-child {
       margin-bottom: 68px;
+      @include breakPoint("phone") {
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        .column {
+          width: 100%;
+        }
+      }
+      @include breakPoint("tablet") {
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        .column {
+          width: 100%;
+        }
+      }
+      @include breakPoint("desktop") {
+        .column {
+          &:first-child {
+            margin-right: 80px;
+            flex: 3;
+          }
+          &:last-child {
+            flex: 2;
+          }
+        }
+      }
       .column {
         @include footerRegardingMargin();
         &:first-child {
-          flex: 3;
-          margin-right: 80px;
           .addQuestion {
             @include largeButton(green);
             margin-top: 12px;
           }
         }
         &:last-child {
-          flex: 2;
           .manageTitleWrapper {
             margin-top: 30px;
             margin-bottom: 20px;

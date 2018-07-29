@@ -268,12 +268,35 @@ export default {
           font-weight: $big-font-weight;
         }
       }
-      .column {
-        &:first-child {
-          flex: 3;
+      @include breakPoint("phone") {
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        .column {
+          width: 100%;
         }
+      }
+      @include breakPoint("tablet") {
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        .column {
+          width: 100%;
+        }
+      }
+      @include breakPoint("desktop") {
+        .column {
+          &:first-child {
+            margin-right: 80px;
+            flex: 3;
+          }
+          &:last-child {
+            flex: 2;
+          }
+        }
+      }
+      .column {
         &:last-child {
-          flex: 2;
           .manageTitleWrapper {
             margin-top: 30px;
             margin-bottom: 20px;
