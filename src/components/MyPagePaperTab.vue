@@ -1,6 +1,6 @@
 <template lang=''>
   <div class="paperTabWrapper">
-    <img @click="goToDetail" src="@/assets/userProfile.jpg" class="imageWrapper">
+    <img @click="goToDetail" :src="url" class="imageWrapper">
     <div class="imageTitleWrapper">
       <span class="imageTitle">{{computedTitle}}</span>
       <span class="imageDeadline">{{deadline}}</span>
