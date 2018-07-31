@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <div v-if="loggedInState" class="private">
-      <Header />
+      <Header :currentUserLoading="currentUserLoading" />
       <router-view :key="$route.name + ($route.params.id || '')"></router-view>
       <Footer />
     </div>
@@ -26,10 +26,22 @@ export default {
     Footer
   },
   data() {
-    return {};
+    return {
+      currentUserLoading: true
+    };
   },
   created() {
     this.$store.commit("LOGIN");
+    axios({
+      url: "http://ssal.sparcs.org:16138/api/users/1/",
+      method: "get",
+      headers: {
+        Authorization: localStorage.getItem("token")
+      }
+    }).then(res => {
+      this.$store.commit("SET_CURRENT_USER", res.data);
+      this.currentUserLoading = false;
+    });
   },
   methods: {},
   computed: {

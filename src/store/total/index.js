@@ -5,7 +5,8 @@ import getters from "./getters";
 export default {
   state: {
     loggedInState: false,
-    currentUser: {}
+    currentUser: {},
+    participatedPapers: []
   },
   actions,
   mutations,

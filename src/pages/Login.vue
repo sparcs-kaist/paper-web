@@ -88,6 +88,15 @@ export default {
         console.log(res);
         console.log(res.data);
         this.$store.commit("LOGIN", res.data.token);
+        axios({
+          url: "http://ssal.sparcs.org:16138/api/users/1/",
+          method: "get",
+          headers: {
+            Authorization: localStorage.getItem("token")
+          }
+        }).then(res => {
+          this.$store.commit("SET_CURRENT_USER", res.data);
+        });
       });
       // this.$store.commit("START_AJAX");
       // axios
