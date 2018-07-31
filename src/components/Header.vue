@@ -7,9 +7,14 @@
         <span @click="selectTab('tab1')" :class="tab1 ? 'selectedTab' : 'tabs'">{{$t('페이퍼 생성하기')}}</span>
         <span @click="selectTab('tab2')" :class="tab2 ? 'selectedTab' : 'tabs'">{{$t('페이퍼 찾아보기')}}</span>
       </div>
-      <div class="column">
+      <div v-if="currentUser.nickName == undefined" class="column">
         <img @click="profileModalState = !profileModalState" src="@/assets/userProfile.jpg" class="profileImage">
-        <span @click="profileModalState = !profileModalState" class="userName">userName</span>
+        <span @click="profileModalState = !profileModalState" class="userName">nickName</span>
+        <v-icon @click="profileModalState = !profileModalState" medium class="arrowIcon">arrow_drop_down</v-icon>
+      </div>
+      <div v-else class="column">
+        <img @click="profileModalState = !profileModalState" :src="currentUser.profile_image" class="profileImage">
+        <span @click="profileModalState = !profileModalState" class="userName">{{currentUser.nickName}}</span>
         <v-icon @click="profileModalState = !profileModalState" medium class="arrowIcon">arrow_drop_down</v-icon>
       </div>
       <div class="profileModalWrapper" v-show="profileModalState">
@@ -40,7 +45,9 @@ export default {
       profileModalState: false
     };
   },
-  props: {},
+  props: {
+    currentUserLoading: Boolean
+  },
   methods: {
     mainPage() {
       this.tab1 = false;
@@ -65,6 +72,11 @@ export default {
     profilePush() {
       this.$router.push({ name: "MyPage" });
       this.profileModalState = false;
+    }
+  },
+  computed: {
+    currentUser() {
+      return this.$store.getters.currentUser;
     }
   }
 };
