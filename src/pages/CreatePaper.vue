@@ -35,7 +35,7 @@
     </div>
     <div class="row">
       <div class="column">
-        <paper-input-form v-for="(question, index) in questions" :key="index" :margin="true" :options.sync="question.options" :title.sync="question.title" :type="question.type"></paper-input-form>
+        <paper-input-form v-for="(question, index) in questions" :key="index" :index="index" :margin="true" :isMultiple.sync="question.is_multiple" :choices.sync="question.choices" :content.sync="question.content" :type="question.type"></paper-input-form>
         <button @click="addQuestion" class="addQuestion">+ 질문 추가</button>
       </div>
       <div class="column">
@@ -47,7 +47,7 @@
           <div class="singleManagement">다음과 같은 유의사항이 있습니다.</div>
           <div class="singleManagement">다음과 같은 유의사항이 있습니다.</div>
         </div>
-        <button @click="submitPaper" class="goNext">질문지 수정하기</button>
+        <button @click="submitPaper" class="goNext">질문지 생성하기</button>
       </div>
     </div>
   </div>
@@ -58,6 +58,15 @@ import FormWrapper from "@/components/FormWrapper";
 import MiniView from "@/components/MiniView";
 import PaperInputForm from "@/components/PaperInputForm";
 import html2canvas from "html2canvas";
+import axios from "@/axios-auth";
+
+function getCanvasBlob(canvas) {
+  return new Promise(function(resolve, reject) {
+    canvas.toBlob(function(blob) {
+      resolve(blob);
+    });
+  });
+}
 
 export default {
   data() {
@@ -70,12 +79,16 @@ export default {
       currentTotalState: "start",
       questions: [
         {
-          title: "",
-          options: [""],
-          type: ""
+          content: "",
+          choices: [
+            {
+              option: ""
+            }
+          ],
+          type: "C",
+          is_multiple: true
         }
-      ],
-      imageUrl: ""
+      ]
     };
   },
   components: {
@@ -86,25 +99,49 @@ export default {
   methods: {
     submitPaper() {
       // this.$router.push({ name: "CreateSubmitted" })
+      let file = null;
+      let formData = new FormData();
       html2canvas(document.querySelector("#createScreenshot")).then(canvas => {
-        canvas.toBlob(
-          function(blob) {
-            console.log(
-              new File([blob], `sbagi${Date.now()}`, {
-                type: blob.type,
-                lastModified: Date.now()
-              })
-            );
-          },
-          "image/jpeg",
-          0.95
-        );
+        var blob = getCanvasBlob(canvas);
+        blob.then(blob => {
+          file = new File([blob], `sbagi${Date.now()}`, {
+            type: "image/jpeg",
+            lastModified: Date.now()
+          });
+          formData.append("title", this.title);
+          formData.append("content", this.explaination);
+          formData.append("preview_image", file);
+          formData.append("questions", JSON.stringify(this.questions));
+          formData.append(
+            "deadline",
+            this.time.split("T")[0] + " " + this.time.split("T")[1]
+          );
+          axios({
+            url: "/api/papers/",
+            method: "post",
+            headers: {
+              "Content-Type": "multipart/form-data",
+              Authorization: localStorage.getItem("token")
+            },
+            data: formData
+          }).then(res => {
+            console.log(res);
+            if (res.status == 201) {
+              this.$router.push({ name: "CreateSubmitted" });
+            } else {
+              console.warn("post is not been done! Error occured!");
+            }
+          });
+        });
+        console.log(blob);
       });
     },
     addQuestion() {
       this.questions.push({
-        title: "",
-        options: [""]
+        content: "",
+        choices: [{ option: "" }],
+        type: "C",
+        is_multiple: true
       });
       console.log(this.questions);
     }

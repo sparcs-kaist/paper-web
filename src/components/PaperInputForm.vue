@@ -1,70 +1,87 @@
 <template lang=''>
   <div class="formWrapper" :class="margin && 'marginTop'">
     <div class="formTitleWrapper">
-      <v-text-field class="formTitle" single-line label="제목" outline style="font-size: 18px; height: 55px;" @change.native="$emit('update:title', formTitle)" v-model="formTitle"></v-text-field>
+      <v-text-field class="formTitle" single-line label="제목" outline style="font-size: 18px; height: 55px;" @change.native="$emit('update:content', formTitle)" v-model="formTitle"></v-text-field>
       <div class="tabsWrapper">
-        <div @click="selectType('checkbox')" class="singleTabWrapper">
-          <v-icon :color="optionsType == 'checkbox' ? 'purple darken-2' : ''">mdi-checkbox-marked-outline</v-icon>
-          <span :class="optionsType == 'checkbox' ? 'themeSpan' : ''">체크박스</span>
+        <div @click="selectType('C')" class="singleTabWrapper">
+          <v-icon :color="optionsType == 'C' ? 'purple darken-2' : ''">mdi-checkbox-marked-outline</v-icon>
+          <span :class="optionsType == 'C' ? 'themeSpan' : ''">체크박스</span>
         </div>
-        <div @click="selectType('radio')"  class="singleTabWrapper">
-          <v-icon :color="optionsType == 'radio' ? 'purple darken-2' : ''">mdi-radiobox-marked</v-icon>
-          <span :class="optionsType == 'radio' ? 'themeSpan' : ''">객관식 질문</span>
+        <div @click="selectType('R')"  class="singleTabWrapper">
+          <v-icon :color="optionsType == 'R' ? 'purple darken-2' : ''">mdi-radiobox-marked</v-icon>
+          <span :class="optionsType == 'R' ? 'themeSpan' : ''">객관식 질문</span>
         </div>
-        <div @click="selectType('longtext')"  class="singleTabWrapper">
-          <v-icon :color="optionsType == 'longtext' ? 'purple darken-2' : ''">mdi-text</v-icon>
-          <span :class="optionsType == 'longtext' ? 'themeSpan' : ''">주관식</span>
+        <div @click="selectType('O')"  class="singleTabWrapper">
+          <v-icon :color="optionsType == 'O' ? 'purple darken-2' : ''">mdi-text</v-icon>
+          <span :class="optionsType == 'O' ? 'themeSpan' : ''">주관식</span>
         </div>
       </div>
     </div>
-    <div v-for="(option, index) in inputOptions" :key="index" v-if="optionsType == 'radio'" class="optionsWrapper">
+    <div v-for="(option, index) in inputChoices" :key="index" v-if="optionsType == 'R'" class="optionsWrapper">
       <v-icon>mdi-radiobox-blank</v-icon>
-      <v-text-field single-line regular :label="'옵션' + `${index}`" @keyup.enter="addOption($event, index)" @change.native="$emit('update:options', inputOptions)" v-model="inputOptions[index+1]"></v-text-field>
+      <v-text-field single-line regular :label="'옵션' + `${index}`" @keyup.enter="addOption($event, index)" @change.native="$emit('update:choices', inputChoices)" v-model="inputChoices[index].option"></v-text-field>
     </div>
-    <div v-for="(option, index) in inputOptions" :key="index" v-if="optionsType == 'checkbox'" class="optionsWrapper">
+    <div v-for="(option, index) in inputChoices" :key="index" v-if="optionsType == 'C'" class="optionsWrapper">
       <v-icon>mdi-checkbox-blank-outline</v-icon>
-      <v-text-field @keyup.enter="addOption($event, index)" single-line regular :label="'옵션' + `${index+1}`" @change.native="$emit('update:options', inputOptions)" v-model="inputOptions[index]"></v-text-field>
+      <v-text-field @keyup.enter="addOption($event, index)" single-line regular :label="'옵션' + `${index+1}`" @change.native="$emit('update:choices', inputChoices)" v-model="inputChoices[index].option"></v-text-field>
     </div>
-    <textarea v-if="optionsType == 'longtext'" disabled class="textArea" placeholder="장문형 텍스트" />
+    <textarea v-if="optionsType == 'O'" disabled class="textArea" placeholder="장문형 텍스트" />
   </div>
 </template>
 <script>
 export default {
   props: {
-    title: String,
-    options: Array,
+    content: String,
+    choices: Array,
     type: String,
     textarea: Boolean,
     margin: Boolean,
     required: Boolean,
-    toggle: Boolean
+    toggle: Boolean,
+    isMultiple: Boolean,
+    index: Number
   },
   data() {
     return {
       toggleState: false,
       optionsType: "",
-      inputOptions: [],
-      formTitle: ""
+      inputChoices: [],
+      formTitle: "",
+      is_multiple: false
     };
   },
   created() {
-    console.log(this.optionsType);
     this.optionsType = this.type;
-    this.formTitle = this.title;
-    this.inputOptions = this.options;
+    this.formTitle = this.content;
+    this.inputChoices = this.choices;
+    this.is_multiple = this.isMultiple;
   },
   methods: {
     selectType(name) {
       this.optionsType = name;
+      switch (this.optionsType) {
+        case "O":
+          this.is_multiple = false;
+        case "R":
+          this.is_multiple = false;
+        case "C":
+          this.is_multiple = true;
+      }
+      this.$emit("update:type", this.optionsType);
+      this.$emit("update:isMultiple", this.is_multiple);
     },
     addOption(event, index) {
-      if (this.inputOptions.length == index + 1) {
-        this.inputOptions.push("");
+      if (this.inputChoices.length == index + 1) {
+        this.inputChoices.push({ option: "" });
         setTimeout(() => {
           document
-            .getElementsByClassName("optionsWrapper")
+            .getElementsByClassName("formWrapper")
+            [this.index + 4].getElementsByClassName("optionsWrapper")
             [
-              document.getElementsByClassName("optionsWrapper").length - 1
+              document
+                .getElementsByClassName("formWrapper")
+                [this.index + 4].getElementsByClassName("optionsWrapper")
+                .length - 1
             ].getElementsByTagName("input")[0]
             .focus();
         }, 50);
