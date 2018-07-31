@@ -15,13 +15,20 @@
       </div>
     </div>
     <div v-show="modalState" v-else  class="tabModalWrapper">
-      <div class="singleModalWrapper">
+      <div v-show="!deleteModalState" @click="deleteModalState = true" class="singleModalWrapper">
         <v-icon class="modalIcon">mdi-delete</v-icon>
         <span class="modalSpan">삭제하기</span>
       </div>
-      <div class="singleModalWrapper">
+      <div v-show="!deleteModalState" class="singleModalWrapper">
         <v-icon class="modalIcon">mdi-link-variant</v-icon>
         <router-link :to="`/user/created/${createdId}`" class="modalSpan">지원지 관리하기</router-link>
+      </div>
+      <div v-show="deleteModalState" class="singleModalWrapper deleteModal">
+        <div class="modalSpan">정말로 삭제하시겠습니까?</div>
+        <div>
+          <span class="modalSpan" @click="deletePaper">예</span>
+          <span class="modalSpan" @click="deleteModalState = false">아니오</span>
+        </div>
       </div>
     </div>
     <div v-show="modalState" class="modalTabTriangle"></div>
@@ -29,6 +36,8 @@
   </div>
 </template>
 <script>
+import axios from "@/axios-auth";
+
 export default {
   props: {
     image: String,
@@ -41,7 +50,8 @@ export default {
   },
   data() {
     return {
-      modalState: false
+      modalState: false,
+      deleteModalState: false
     };
   },
   computed: {
@@ -62,6 +72,22 @@ export default {
         this.$router.push({
           name: "CreatedPaperDetail",
           params: { paperId: this.createdId }
+        });
+      }
+    },
+    deletePaper() {
+      if (this.type == "created") {
+        axios({
+          method: "delete",
+          url: `/api/papers/${this.createdId}`,
+          headers: {
+            Authorization: localStorage.getItem("token")
+          }
+        }).then(res => {
+          if (res.status == 204) {
+            this.deleteModalState = false;
+            this.modalState = false;
+          }
         });
       }
     }
@@ -117,16 +143,15 @@ export default {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    width: 200px;
+    width: 220px;
     padding: 10px 0;
     .singleModalWrapper {
       display: flex;
       justify-content: flex-start;
       align-items: center;
       padding-left: 10px;
-      margin-bottom: 8px;
-      &:last-child {
-        margin-bottom: 0;
+      &:first-child {
+        margin-bottom: 8px;
       }
       .modalIcon {
         margin-right: 8px;
@@ -140,6 +165,9 @@ export default {
         font-weight: $normal-font-weight;
         color: $font-black-dark;
       }
+    }
+    .deleteModal {
+      flex-direction: column;
     }
   }
   .modalTabTriangle {
