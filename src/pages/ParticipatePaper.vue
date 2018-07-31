@@ -1,5 +1,5 @@
 <template lang=''>
-<div>
+<div v-if="!loading">
   <div v-show="currentTotalState == 'start'" class="totalWrapper">
     <div class="row">
       <div class="headingWrapper">
@@ -15,12 +15,12 @@
     </div>
     <div class="row">
       <div class="column">
-        <form-wrapper :disabled="true" :toggle="false" type="text" :margin="true" title="제목" placeholder="제목을 입력하세요." :content.sync="title" ></form-wrapper>
-        <form-wrapper :disabled="true" :toggle="false" type="datetime-local" :margin="true" title="날짜 기한(Deadline)" placeholder="제목을 입력하세요." :content.sync="time" ></form-wrapper>
-        <form-wrapper :disabled="true" :toggle="false" type="text" :textarea="true" :margin="true" title="페이퍼 설명(1500자 이내)" placeholder="이 어플라이에 대한 설명을 입력해주세요." :content.sync="explaination" ></form-wrapper>
+        <form-wrapper :disabled="true" :toggle="false" type="text" :margin="true" title="제목" placeholder="제목을 입력하세요." :content="title" ></form-wrapper>
+        <form-wrapper :disabled="true" :toggle="false" type="datetime-local" :margin="true" title="날짜 기한(Deadline)" placeholder="제목을 입력하세요." :content="time" ></form-wrapper>
+        <form-wrapper :disabled="true" :toggle="false" type="text" :textarea="true" :margin="true" title="페이퍼 설명(1500자 이내)" placeholder="이 어플라이에 대한 설명을 입력해주세요." :content="explaination" ></form-wrapper>
       </div>
       <div class="column">
-        <form-wrapper :disabled="true" :toggle="false" type="text" :margin="true" title="URL(자보, 아라)" placeholder="ex) https://zabo.sparcs.org/zabo/24" :content.sync="url" ></form-wrapper>
+        <form-wrapper :disabled="true" :toggle="false" type="text" :margin="true" title="URL(자보)" placeholder="ex) https://zabo.sparcs.org/zabo/24" :content="url" ></form-wrapper>
         <mini-view :url="url"></mini-view>
         <button @click="currentTotalState = 'end' " class="goNext">질문지 작성하러 가기</button>
       </div>
@@ -34,7 +34,7 @@
     </div>
     <div class="row">
       <div class="column">
-        <paper-answer-form v-for="(question, index) in questions" :key="index" :margin="true" :options.sync="question.options" :title.sync="question.title" :type="question.type" :choice.sync="question.choice"></paper-answer-form>
+        <paper-answer-form v-for="(question, index) in questions" :key="index" :margin="true" :choices="question.choices" :title="question.content" :type="question.type" :answers.sync="answers[index]"></paper-answer-form>
       </div>
       <div class="column">
         <div class="manageTitleWrapper">
@@ -50,58 +50,69 @@
     </div>
   </div>
 </div>
+<div v-else>
+  <v-progress-circular
+    indeterminate
+    color="primary"
+    class="ListWrapper"
+  ></v-progress-circular>
+</div>
 </template>
 <script>
 import FormWrapper from "@/components/FormWrapper";
 import MiniView from "@/components/MiniView";
 import PaperAnswerForm from "@/components/PaperAnswerForm";
 import html2canvas from "html2canvas";
+import axios from "@/axios-auth";
 
 export default {
   data() {
     return {
       selectedCategory: "recruiting",
-      title: "스팍스 리크루팅",
-      explaination:
-        "스팍스는 컴퓨터 동아리입니다. 스팍스는 컴퓨터 동아리입니다. 스팍스는 컴퓨터 동아리입니다.",
-      time: "2018-01-01T01:03",
+      title: "",
+      explaination: "",
+      time: "",
       url: "https://zabo.sparcs.org/zabo/98",
       currentTotalState: "start",
-      questions: [
-        {
-          title: "왜 이 동아리에 지원하셨나요?",
-          options: [
-            {
-              id: 1,
-              content: "심심해서"
-            },
-            {
-              id: 2,
-              content: "너무 멋있어서"
-            }
-          ],
-          ismultiple: true,
-          type: "checkbox",
-          choice: []
-        },
-        {
-          title: "왜 이 동아리에 지원하셨나요?",
-          options: [
-            {
-              id: 1,
-              content: "심심해서"
-            },
-            {
-              id: 2,
-              content: "너무 멋있어서"
-            }
-          ],
-          ismultiple: false,
-          type: "radio",
-          choice: []
-        }
-      ]
+      questions: [],
+      answers: [],
+      loading: true
     };
+  },
+  mounted() {
+    axios({
+      method: "get",
+      url: `/api/papers/${this.$route.params.PaperId}/`
+    }).then(res => {
+      console.log(res.data.title);
+      // if (res.status == 200) {
+      this.title = res.data.title;
+      this.explaination = res.data.content;
+      this.questions = res.data.questions;
+      // this.url = res.url;
+      this.time =
+        res.data.deadline.split(" ")[0] + "T" + res.data.deadline.split(" ")[1];
+      res.data.questions.map(question => {
+        console.log(this.answers)
+        console.log(question)
+        if (question.type == "C") {
+          this.answers.push({
+              selects: []
+            })
+        } else if (question.type == "O") {
+          this.answers.push({
+              content: ""
+            })
+        } else if (question.type == "R") {
+          this.answers.push({
+              selects: []
+            })
+        }
+      })
+      console.log(this.answers)
+      this.loading = false;
+      // }
+    });
   },
   components: {
     FormWrapper,
@@ -110,23 +121,22 @@ export default {
   },
   methods: {
     submitPaper() {
-      // this.$router.push({ name: "CreateSubmitted" })
-      html2canvas(document.querySelector("#participateScreenshot")).then(
-        canvas => {
-          canvas.toBlob(
-            function(blob) {
-              console.log(
-                new File([blob], `sbagi${Date.now()}`, {
-                  type: blob.type,
-                  lastModified: Date.now()
-                })
-              );
-            },
-            "image/jpeg",
-            0.95
-          );
+      axios({
+        method: 'post',
+        url: '/api/participates/',
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: localStorage.getItem('token')
+        },
+        data: {
+          paper: this.$route.params.PaperId,
+          answers: JSON.stringify(this.answers)
         }
-      );
+      }).then(res => {
+        if (res.status == 201) {
+          this.$router.push({ name: "CreateSubmitted" })
+        }
+      })
     },
     addQuestion() {
       this.questions.push({

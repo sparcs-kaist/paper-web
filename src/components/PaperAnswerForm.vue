@@ -4,58 +4,84 @@
       <v-text-field class="formTitle" disabled single-line label="제목" outline style="font-size: 18px; max-height: 50px;" v-model="formTitle"></v-text-field>
       <div class="tabsWrapper">
         <div class="singleTabWrapper">
-          <v-icon :color="optionsType == 'checkbox' ? 'purple darken-2' : 'grey darken-1'">mdi-checkbox-marked-outline</v-icon>
-          <span :class="optionsType == 'checkbox' ? 'themeSpan optionSpan' : 'optionSpan'">체크박스</span>
+          <v-icon :color="optionsType == 'C' ? 'purple darken-2' : 'grey darken-1'">mdi-checkbox-marked-outline</v-icon>
+          <span :class="optionsType == 'C' ? 'themeSpan optionSpan' : 'optionSpan'">체크박스</span>
         </div>
         <div class="singleTabWrapper">
-          <v-icon :color="optionsType == 'radio' ? 'purple darken-2' : 'grey darken-1'">mdi-radiobox-marked</v-icon>
-          <span :class="optionsType == 'radio' ? 'themeSpan optionSpan' : 'optionSpan'">객관식 질문</span>
+          <v-icon :color="optionsType == 'R' ? 'purple darken-2' : 'grey darken-1'">mdi-radiobox-marked</v-icon>
+          <span :class="optionsType == 'R' ? 'themeSpan optionSpan' : 'optionSpan'">객관식 질문</span>
         </div>
         <div class="singleTabWrapper">
-          <v-icon :color="optionsType == 'longtext' ? 'purple darken-2' : 'grey darken-1'">mdi-text</v-icon>
-          <span :class="optionsType == 'longtext' ? 'themeSpan optionSpan' : 'optionSpan'">주관식</span>
+          <v-icon :color="optionsType == 'O' ? 'purple darken-2' : 'grey darken-1'">mdi-text</v-icon>
+          <span :class="optionsType == 'O' ? 'themeSpan optionSpan' : 'optionSpan'">주관식</span>
         </div>
       </div>
     </div>
-    <v-radio-group v-if="optionsType == 'radio'" class="optionsWrapper">
-      <v-radio :disabled="disabled" v-for="(option, index) in inputOptions" :key="index" style="height: 40px; margin: 0; padding: 0;" @click.native="$emit('update:options', inputOptions)" :label="inputOptions[index].content" :value="inputOptions[index].content"></v-radio>
+    <v-radio-group v-model="finalAnswer.selects" v-if="optionsType == 'R'" class="optionsWrapper">
+      <v-radio :disabled="disabled" v-for="(option, index) in inputOptions" :key="index" style="height: 40px; margin: 0; padding: 0;" @click.native="$emit('update:answers', computedAnswers)" :label="option.option" :value="option.id"></v-radio>
     </v-radio-group>
-    <div v-for="(option, index) in inputOptions" :key="index" v-if="optionsType == 'checkbox'" class="optionsWrapper">
-      <v-checkbox :disabled="disabled" style="height: 40px; margin: 0; padding: 0;" @click.native="$emit('update:options', inputOptions)" v-model="inputOptions.choice" :label="inputOptions[index].content" :value="inputOptions[index].content"></v-checkbox>
+    <div v-for="(option, index) in inputOptions" :key="index" v-if="optionsType == 'C'" class="optionsWrapper">
+      <v-checkbox :disabled="disabled" style="height: 40px; margin: 0; padding: 0;" @click.native="$emit('update:answers', computedAnswers)" v-model="finalAnswer.selects" :label="option.option" :value="option.id"></v-checkbox>
     </div>
-    <textarea v-if="optionsType == 'longtext'" disabled class="textArea" placeholder="장문형 텍스트" :value="inputOptions[0]"/>
+    <textarea v-if="optionsType == 'O'" @change.native="$emit('update:answers', computedAnswers)" disabled class="textArea" placeholder="장문형 텍스트" v-model="finalAnswer.content"/>
   </div>
 </template>
 <script>
 export default {
   props: {
     title: String,
-    options: Array,
+    choices: Array,
     type: String,
     textarea: Boolean,
     margin: Boolean,
     required: Boolean,
     toggle: Boolean,
-    disabled: Boolean
+    disabled: Boolean,
+    answers: Object
   },
   data() {
     return {
       toggleState: false,
       optionsType: "",
       inputOptions: [],
-      formTitle: ""
+      formTitle: "",
+      finalAnswer: null
     };
   },
   created() {
-    console.log(this.optionsType);
     this.optionsType = this.type;
     this.formTitle = this.title;
-    this.inputOptions = this.options;
+    this.inputOptions = this.choices;
+    this.finalAnswer = this.answers;
+    console.log(this.answers);
+  },
+  computed: {
+    computedAnswers () {
+      console.log(this.finalAnswer);
+      if (this.type == "O") {
+        return {
+            content: this.finalAnswer.content
+          }
+      } else if (this.type == "R") {
+        return {
+            selects: this.finalAnswer.selects.map(ans => {
+                return {
+                  choice: ans
+                }
+              })
+          }
+      } else if (this.type == "C") {
+        return {
+            selects: this.finalAnswer.selects.map(ans => {
+                return {
+                  choice: ans
+                }
+              })
+          }
+      }
+    }
   },
   methods: {
-    selectType(name) {
-      this.optionsType = name;
-    },
     addOption(event, index) {
       if (this.inputOptions.length == index + 1) {
         this.inputOptions.push("");
