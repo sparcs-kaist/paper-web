@@ -74,7 +74,21 @@ export default {
       this.isZabologin = !this.isZabologin;
     },
     login() {
-      this.$store.commit("LOGIN");
+      axios({
+        url: "http://ssal.sparcs.org:16138/api-token-auth/",
+        method: "post",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        data: {
+          email: this.email,
+          password: this.password
+        }
+      }).then(res => {
+        console.log(res);
+        console.log(res.data);
+        this.$store.commit("LOGIN", res.data.token);
+      });
       // this.$store.commit("START_AJAX");
       // axios
       //   .post("/api-token-auth/", {

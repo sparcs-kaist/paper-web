@@ -1,8 +1,8 @@
 import * as types from "@/store/mutation-types";
 
 const mutations = {
-  [types.LOGIN](state, payload) {
-    localStorage.setItem("token", "just added");
+  [types.LOGIN](state, token) {
+    localStorage.setItem("token", token);
     if (localStorage.getItem("token")) {
       state.loggedInState = true;
     }
