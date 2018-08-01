@@ -27,12 +27,12 @@
   <v-tabs-items v-model="tabs">
       <v-tab-item>
         <div class="tabItemsWrapper">
-          <my-page-paper-tab type="participated" v-for="(n, index) in 6" :key="index" :participatedId="index" deadline="2018-06-07 04:25" url="https://zabo.sparcs.org/zabo/96" title="스팍스 2018 봄 지원 질문지"></my-page-paper-tab>
+          <my-page-paper-tab type="participated" v-for="(n, index) in 6" :key="index" :participatedId="index" deadline="2018-06-07 04:25" url="/api/papers/20" title="스팍스 2018 봄 지원 질문지"></my-page-paper-tab>
         </div>
       </v-tab-item>
       <v-tab-item>
         <div class="tabItemsWrapper">
-          <my-page-paper-tab type="participated" v-for="(n, index) in 6" :key="index" :participatedId="index" deadline="2018-06-07 04:25" url="https://zabo.sparcs.org/zabo/96" title="스팍스 2018 봄 지원 질문지"></my-page-paper-tab>
+          <my-page-paper-tab type="participated" v-for="(n, index) in 6" :key="index" :participatedId="index" deadline="2018-06-07 04:25" url="/api/papers/20" title="스팍스 2018 봄 지원 질문지"></my-page-paper-tab>
         </div>
       </v-tab-item>
     </v-tabs-items>
@@ -50,11 +50,6 @@ export default {
   },
   components: {
     MyPagePaperTab
-  },
-  watch: {
-    tabs() {
-      console.log(this.tabs);
-    }
   }
 };
 </script>
