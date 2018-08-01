@@ -2,7 +2,6 @@
 <div v-if="!loading" class="createdTotalWrapper">
   <div class="row">
     <div class="headingWrapper">
-      <v-icon class="arrowIcon">mdi-arrow-left</v-icon>
       <span class="headingTitle">스팍스 2018 봄 지원 설문지</span>
     </div>
     <div class="tabsWrapper">
@@ -15,7 +14,7 @@
       </div>
     </div>
   </div>
-  <div class="row">
+  <div v-show="selectedTab == 1" class="row">
     <div class="column">
       <div class="paperTabs">
         <span @click="selectedPaperTab = 1" :class="selectedPaperTab == 1 ? 'selectedPaperTab paperTab' : 'paperTab'" >개별 응답</span>
@@ -31,9 +30,49 @@
       </div>
       <div class="manageTabWrapper">
         <div v-for="(participate, index) in participates" :key="index" @click="selectedUser = index" class="singleUserWrapper">
-          <img :src="participate.author.profile_image" class="profileImage">
           <span :class="selectedUser == index ?'selectedUser nickName' : 'nickName'">{{participate.author.nickName}}</span>
         </div>
+      </div>
+    </div>
+  </div>
+  <div v-show="selectedTab == 2" class="row">
+    <div class="column">
+      <div class="singleMailTextWrapper">
+        <v-textarea
+          label="합격자에게 보내는 메일"
+          outline
+          auto-grow
+          :value="passedUsersMail"
+          class="mailText"
+          color="green"
+        ></v-textarea>
+      </div>
+      <div class="singleMailTextWrapper">
+        <v-textarea
+          label="불합격자에게 보내는 메일"
+          outline
+          auto-grow
+          :value="failedUsersMail"
+          class="mailText"
+          color="red"
+        ></v-textarea>
+      </div>
+    </div>
+    <div class="column">
+      <div class="manageTitleWrapper">
+        <span class="manageTitle">상태 관리 창</span>
+      </div>
+      <div class="manageTabWrapper">
+        <div v-for="(participate, index) in participates" :key="index" @click="selectedUser = index" class="singlePassWrapper">
+          <span :class="selectedUser == index ?'selectedUser nickName' : 'nickName'">{{participate.author.nickName}}</span>
+          <span @click="passList[index].type = 1" :class="passList[index].type == 1 ? 'passSpan greenPassSpan' : 'passSpan'">합격</span>
+          <span @click="passList[index].type = 2" :class="passList[index].type == 2 ? 'passSpan redPassSpan' : 'passSpan'">불합격</span>
+          <span @click="passList[index].type = 3" :class="passList[index].type == 3 ? 'passSpan normalPassSpan' : 'passSpan'">미정</span>
+        </div>
+      </div>
+      <div class="MailTabWrapper">
+        <button class="MailTab">합격자들에게 메일 보내기</button>
+        <button class="MailTab">불합격자들에게 메일 보내기</button>
       </div>
     </div>
   </div>
@@ -57,7 +96,10 @@ export default {
       title: "",
       answers: [],
       finalAnswers: [],
-      loading: true
+      loading: true,
+      passList: [],
+      passedUsersMail: "",
+      failedUsersMail: ""
     };
   },
   components: {
@@ -76,6 +118,7 @@ export default {
       this.questions = questions;
       this.title = title;
       this.participates.map(participate => {
+        this.passList.push({type: 1})
         this.answers.push(participate.answers);
       });
       this.finalAnswers = this.computedAnswers;
@@ -194,11 +237,12 @@ export default {
         }
       }
     }
-    &:last-child {
+    &:last-child, &:nth-child(2) {
       width: 100%;
       display: flex;
       justify-content: flex-start;
       align-items: flex-start;
+      margin-bottom: 60px;
       .paperTabs {
         display: flex;
         justify-content: flex-start;
@@ -248,6 +292,14 @@ export default {
         }
       }
       .column {
+        &:first-child {
+          .singleMailTextWrapper {
+            margin-top: 10px;
+            .mailText {
+              font-family: "NanumSquare", sans-serif;
+            }
+          }
+        }
         &:last-child {
           .manageTitleWrapper {
             margin-top: 30px;
@@ -269,11 +321,10 @@ export default {
             .singleUserWrapper {
               display: flex;
               align-items: center;
-              justify-content: flex-start;
-              // margin-bottom: ;
+              justify-content: center;
               min-width: 100px;
               height: 35px;
-              width: 30%;
+              width: 25%;
               cursor: pointer;
               &:hover {
                 .profileImage {
@@ -287,12 +338,60 @@ export default {
                 transition: all 0.3s ease-in-out;
               }
               .nickName {
-                margin-left: 8px;
                 font-size: $normal-font-size;
                 font-weight: $big-font-weight;
               }
               .selectedUser {
                 color: $theme-color;
+              }
+            }
+            .singlePassWrapper {
+              display: flex;
+              align-items: center;
+              justify-content: flex-start;
+              min-width: 100px;
+              height: 35px;
+              width: 45%;
+              .nickName {
+                margin-right: 8px;
+                font-size: $normal-font-size;
+                font-weight: $big-font-weight;
+              }
+              .passSpan {
+                font-size: $normal-font-size;
+                font-weight: $normal-font-weight;
+                cursor: pointer;
+                margin-right: 4px;
+                &:last-child {
+                  margin-right: 0;
+                }
+              }
+              .greenPassSpan {
+                font-weight: $big-font-weight;
+                color: $green-color;
+              }
+              .redPassSpan {
+                font-weight: $big-font-weight;
+                color: $red-color;
+              }
+              .normalPassSpan {
+                font-weight: $big-font-weight;
+                color: $font-black-dark;
+              }
+            }
+          }
+          .MailTabWrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: center;
+            width: 100%;
+            .MailTab {
+              @include largeButton(green);
+              margin-top: 12px;
+              text-align: center;
+              &:last-child {
+                @include largeButton(red);
               }
             }
           }
