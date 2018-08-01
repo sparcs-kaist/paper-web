@@ -21,9 +21,10 @@
         <form-wrapper :required="true" :toggle="false" type="text" :textarea="true" :margin="true" title="페이퍼 설명(1500자 이내)" placeholder="이 어플라이에 대한 설명을 입력해주세요." :content.sync="explaination" ></form-wrapper>
       </div>
       <div class="column">
-        <form-wrapper :required="true" :toggle="true" type="text" :margin="true" title="URL(자보, 아라)" placeholder="ex) https://zabo.sparcs.org/zabo/24" :content.sync="url" ></form-wrapper>
+        <form-wrapper :required="true" :toggle="true" type="text" :margin="true" title="페이퍼 설명 URL(자보)" placeholder="ex) https://zabo.sparcs.org/zabo/24" :content.sync="url" ></form-wrapper>
         <mini-view :url="url"></mini-view>
-        <button @click="currentTotalState = 'end' " class="goNext">질문지 만들러 가기</button>
+        <button v-if="StartFormValidation" @click="currentTotalState = 'end' " class="goNext">질문지 만들러 가기</button>
+        <button v-else @click="notYetWarn" class="notYet">필수란들을 채워주세요</button>
       </div>
     </div>
   </div>
@@ -35,7 +36,7 @@
     </div>
     <div class="row">
       <div class="column">
-        <paper-input-form v-for="(question, index) in questions" :key="index" :index="index" :margin="true" :isMultiple.sync="question.is_multiple" :choices.sync="question.choices" :content.sync="question.content" :type="question.type"></paper-input-form>
+        <paper-input-form v-for="(question, index) in questions" :key="index" :index="index" :margin="true" :isMultiple.sync="question.is_multiple" :choices.sync="question.choices" :content.sync="question.content" :type.sync="question.type"></paper-input-form>
         <button @click="addQuestion" class="addQuestion">+ 질문 추가</button>
       </div>
       <div class="column">
@@ -47,7 +48,8 @@
           <div class="singleManagement">다음과 같은 유의사항이 있습니다.</div>
           <div class="singleManagement">다음과 같은 유의사항이 있습니다.</div>
         </div>
-        <button @click="submitPaper" class="goNext">질문지 생성하기</button>
+        <button v-show="EndFormValidation" @click="submitPaper" class="goNext">질문지 생성하기</button>
+        <button v-show="!EndFormValidation" @click="notYetWarn" class="notYet">모든 란을 채워주세요</button>
       </div>
     </div>
   </div>
@@ -96,7 +98,40 @@ export default {
     MiniView,
     PaperInputForm
   },
+  computed : {
+    StartFormValidation () {
+      if (this.title == "") {
+        return false
+      }
+      if (this.explaination == "") {
+        return false
+      }
+      if (this.time == "") {
+        return false
+      }
+
+      return true
+    },
+    EndFormValidation () {
+      for (let i=0; i<this.questions.length; i++) {
+        if (this.questions[i].content == "") {
+          return false
+        }
+        if (this.questions[i].type != "O") {
+          for (let j=0; j < this.questions[i].choices.length; j++) {
+            if (this.questions[i].choices[j].option == "")  {
+              return false
+            }
+          }
+        }
+      }
+      return true
+    }
+  },
   methods: {
+    notYetWarn () {
+      alert('필수 란을 채우셔야 제출하실 수 있습니다.')
+    },
     submitPaper() {
       // this.$router.push({ name: "CreateSubmitted" })
       let file = null;
@@ -133,7 +168,6 @@ export default {
             }
           });
         });
-        console.log(blob);
       });
     },
     addQuestion() {
@@ -143,7 +177,6 @@ export default {
         type: "C",
         is_multiple: true
       });
-      console.log(this.questions);
     }
   }
 };
@@ -264,6 +297,10 @@ export default {
           }
           .goNext {
             @include largeButton(theme);
+            margin-top: 12px;
+          }
+          .notYet {
+            @include largeButton(red);
             margin-top: 12px;
           }
         }

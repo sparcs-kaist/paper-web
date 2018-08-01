@@ -23,7 +23,7 @@
     </div>
     <div v-for="(option, index) in inputChoices" :key="index" v-if="optionsType == 'C'" class="optionsWrapper">
       <v-icon>mdi-checkbox-blank-outline</v-icon>
-      <v-text-field @keyup.enter="addOption($event, index)" single-line regular :label="'옵션' + `${index+1}`" @change.native="$emit('update:choices', inputChoices)" v-model="inputChoices[index].option"></v-text-field>
+      <v-text-field @keyup.enter="addOption($event, index)" single-line regular :label="'옵션' + `${index}`" @change.native="$emit('update:choices', inputChoices)" v-model="inputChoices[index].option"></v-text-field>
     </div>
     <textarea v-if="optionsType == 'O'" disabled class="textArea" placeholder="장문형 텍스트" />
   </div>
@@ -66,6 +66,9 @@ export default {
           this.is_multiple = false;
         case "C":
           this.is_multiple = true;
+      }
+      if (this.optionsType == "O") {
+        this.inputChoices = [{option: ""}];
       }
       this.$emit("update:type", this.optionsType);
       this.$emit("update:isMultiple", this.is_multiple);
