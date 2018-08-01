@@ -9,9 +9,20 @@
       <v-icon color="grey darken-2">mdi-dots-vertical</v-icon>
     </div>
     <div v-show="modalState" v-if="type == 'participated'" class="tabModalWrapper">
-      <div class="singleModalWrapper">
+      <div v-show="!deleteModalState" class="singleModalWrapper">
         <v-icon class="modalIcon">mdi-square-edit-outline</v-icon>
         <router-link :to="`/user/participated/${participatedId}`" class="modalSpan">지원지 수정하기</router-link>
+      </div>
+      <div v-show="!deleteModalState" @click="deleteModalState = true" class="singleModalWrapper">
+        <v-icon class="modalIcon">mdi-delete</v-icon>
+        <span class="modalSpan">삭제하기</span>
+      </div>
+      <div v-show="deleteModalState" class="singleModalWrapper deleteModal">
+        <div class="modalSpan">정말로 삭제하시겠습니까?</div>
+        <div>
+          <span class="modalSpan" @click="deleteParticipated">예</span>
+          <span class="modalSpan" @click="deleteModalState = false">아니오</span>
+        </div>
       </div>
     </div>
     <div v-show="modalState" v-else  class="tabModalWrapper">
@@ -26,7 +37,7 @@
       <div v-show="deleteModalState" class="singleModalWrapper deleteModal">
         <div class="modalSpan">정말로 삭제하시겠습니까?</div>
         <div>
-          <span class="modalSpan" @click="deletePaper">예</span>
+          <span class="modalSpan" @click="deleteCreatedPaper">예</span>
           <span class="modalSpan" @click="deleteModalState = false">아니오</span>
         </div>
       </div>
@@ -64,7 +75,6 @@ export default {
   },
   methods: {
     goToDetail() {
-      console.log("why!");
       if (this.type == "participated") {
         this.$router.push({
           name: "ParticipatedPaperDetail",
@@ -78,11 +88,28 @@ export default {
         });
       }
     },
-    deletePaper() {
+    deleteCreatedPaper() {
       if (this.type == "created") {
         axios({
           method: "delete",
           url: `/api/papers/${this.createdId}/`,
+          headers: {
+            Authorization: localStorage.getItem("token")
+          }
+        }).then(res => {
+          if (res.status == 204) {
+            this.deleteModalState = false;
+            this.modalState = false;
+            this.notDeleted = false;
+          }
+        });
+      }
+    },
+    deleteParticipated() {
+      if (this.type == "participated") {
+        axios({
+          method: "delete",
+          url: `/api/participates/${this.participatedId}/`,
           headers: {
             Authorization: localStorage.getItem("token")
           }
