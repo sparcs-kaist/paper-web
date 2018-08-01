@@ -8,10 +8,10 @@
       </div>
       <div class="categoryWrapper">
         <span class="categoryHeading">카테고리 </span>
-        <input name="recruiting" type="radio" class="radio" :value="selectedCategory"/>
+        <input name="recruiting" type="radio" class="radio" value="recruiting" v-model="selectedCategory"/>
         <label for="recruiting" class="label" >리크루팅</label>
-        <input name="recruiting" type="radio" class="radio" :value="selectedCategory"/>
-        <label for="recruiting" class="label" >설문 조사</label>
+        <input disabled name="survey" type="radio" class="radio" value="survey" v-model="selectedCategory"/>
+        <label for="survey" class="label" >설문 조사</label>
       </div>
     </div>
     <div class="row">
@@ -21,7 +21,7 @@
         <form-wrapper :required="true" :toggle="false" type="text" :textarea="true" :margin="true" title="페이퍼 설명(1500자 이내)" placeholder="이 어플라이에 대한 설명을 입력해주세요." :content.sync="explaination" ></form-wrapper>
       </div>
       <div class="column">
-        <form-wrapper :required="true" :toggle="true" type="text" :margin="true" title="페이퍼 설명 URL(자보)" placeholder="ex) https://zabo.sparcs.org/zabo/24" :content.sync="url" ></form-wrapper>
+        <form-wrapper :required="true" :toggle="true" type="text" :margin="true" title="페이퍼 설명 URL(자보 미니뷰)" placeholder="ex) https://zabo.sparcs.org/zabo/24" :content.sync="url" ></form-wrapper>
         <mini-view :url="url"></mini-view>
         <button v-if="StartFormValidation" @click="currentTotalState = 'end' " class="goNext">질문지 만들러 가기</button>
         <button v-else @click="notYetWarn" class="notYet">필수란들을 채워주세요</button>
@@ -73,7 +73,7 @@ function getCanvasBlob(canvas) {
 export default {
   data() {
     return {
-      selectedCategory: "",
+      selectedCategory: "recruiting",
       title: "",
       explaination: "",
       time: "",

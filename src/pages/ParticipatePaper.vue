@@ -7,10 +7,10 @@
       </div>
       <div class="categoryWrapper">
         <span class="categoryHeading">카테고리 </span>
-        <input name="recruiting" type="radio" class="radio" :value="selectedCategory"/>
+        <input name="recruiting" type="radio" class="radio" value="recruiting" v-model="selectedCategory"/>
         <label for="recruiting" class="label" >리크루팅</label>
-        <input name="recruiting" type="radio" class="radio" :value="selectedCategory"/>
-        <label for="recruiting" class="label" >설문 조사</label>
+        <input disabled name="survey" type="radio" class="radio" value="survey" v-model="selectedCategory"/>
+        <label for="survey" class="label" >설문 조사</label>
       </div>
     </div>
     <div class="row">
@@ -20,7 +20,7 @@
         <form-wrapper :disabled="true" :toggle="false" type="text" :textarea="true" :margin="true" title="페이퍼 설명(1500자 이내)" placeholder="이 어플라이에 대한 설명을 입력해주세요." :content="explaination" ></form-wrapper>
       </div>
       <div class="column">
-        <form-wrapper :disabled="true" :toggle="false" type="text" :margin="true" title="URL(자보)" placeholder="ex) https://zabo.sparcs.org/zabo/24" :content="url" ></form-wrapper>
+        <form-wrapper :disabled="true" :toggle="false" type="text" :margin="true" title="페이퍼 설명 URL(자보 미니뷰)" placeholder="ex) https://zabo.sparcs.org/zabo/24" :content="url" ></form-wrapper>
         <mini-view :url="url"></mini-view>
         <button @click="currentTotalState = 'end' " class="goNext">질문지 작성하러 가기</button>
       </div>
@@ -45,7 +45,7 @@
           <div class="singleManagement">다음과 같은 유의사항이 있습니다.</div>
           <div class="singleManagement">다음과 같은 유의사항이 있습니다.</div>
         </div>
-        <button @click="submitPaper" class="goNext">질문지 수정하기</button>
+        <button @click="submitPaper" class="goNext">답변 제출하기</button>
       </div>
     </div>
   </div>
