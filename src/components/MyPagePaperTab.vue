@@ -1,5 +1,5 @@
 <template lang=''>
-  <div class="paperTabWrapper">
+  <div v-if="notDeleted" class="paperTabWrapper">
     <img @click="goToDetail" :src="url" class="imageWrapper">
     <div class="imageTitleWrapper">
       <span class="imageTitle">{{computedTitle}}</span>
@@ -34,6 +34,8 @@
     <div v-show="modalState" class="modalTabTriangle"></div>
     <div v-show="modalState" class="modalTabTriangle modalTabTriangleBorder"></div>
   </div>
+  <div v-else>
+  </div>
 </template>
 <script>
 import axios from "@/axios-auth";
@@ -51,7 +53,8 @@ export default {
   data() {
     return {
       modalState: false,
-      deleteModalState: false
+      deleteModalState: false,
+      notDeleted: true
     };
   },
   computed: {
@@ -79,7 +82,7 @@ export default {
       if (this.type == "created") {
         axios({
           method: "delete",
-          url: `/api/papers/${this.createdId}`,
+          url: `/api/papers/${this.createdId}/`,
           headers: {
             Authorization: localStorage.getItem("token")
           }
@@ -87,6 +90,7 @@ export default {
           if (res.status == 204) {
             this.deleteModalState = false;
             this.modalState = false;
+            this.notDeleted = false;
           }
         });
       }
