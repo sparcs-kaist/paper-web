@@ -2,14 +2,13 @@
 <div class="createdTotalWrapper">
   <div class="row">
     <div class="headingWrapper">
-      <v-icon class="arrowIcon">mdi-arrow-left</v-icon>
       <span class="headingTitle">스팍스 2018 봄 지원 설문지</span>
     </div>
   </div>
   <div class="row">
     <div class="column">
-      <div class="paperWrapper">
-        <paper-answer-form v-for="(question, index) in questions" :key="index" :margin="true" :options.sync="question.options" :title.sync="question.title" :type="question.type" :choice.sync="question.choice"></paper-answer-form>
+      <div v-if="!loading" class="paperWrapper">
+        <paper-answer-form v-for="(question, index) in finalQuestions" :key="index" :margin="true" :choices="question.choices" :title="question.content" :type="question.type" :answers.sync="finalAnswers[index]"></paper-answer-form>
       </div>
     </div>
     <div class="column">
@@ -28,63 +27,132 @@
 </template>
 <script>
 import PaperAnswerForm from "@/components/PaperAnswerForm";
+import axios from "@/axios-auth";
 
 export default {
   data() {
     return {
-      selectedTab: 1,
-      selectedPaperTab: 1,
-      selectedUser: 0,
-      selectedQuestion: [],
+      paperId: null,
       nickName: "sbagi",
-      questions: [
+      answers: [
         {
-          title: "왜 이 동아리에 지원하셨나요?",
-          options: [
+          id: 39,
+          question: {
+            type: "C",
+            content: "niaosvnosd",
+            is_multiple: true
+          },
+          selects: [
             {
-              id: 1,
-              content: "심심해서"
+              choice: {
+                id: 73,
+                option: "adsvasb",
+                _order: 3,
+                question: 32
+              }
             },
             {
-              id: 2,
-              content: "너무 멋있어서"
+              choice: {
+                id: 72,
+                option: "asdvion",
+                _order: 2,
+                question: 32
+              }
             }
           ],
-          ismultiple: true,
-          type: "checkbox",
-          choice: []
+          content: null
         },
         {
-          title: "왜 이 동아리에 지원하셨나요?",
-          options: [
-            {
-              id: 1,
-              content: "심심해서"
-            },
-            {
-              id: 2,
-              content: "너무 멋있어서"
-            }
-          ],
-          ismultiple: false,
-          type: "radio",
-          choice: []
+          id: 40,
+          question: {
+            type: "O",
+            content: "adfbadfbadfb",
+            is_multiple: true
+          },
+          selects: [],
+          content: "asdvsadv"
         }
-      ]
+      ],
+      finalAnswers: [],
+      loading: true
     };
+  },
+  computed: {
+    computedAnswers() {
+      return this.answers.map(answer => {
+        if (answer.question.type == "C") {
+          return {
+            selects: answer.selects.map(select => {
+              return select.choice.id;
+            })
+          };
+        }
+        if (answer.question.type == "R") {
+          return {
+            selects: answer.selects.map(select => {
+              return select.choice.id;
+            })
+          };
+        }
+        if (answer.question.type == "O") {
+          return {
+            content: answer.content
+          };
+        }
+      });
+    },
+    finalQuestions() {
+      return this.answers.map(answer => {
+        return {
+          content: answer.question.content,
+          type: answer.question.type,
+          is_multiple: answer.question.is_multiple,
+          choices: answer.selects.map(select => {
+            return select.choice;
+          })
+        };
+      });
+    }
   },
   components: {
     PaperAnswerForm
   },
   created() {
-    this.selectedQuestion = this.users[this.selectedUser].questions;
+    axios({
+      method: "get",
+      url: `/api/participates/${this.$route.params.participatedId}/`,
+      headers: {
+        Authorization: localStorage.getItem("token")
+      }
+    }).then(res => {
+      this.answers = res.data.answers;
+      this.finalAnswers = this.computedAnswers;
+      this.paperId = res.data.paper.id;
+      this.loading = false;
+    });
   },
-  watch: {
-    selectedUser(val) {
-      this.selectedQuestion = this.users[this.selectedUser].questions;
-    },
-    selectedQuestion() {
-      console.log(this.selectedQuestion);
+  mounted() {
+    console.log(
+      this.finalAnswers,
+      this.finalQuestions,
+      this.computedAnswers,
+      this.paperId
+    );
+  },
+  methods: {
+    submitPaper() {
+      axios({
+        method: "put",
+        url: `/api/participates/${this.$route.params.participatedId}/`,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: localStorage.getItem("token")
+        },
+        data: {
+          paper: this.paperId,
+          answers: JSON.stringify(this.finalAnswers)
+        }
+      }).then(res => console.log(res));
     }
   }
 };

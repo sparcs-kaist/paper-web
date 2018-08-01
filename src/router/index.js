@@ -54,7 +54,7 @@ export default new Router({
       component: CreatedPaperDetail
     },
     {
-      path: "/user/participated/:paperId",
+      path: "/user/participated/:participatedId",
       name: "ParticipatedPaperDetail",
       component: ParticipatedPaperDetail
     },
