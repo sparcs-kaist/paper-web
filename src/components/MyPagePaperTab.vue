@@ -28,14 +28,14 @@
     <div v-show="modalState" v-else  class="tabModalWrapper">
       <div v-show="!deleteModalState" @click="deleteModalState = true" class="singleModalWrapper">
         <v-icon class="modalIcon">mdi-delete</v-icon>
-        <span class="modalSpan">삭제하기</span>
+        <span class="modalSpan">지원 취소하기</span>
       </div>
       <div v-show="!deleteModalState" class="singleModalWrapper">
         <v-icon class="modalIcon">mdi-link-variant</v-icon>
         <router-link :to="`/user/created/${createdId}`" class="modalSpan">지원지 관리하기</router-link>
       </div>
       <div v-show="deleteModalState" class="singleModalWrapper deleteModal">
-        <div class="modalSpan">정말로 삭제하시겠습니까?</div>
+        <div class="modalSpan">정말로 취소하시겠습니까?</div>
         <div>
           <span class="modalSpan" @click="deleteCreatedPaper">예</span>
           <span class="modalSpan" @click="deleteModalState = false">아니오</span>
