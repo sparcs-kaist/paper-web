@@ -31,17 +31,9 @@ export default {
     };
   },
   created() {
-    this.$store.commit("LOGIN");
-    axios({
-      url: "http://ssal.sparcs.org:16138/api/users/1/",
-      method: "get",
-      headers: {
-        Authorization: localStorage.getItem("token")
-      }
-    }).then(res => {
-      this.$store.commit("SET_CURRENT_USER", res.data);
-      this.currentUserLoading = false;
-    });
+    if (localStorage.getItem('token')) {
+      this.$store.dispatch("login", localStorage.getItem('token').slice(6,));
+    }
   },
   methods: {},
   computed: {

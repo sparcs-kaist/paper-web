@@ -37,7 +37,7 @@
                   :rules="passwordRules"
                   type = "password"
                   class = "field"/>
-                  <v-btn type="submit" :disabled="!valid" depressed :loading="loading" color="indigo darken-3" id="login_button">로그인</v-btn>
+                  <v-btn type="submit" :disabled="!valid" depressed color="indigo darken-3" id="login_button">로그인</v-btn>
                 </v-form>
                 <div v-if="loginfailed" class="error-message">
                   아이디/비밀번호가 틀렸습니다.
@@ -87,16 +87,16 @@ export default {
       }).then(res => {
         console.log(res);
         console.log(res.data);
-        this.$store.commit("LOGIN", res.data.token);
-        axios({
-          url: "http://ssal.sparcs.org:16138/api/users/1/",
-          method: "get",
-          headers: {
-            Authorization: localStorage.getItem("token")
-          }
-        }).then(res => {
-          this.$store.commit("SET_CURRENT_USER", res.data);
-        });
+        this.$store.dispatch("login", res.data.token);
+        // axios({
+        //   url: "http://ssal.sparcs.org:16138/api/users/1/",
+        //   method: "get",
+        //   headers: {
+        //     Authorization: localStorage.getItem("token")
+        //   }
+        // }).then(res => {
+        //   this.$store.commit("SET_CURRENT_USER", res.data);
+        // });
       });
       // this.$store.commit("START_AJAX");
       // axios

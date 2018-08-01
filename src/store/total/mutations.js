@@ -2,11 +2,11 @@ import * as types from "@/store/mutation-types";
 
 const mutations = {
   [types.LOGIN](state, token) {
-    if (localStorage.getItem("token")) {
-      state.loggedInState = true;
-    }
     if (token) {
       localStorage.setItem("token", "PAPER " + token);
+    }
+    if (localStorage.getItem("token")) {
+      state.loggedInState = true;
     }
   },
   [types.LOGOUT](state, payload) {
