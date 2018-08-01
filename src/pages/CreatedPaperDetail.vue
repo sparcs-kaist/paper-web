@@ -1,5 +1,5 @@
 <template lang=''>
-<div class="createdTotalWrapper">
+<div v-if="!loading" class="createdTotalWrapper">
   <div class="row">
     <div class="headingWrapper">
       <v-icon class="arrowIcon">mdi-arrow-left</v-icon>
@@ -22,7 +22,7 @@
         <span @click="selectedPaperTab = 2" :class="selectedPaperTab == 2 ? 'selectedPaperTab paperTab' : 'paperTab'">통계</span>
       </div>
       <div class="paperWrapper">
-        <paper-answer-form :disabled="true" v-for="(question, index) in selectedQuestion" :key="index" :margin="true" :options="question.options" :title="question.title" :type="question.type" :choice="question.choice"></paper-answer-form>
+        <paper-answer-form :disabled="true" v-for="(question, index) in questions" :key="index" :margin="true" :choices="question.choices" :title="question.content" :type="question.type" :answers.sync="finalAnswers[selectedUser][index]"></paper-answer-form>
       </div>
     </div>
     <div class="column">
@@ -30,17 +30,21 @@
         <span class="manageTitle">상태 관리 창</span>
       </div>
       <div class="manageTabWrapper">
-        <div v-for="(user, index) in users" :key="index" @click="selectedUser = index" class="singleUserWrapper">
-          <img src="@/assets/userProfile.jpg" class="profileImage">
-          <span :class="selectedUser == index ?'selectedUser nickName' : 'nickName'">{{user.nickName}}</span>
+        <div v-for="(participate, index) in participates" :key="index" @click="selectedUser = index" class="singleUserWrapper">
+          <img :src="participate.author.profile_image" class="profileImage">
+          <span :class="selectedUser == index ?'selectedUser nickName' : 'nickName'">{{participate.author.nickName}}</span>
         </div>
       </div>
     </div>
   </div>
 </div>
+<div v-else>
+  로딩!
+</div>
 </template>
 <script>
 import PaperAnswerForm from "@/components/PaperAnswerForm";
+import axios from "@/axios-auth";
 
 export default {
   data() {
@@ -48,134 +52,82 @@ export default {
       selectedTab: 1,
       selectedPaperTab: 1,
       selectedUser: 0,
-      selectedQuestion: [],
-      users: [
-        {
-          nickName: "sbagi",
-          questions: [
-            {
-              title: "왜 이 동아리에 지원하셨나요?",
-              options: [
-                {
-                  id: 1,
-                  content: "심심해서"
-                },
-                {
-                  id: 2,
-                  content: "너무 멋있어서"
-                }
-              ],
-              ismultiple: true,
-              type: "checkbox",
-              choice: []
-            },
-            {
-              title: "왜 이 동아리에 지원하셨나요?",
-              options: [
-                {
-                  id: 1,
-                  content: "심심해서"
-                },
-                {
-                  id: 2,
-                  content: "너무 멋있어서"
-                }
-              ],
-              ismultiple: false,
-              type: "radio",
-              choice: []
-            }
-          ]
-        },
-        {
-          nickName: "jara",
-          questions: [
-            {
-              title: "왜 이 동아리에 지원하셨나요?",
-              options: [
-                {
-                  id: 1,
-                  content: "심심해서"
-                },
-                {
-                  id: 2,
-                  content: "너무 멋있어서"
-                }
-              ],
-              ismultiple: true,
-              type: "checkbox",
-              choice: []
-            },
-            {
-              title: "왜 이 동아리에 지원하셨나요?",
-              options: [
-                {
-                  id: 1,
-                  content: "테스트용으로"
-                },
-                {
-                  id: 2,
-                  content: "만든놈임."
-                }
-              ],
-              ismultiple: false,
-              type: "radio",
-              choice: []
-            }
-          ]
-        },
-        {
-          nickName: "joyb",
-          questions: [
-            {
-              title: "왜 이 동아리에 지원하셨나요?",
-              options: [
-                {
-                  id: 1,
-                  content: "심심해서"
-                },
-                {
-                  id: 2,
-                  content: "너무 멋있어서"
-                }
-              ],
-              ismultiple: true,
-              type: "checkbox",
-              choice: []
-            },
-            {
-              title: "왜 이 동아리에 지원하셨나요?",
-              options: [
-                {
-                  id: 1,
-                  content: "테스트용으로"
-                },
-                {
-                  id: 2,
-                  content: "만든놈임."
-                }
-              ],
-              ismultiple: false,
-              type: "radio",
-              choice: []
-            }
-          ]
-        }
-      ]
+      participates: [],
+      questions: [],
+      title: "",
+      answers: [],
+      finalAnswers: [],
+      loading: true
     };
   },
   components: {
     PaperAnswerForm
   },
   created() {
-    this.selectedQuestion = this.users[this.selectedUser].questions;
+    axios({
+      url: `/api/papers/${this.$route.params.paperId}/admin/`,
+      headers: {
+        Authorization: localStorage.getItem("token")
+      }
+    }).then(res => {
+      const { participates, questions, title } = res.data;
+      console.log(res.data, participates, questions, title);
+      this.participates = participates;
+      this.questions = questions;
+      this.title = title;
+      this.participates.map(participate => {
+        this.answers.push(participate.answers);
+      });
+      this.finalAnswers = this.computedAnswers;
+      this.loading = false;
+    });
   },
-  watch: {
-    selectedUser(val) {
-      this.selectedQuestion = this.users[this.selectedUser].questions;
-    },
-    selectedQuestion() {
-      console.log(this.selectedQuestion);
+  computed: {
+    computedAnswers() {
+      return this.answers.map(answerList => {
+        return answerList.map(answer => {
+          if (answer.question.type == "C") {
+            return {
+              selects: answer.selects.map(select => {
+                return select.choice.id;
+              })
+            };
+          }
+          if (answer.question.type == "R") {
+            return {
+              selects: answer.selects.map(select => {
+                return select.choice.id;
+              })
+            };
+          }
+          if (answer.question.type == "O") {
+            return {
+              content: answer.content
+            };
+          }
+        });
+      });
+      return this.answers.map(answer => {
+        if (answer.question.type == "C") {
+          return {
+            selects: answer.selects.map(select => {
+              return select.choice.id;
+            })
+          };
+        }
+        if (answer.question.type == "R") {
+          return {
+            selects: answer.selects.map(select => {
+              return select.choice.id;
+            })
+          };
+        }
+        if (answer.question.type == "O") {
+          return {
+            content: answer.content
+          };
+        }
+      });
     }
   }
 };

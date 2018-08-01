@@ -8,7 +8,7 @@
   <div class="row">
     <div class="column">
       <div v-if="!loading" class="paperWrapper">
-        <paper-answer-form v-for="(question, index) in finalQuestions" :key="index" :margin="true" :choices="question.choices" :title="question.content" :type="question.type" :answers.sync="finalAnswers[index]"></paper-answer-form>
+        <paper-answer-form :disabled="false" v-for="(question, index) in finalQuestions" :key="index" :margin="true" :choices="question.choices" :title="question.content" :type="question.type" :answers.sync="finalAnswers[index]"></paper-answer-form>
       </div>
     </div>
     <div class="column">

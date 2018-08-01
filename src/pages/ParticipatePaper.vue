@@ -34,7 +34,7 @@
     </div>
     <div class="row">
       <div class="column">
-        <paper-answer-form v-for="(question, index) in questions" :key="index" :margin="true" :choices="question.choices" :title="question.content" :type="question.type" :answers.sync="answers[index]"></paper-answer-form>
+        <paper-answer-form :disabled="false" v-for="(question, index) in questions" :key="index" :margin="true" :choices="question.choices" :title="question.content" :type="question.type" :answers.sync="answers[index]"></paper-answer-form>
       </div>
       <div class="column">
         <div class="manageTitleWrapper">
@@ -93,23 +93,23 @@ export default {
       this.time =
         res.data.deadline.split(" ")[0] + "T" + res.data.deadline.split(" ")[1];
       res.data.questions.map(question => {
-        console.log(this.answers)
-        console.log(question)
+        console.log(this.answers);
+        console.log(question);
         if (question.type == "C") {
           this.answers.push({
-              selects: []
-            })
+            selects: []
+          });
         } else if (question.type == "O") {
           this.answers.push({
-              content: ""
-            })
+            content: ""
+          });
         } else if (question.type == "R") {
           this.answers.push({
-              selects: []
-            })
+            selects: []
+          });
         }
-      })
-      console.log(this.answers)
+      });
+      console.log(this.answers);
       this.loading = false;
       // }
     });
@@ -122,11 +122,11 @@ export default {
   methods: {
     submitPaper() {
       axios({
-        method: 'post',
-        url: '/api/participates/',
+        method: "post",
+        url: "/api/participates/",
         headers: {
           "Content-Type": "application/json",
-          Authorization: localStorage.getItem('token')
+          Authorization: localStorage.getItem("token")
         },
         data: {
           paper: this.$route.params.PaperId,
@@ -134,9 +134,9 @@ export default {
         }
       }).then(res => {
         if (res.status == 201) {
-          this.$router.push({ name: "CreateSubmitted" })
+          this.$router.push({ name: "CreateSubmitted" });
         }
-      })
+      });
     },
     addQuestion() {
       this.questions.push({

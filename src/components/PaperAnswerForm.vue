@@ -18,12 +18,12 @@
       </div>
     </div>
     <v-radio-group v-model="finalAnswer.selects" v-if="optionsType == 'R'" class="optionsWrapper">
-      <v-radio :disabled="disabled" v-for="(option, index) in inputOptions" :key="index" style="height: 40px; margin: 0; padding: 0;" @click.native="$emit('update:answers', computedAnswers)" :label="option.option" :value="option.id"></v-radio>
+      <v-radio color="black" :disabled="disabled" v-for="(option, index) in inputOptions" :key="index" style="height: 40px; margin: 0; padding: 0;" @click.native="$emit('update:answers', computedAnswers)" :label="option.option" :value="option.id"></v-radio>
     </v-radio-group>
     <div v-for="(option, index) in inputOptions" :key="index" v-if="optionsType == 'C'" class="optionsWrapper">
-      <v-checkbox :disabled="disabled" style="height: 40px; margin: 0; padding: 0;" @click.native="$emit('update:answers', computedAnswers)" v-model="finalAnswer.selects" :label="option.option" :value="option.id"></v-checkbox>
+      <v-checkbox color="black" :disabled="disabled" style="height: 40px; margin: 0; padding: 0;" @click.native="$emit('update:answers', computedAnswers)" v-model="finalAnswer.selects" :label="option.option" :value="option.id"></v-checkbox>
     </div>
-    <textarea v-if="optionsType == 'O'" @change.native="$emit('update:answers', computedAnswers)" class="textArea" placeholder="장문형 텍스트" v-model="finalAnswer.content"/>
+    <textarea :disabled="disabled" v-if="optionsType == 'O'" @change.native="$emit('update:answers', computedAnswers)" class="textArea" placeholder="장문형 텍스트" v-model="finalAnswer.content"/>
   </div>
 </template>
 <script>
