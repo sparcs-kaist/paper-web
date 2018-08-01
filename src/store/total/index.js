@@ -6,7 +6,8 @@ export default {
   state: {
     loggedInState: false,
     currentUser: {},
-    participatedPapers: []
+    participatedPapers: [],
+    createdPapers: []
   },
   actions,
   mutations,

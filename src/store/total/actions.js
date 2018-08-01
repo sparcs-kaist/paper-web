@@ -5,12 +5,22 @@ const actions = {
   getMyInfo({ commit, dispatch, state }, payload) {},
   setParticipatedPapers({ commit, dispatch, state }, payload) {
     axios({
-      url: "/api/papers/",
+      url: "/api/participates/created/",
       headers: {
         Authorization: localStorage.getItem("token")
       }
     }).then(res => {
       commit(types.SET_PARTICIPATED_PAPERS, res.data.data);
+    });
+  },
+  setCreatedPapers({ commit, dispatch, state }, payload) {
+    axios({
+      url: "/api/papers/created/",
+      headers: {
+        Authorization: localStorage.getItem("token")
+      }
+    }).then(res => {
+      commit(types.SET_CREATED_PAPERS, res.data.data);
     });
   },
   login ({commit, dispatch, state}, payload) {

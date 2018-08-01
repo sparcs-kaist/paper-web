@@ -18,7 +18,10 @@ const mutations = {
   },
   [types.SET_PARTICIPATED_PAPERS](state, payload) {
     state.participatedPapers = payload;
-  }
+  },
+  [types.SET_CREATED_PAPERS](state, payload) {
+    state.createdPapers = payload;
+  },
 };
 
 export default mutations;

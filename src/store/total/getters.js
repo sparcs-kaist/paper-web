@@ -7,6 +7,9 @@ const getters = {
   },
   participatedPapers(state) {
     return state.participatedPapers;
+  },
+  createdPapers(state) {
+    return state.createdPapers;
   }
 };
 
