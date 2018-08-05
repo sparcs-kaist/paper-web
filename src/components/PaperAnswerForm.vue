@@ -55,32 +55,26 @@ export default {
     this.finalAnswer = this.answers;
     console.log(this.answers);
   },
-  beforeUpdate () {
-    console.log('updated!')
-  },
   computed: {
     computedAnswers () {
-      console.log(this.finalAnswer);
       if (this.type == "O") {
         return {
             content: this.finalAnswer.content
           }
       } else if (this.type == "R") {
         return {
-            selects: this.finalAnswer.selects.map(ans => {
-                return {
-                  choice: ans
-                }
-              })
-          }
+          selects: [{choice: this.finalAnswer.selects}]
+        }
       } else if (this.type == "C") {
-        return {
+        if (this.finalAnswer.selects.length > 0) {
+          return {
             selects: this.finalAnswer.selects.map(ans => {
-                return {
-                  choice: ans
-                }
-              })
+              return {
+                choice: ans
+              }
+            })
           }
+        }
       }
     }
   },

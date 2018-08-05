@@ -151,22 +151,25 @@ export default {
   },
   computed: {
     computedAnswers() {
+      console.log(this.answers);
       if (this.answers.length > 0) {
         return this.answers.map(answerList => {
           return answerList.map(answer => {
             if (answer.question.type == "C") {
-              return {
-                selects: answer.selects.map(select => {
-                  return select.choice.id;
-                })
-              };
+              if (answer.selects.length > 0) {
+                return {
+                  selects: answer.selects.map(select => {
+                    return select.choice.id;
+                  })
+                };
+              }
             }
             if (answer.question.type == "R") {
-              return {
-                selects: answer.selects.map(select => {
-                  return select.choice.id;
-                })
-              };
+              if (answer.selects.length > 0) {
+                return {
+                  selects: answer.selects[0].choice.id
+                };
+              }
             }
             if (answer.question.type == "O") {
               return {

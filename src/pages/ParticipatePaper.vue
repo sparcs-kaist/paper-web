@@ -134,7 +134,7 @@ export default {
         }
       }).then(res => {
         if (res.status == 201) {
-          this.$router.push({ name: "CreateSubmitted" });
+          this.$router.push({ name: "ParticipateSubmitted" });
         }
       });
     },
