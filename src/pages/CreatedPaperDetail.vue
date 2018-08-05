@@ -28,7 +28,7 @@
         <div v-show="selectedPaperTab == 2">
           <div class="noAnswers" v-if="finalAnswers == undefined">답변이 존재하지 않습니다.</div>
         </div>
-        <chart style="margin-top: 50px;" v-if="finalAnswers != undefined" v-show="selectedPaperTab == 2"></chart>
+        <chart v-for="(data, index) in finalChartData" :key="index" :datasets="data.datasets" :labels="data.labels" style="margin-top: 50px;" v-if="selectedPaperTab == 2 && finalAnswers != undefined"></chart>
       </div>
       <div class="column">
         <div class="manageTitleWrapper">
@@ -124,11 +124,8 @@ export default {
     }).then(res => {
       const { participates, questions, title } = res.data;
       console.log(
-        res.data,
         participates,
-        participates.length,
-        questions,
-        title
+        questions
       );
       this.participates = participates;
       this.questions = questions;
@@ -182,42 +179,57 @@ export default {
         return undefined;
       }
     },
-    computedLabels() {
-      return this.questions.map(question => {
-        if (question.type != "O") {
-          return {
-            labels: question.choices.map(choice => choice.option),
-            datasets: [
-              {
-                label: "Data One",
-                backgroundColor: "#f87979",
-                pointBackgroundColor: "white",
-                borderWidth: 1,
-                pointBorderColor: "#249EBF",
-                //Data to be represented on y-axis
-                data: [40, 20, 30, 50, 90, 10, 20, 40, 50, 70, 90, 100]
-              }
-            ]
-          };
+    finalChartData() {
+      let data = [];
+      let newQuestions = [];
+      for (let i=0; i < this.questions.length; i++) {
+        if (this.questions[i].type != "O") {
+          newQuestions.push(this.questions[i])
         }
-      });
+      }
+      for (let j=0; j < newQuestions.length; j++) {
+        data.push({
+          labels: newQuestions[j].choices.map(choice => choice.option),
+          datasets: [
+            {
+              label: newQuestions[j].content,
+              backgroundColor: "#f87979",
+              pointBackgroundColor: "white",
+              borderWidth: 1,
+              pointBorderColor: "#249EBF",
+              //Data to be represented on y-axis
+              data: this.dataArray[j]
+            }
+          ]
+        });
+      }
+      return data;
     },
     dataArray() {
       // Array Iinitialize
-      let Compare = this.questions.map(question => {
-        if (question.type != "O") {
-          return {
-            questionIds: question.choices.map(choice => choice.option),
-            datasets: question.choices.map(choice => 0)
-          };
+      let Compare = [];
+      for (let k=0; k<this.questions.length; k++) {
+        if (this.questions[k].type != "O") {
+          Compare.push({
+            choiceIds: this.questions[k].choices.map(choice => choice.option),
+            datasets: this.questions[k].choices.map(choice => 0)
+          });
         }
-      });
+      }
       // Compare = [{questionIds: [10,31,35], datasets: [0,0,0]}, ...]
       this.answers.map(answer => {
-        for (let i = 0; i < answer.selects.length; i++) {
-          Compare[i].datasets[Compare[i].questionIds.indexOf()];
+        for (let j=0; j < answer.length; j++) {
+          if (answer[j].question.type != "O") {
+            for (let i = 0; i < answer[j].selects.length; i++) {
+              Compare[j].datasets[Compare[j].choiceIds.indexOf(answer[j].selects[i].choice.option)] += 1;
+            }
+          }
         }
       });
+      let finalArray = Compare.map(compare => {
+        return compare.datasets;
+      });
+      return finalArray;
     }
   },
 };
