@@ -1,84 +1,87 @@
 <template lang=''>
-<div v-if="!loading" class="createdTotalWrapper">
-  <div class="row">
-    <div class="headingWrapper">
-      <span class="headingTitle">스팍스 2018 봄 지원 설문지</span>
-    </div>
-    <div class="tabsWrapper">
-      <div @click="selectedTab = 1" :class="selectedTab == 1 ? 'singleTabWrapper selectedTab' : 'singleTabWrapper'">
-        <span class="singleTabSpan">응답</span>
-        <span class="singleTabSpan">56</span>
+<div>
+  <div v-if="!loading" class="createdTotalWrapper">
+    <div class="row">
+      <div class="headingWrapper">
+        <span class="headingTitle">스팍스 2018 봄 지원 설문지</span>
       </div>
-      <div @click="selectedTab = 2" :class="selectedTab == 2 ? 'singleTabWrapper selectedTab' : 'singleTabWrapper'">
-        <span class="singleTabSpan">메일링</span>
-      </div>
-    </div>
-  </div>
-  <div v-show="selectedTab == 1" class="row">
-    <div class="column">
-      <div class="paperTabs">
-        <span @click="selectedPaperTab = 1" :class="selectedPaperTab == 1 ? 'selectedPaperTab paperTab' : 'paperTab'" >개별 응답</span>
-        <span @click="selectedPaperTab = 2" :class="selectedPaperTab == 2 ? 'selectedPaperTab paperTab' : 'paperTab'">통계</span>
-      </div>
-      <div class="paperWrapper">
-        <paper-answer-form :disabled="true" v-for="(question, index) in questions" :key="index" :margin="true" :choices="question.choices" :title="question.content" :type="question.type" :answers.sync="finalAnswers[selectedUser][index]"></paper-answer-form>
+      <div class="tabsWrapper">
+        <div @click="selectedTab = 1" :class="selectedTab == 1 ? 'singleTabWrapper selectedTab' : 'singleTabWrapper'">
+          <span class="singleTabSpan">응답</span>
+          <span class="singleTabSpan">56</span>
+        </div>
+        <div @click="selectedTab = 2" :class="selectedTab == 2 ? 'singleTabWrapper selectedTab' : 'singleTabWrapper'">
+          <span class="singleTabSpan">메일링</span>
+        </div>
       </div>
     </div>
-    <div class="column">
-      <div class="manageTitleWrapper">
-        <span class="manageTitle">상태 관리 창</span>
+    <div v-show="selectedTab == 1" class="row">
+      <div class="column">
+        <div class="paperTabs">
+          <span @click="selectedPaperTab = 1" :class="selectedPaperTab == 1 ? 'selectedPaperTab paperTab' : 'paperTab'" >개별 응답</span>
+          <span @click="selectedPaperTab = 2" :class="selectedPaperTab == 2 ? 'selectedPaperTab paperTab' : 'paperTab'">통계</span>
+        </div>
+        <div class="paperWrapper">
+          <paper-answer-form v-if="finalAnswers != undefined" :disabled="true" v-for="(question, index) in questions" :key="index" :margin="true" :choices="question.choices" :title="question.content" :type="question.type" :answers.sync="finalAnswers[selectedUser][index]"></paper-answer-form>
+          <div class="noAnswers" v-else>답변이 존재하지 않습니다.</div>
+        </div>
       </div>
-      <div class="manageTabWrapper">
-        <div v-for="(participate, index) in participates" :key="index" @click="selectedUser = index" class="singleUserWrapper">
-          <span :class="selectedUser == index ?'selectedUser nickName' : 'nickName'">{{participate.author.nickName}}</span>
+      <div class="column">
+        <div class="manageTitleWrapper">
+          <span class="manageTitle">상태 관리 창</span>
+        </div>
+        <div class="manageTabWrapper">
+          <div v-for="(participate, index) in participates" :key="index" @click="selectedUser = index" class="singleUserWrapper">
+            <span :class="selectedUser == index ?'selectedUser nickName' : 'nickName'">{{participate.author.nickName}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div v-show="selectedTab == 2" class="row">
+      <div class="column">
+        <div class="singleMailTextWrapper">
+          <v-textarea
+            label="합격자에게 보내는 메일"
+            outline
+            auto-grow
+            :value="passedUsersMail"
+            class="mailText"
+            color="green"
+          ></v-textarea>
+        </div>
+        <div class="singleMailTextWrapper">
+          <v-textarea
+            label="불합격자에게 보내는 메일"
+            outline
+            auto-grow
+            :value="failedUsersMail"
+            class="mailText"
+            color="red"
+          ></v-textarea>
+        </div>
+      </div>
+      <div class="column">
+        <div class="manageTitleWrapper">
+          <span class="manageTitle">상태 관리 창</span>
+        </div>
+        <div class="manageTabWrapper">
+          <div v-for="(participate, index) in participates" :key="index" @click="selectedUser = index" class="singlePassWrapper">
+            <span :class="selectedUser == index ?'selectedUser nickName' : 'nickName'">{{participate.author.nickName}}</span>
+            <span @click="passList[index].type = 1" :class="passList[index].type == 1 ? 'passSpan greenPassSpan' : 'passSpan'">합격</span>
+            <span @click="passList[index].type = 2" :class="passList[index].type == 2 ? 'passSpan redPassSpan' : 'passSpan'">불합격</span>
+            <span @click="passList[index].type = 3" :class="passList[index].type == 3 ? 'passSpan normalPassSpan' : 'passSpan'">미정</span>
+          </div>
+        </div>
+        <div class="MailTabWrapper">
+          <button class="MailTab">합격자들에게 메일 보내기</button>
+          <button class="MailTab">불합격자들에게 메일 보내기</button>
         </div>
       </div>
     </div>
   </div>
-  <div v-show="selectedTab == 2" class="row">
-    <div class="column">
-      <div class="singleMailTextWrapper">
-        <v-textarea
-          label="합격자에게 보내는 메일"
-          outline
-          auto-grow
-          :value="passedUsersMail"
-          class="mailText"
-          color="green"
-        ></v-textarea>
-      </div>
-      <div class="singleMailTextWrapper">
-        <v-textarea
-          label="불합격자에게 보내는 메일"
-          outline
-          auto-grow
-          :value="failedUsersMail"
-          class="mailText"
-          color="red"
-        ></v-textarea>
-      </div>
-    </div>
-    <div class="column">
-      <div class="manageTitleWrapper">
-        <span class="manageTitle">상태 관리 창</span>
-      </div>
-      <div class="manageTabWrapper">
-        <div v-for="(participate, index) in participates" :key="index" @click="selectedUser = index" class="singlePassWrapper">
-          <span :class="selectedUser == index ?'selectedUser nickName' : 'nickName'">{{participate.author.nickName}}</span>
-          <span @click="passList[index].type = 1" :class="passList[index].type == 1 ? 'passSpan greenPassSpan' : 'passSpan'">합격</span>
-          <span @click="passList[index].type = 2" :class="passList[index].type == 2 ? 'passSpan redPassSpan' : 'passSpan'">불합격</span>
-          <span @click="passList[index].type = 3" :class="passList[index].type == 3 ? 'passSpan normalPassSpan' : 'passSpan'">미정</span>
-        </div>
-      </div>
-      <div class="MailTabWrapper">
-        <button class="MailTab">합격자들에게 메일 보내기</button>
-        <button class="MailTab">불합격자들에게 메일 보내기</button>
-      </div>
-    </div>
+  <div class="createdTotalWrapper" v-show="loading">
+    로딩!
   </div>
-</div>
-<div v-else>
-  로딩!
 </div>
 </template>
 <script>
@@ -113,64 +116,55 @@ export default {
       }
     }).then(res => {
       const { participates, questions, title } = res.data;
-      console.log(res.data, participates, questions, title);
+      console.log(
+        res.data,
+        participates,
+        participates.length,
+        questions,
+        title
+      );
       this.participates = participates;
       this.questions = questions;
       this.title = title;
-      this.participates.map(participate => {
-        this.passList.push({type: 1})
-        this.answers.push(participate.answers);
-      });
+      if (this.participates.length > 0) {
+        this.participates.map(participate => {
+          this.passList.push({ type: 1 });
+          this.answers.push(participate.answers);
+        });
+      }
       this.finalAnswers = this.computedAnswers;
       this.loading = false;
     });
   },
   computed: {
     computedAnswers() {
-      return this.answers.map(answerList => {
-        return answerList.map(answer => {
-          if (answer.question.type == "C") {
-            return {
-              selects: answer.selects.map(select => {
-                return select.choice.id;
-              })
-            };
-          }
-          if (answer.question.type == "R") {
-            return {
-              selects: answer.selects.map(select => {
-                return select.choice.id;
-              })
-            };
-          }
-          if (answer.question.type == "O") {
-            return {
-              content: answer.content
-            };
-          }
+      if (this.answers.length > 0) {
+        return this.answers.map(answerList => {
+          return answerList.map(answer => {
+            if (answer.question.type == "C") {
+              return {
+                selects: answer.selects.map(select => {
+                  return select.choice.id;
+                })
+              };
+            }
+            if (answer.question.type == "R") {
+              return {
+                selects: answer.selects.map(select => {
+                  return select.choice.id;
+                })
+              };
+            }
+            if (answer.question.type == "O") {
+              return {
+                content: answer.content
+              };
+            }
+          });
         });
-      });
-      return this.answers.map(answer => {
-        if (answer.question.type == "C") {
-          return {
-            selects: answer.selects.map(select => {
-              return select.choice.id;
-            })
-          };
-        }
-        if (answer.question.type == "R") {
-          return {
-            selects: answer.selects.map(select => {
-              return select.choice.id;
-            })
-          };
-        }
-        if (answer.question.type == "O") {
-          return {
-            content: answer.content
-          };
-        }
-      });
+      } else {
+        return undefined;
+      }
     }
   }
 };
@@ -237,7 +231,8 @@ export default {
         }
       }
     }
-    &:last-child, &:nth-child(2) {
+    &:last-child,
+    &:nth-child(2) {
       width: 100%;
       display: flex;
       justify-content: flex-start;
@@ -262,6 +257,13 @@ export default {
         .selectedPaperTab {
           color: $font-black-dark;
           font-weight: $big-font-weight;
+        }
+      }
+      .paperWrapper {
+        .noAnswers {
+          margin-top: 40px;
+          margin-left: 10px;
+          font-size: $h1-font-size;
         }
       }
       @include breakPoint("phone") {
@@ -326,17 +328,6 @@ export default {
               height: 35px;
               width: 25%;
               cursor: pointer;
-              &:hover {
-                .profileImage {
-                  @include smallBoxShadow();
-                }
-              }
-              .profileImage {
-                width: 25px;
-                height: 25px;
-                border-radius: 50%;
-                transition: all 0.3s ease-in-out;
-              }
               .nickName {
                 font-size: $normal-font-size;
                 font-weight: $big-font-weight;
