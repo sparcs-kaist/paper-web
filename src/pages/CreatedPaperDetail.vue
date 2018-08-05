@@ -8,7 +8,7 @@
       <div class="tabsWrapper">
         <div @click="selectedTab = 1" :class="selectedTab == 1 ? 'singleTabWrapper selectedTab' : 'singleTabWrapper'">
           <span class="singleTabSpan">응답</span>
-          <span class="singleTabSpan">56</span>
+          <span class="singleTabSpan">{{finalAnswers.length}}</span>
         </div>
         <div @click="selectedTab = 2" :class="selectedTab == 2 ? 'singleTabWrapper selectedTab' : 'singleTabWrapper'">
           <span class="singleTabSpan">메일링</span>
