@@ -17,12 +17,12 @@
       </div>
       <div class="profileModalWrapper" v-show="profileModalState">
         <div @click="logout" class="singleTapWrapper">
-          <v-icon medium class="profileIcons">power_settings_new</v-icon>
+          <v-icon class="profileIcons">power_settings_new</v-icon>
           <span class="profileSpan">{{$t('로그아웃')}}</span>
         </div>
         <div @click="profilePush" class="singleTapWrapper">
-          <v-icon medium class="profileIcons">person</v-icon>
-          <span class="profileSpan">{{$t('프로필 관리')}}</span>
+          <v-icon class="profileIcons">mdi-content-copy</v-icon>
+          <span class="profileSpan">{{$t('페이퍼 관리')}}</span>
         </div>
       </div>
       <div v-show="profileModalState" class="profileTriangle"></div>
@@ -180,7 +180,7 @@ export default {
           border-bottom: 1px solid #ececec;
         }
         .profileIcons {
-          margin-right: 4px;
+          margin-right: 8px;
         }
         .profileSpan {
           font-size: $normal-font-size;
@@ -195,7 +195,7 @@ export default {
       right: 40px;
       border-left: 11px solid transparent;
       border-right: 11px solid transparent;
-      border-bottom: 10px solid white;
+      border-bottom: 10px solid #fafafa;
       z-index: 301;
     }
     .profileTriangleBorder {
