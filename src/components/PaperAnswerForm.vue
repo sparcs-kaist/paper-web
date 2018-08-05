@@ -55,6 +55,9 @@ export default {
     this.finalAnswer = this.answers;
     console.log(this.answers);
   },
+  beforeUpdate () {
+    console.log('updated!')
+  },
   computed: {
     computedAnswers () {
       console.log(this.finalAnswer);

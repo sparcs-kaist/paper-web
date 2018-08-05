@@ -21,18 +21,22 @@
           <span @click="selectedPaperTab = 1" :class="selectedPaperTab == 1 ? 'selectedPaperTab paperTab' : 'paperTab'" >개별 응답</span>
           <span @click="selectedPaperTab = 2" :class="selectedPaperTab == 2 ? 'selectedPaperTab paperTab' : 'paperTab'">통계</span>
         </div>
-        <div class="paperWrapper">
-          <paper-answer-form v-if="finalAnswers != undefined" :disabled="true" v-for="(question, index) in questions" :key="index" :margin="true" :choices="question.choices" :title="question.content" :type="question.type" :answers.sync="finalAnswers[selectedUser][index]"></paper-answer-form>
+        <div v-show="selectedPaperTab == 1" class="paperWrapper">
+          <paper-answer-form v-if="reRender == false && finalAnswers != undefined" :disabled="true" v-for="(question, index) in questions" :key="index" :margin="true" :choices="question.choices" :title="question.content" :type="question.type" :answers="computedAnswers[individualSelectedUser][index]"></paper-answer-form>
           <div class="noAnswers" v-else>답변이 존재하지 않습니다.</div>
         </div>
+        <div v-show="selectedPaperTab == 2">
+          <div class="noAnswers" v-if="finalAnswers == undefined">답변이 존재하지 않습니다.</div>
+        </div>
+        <chart style="margin-top: 50px;" v-if="finalAnswers != undefined" v-show="selectedPaperTab == 2"></chart>
       </div>
       <div class="column">
         <div class="manageTitleWrapper">
           <span class="manageTitle">상태 관리 창</span>
         </div>
-        <div class="manageTabWrapper">
-          <div v-for="(participate, index) in participates" :key="index" @click="selectedUser = index" class="singleUserWrapper">
-            <span :class="selectedUser == index ?'selectedUser nickName' : 'nickName'">{{participate.author.nickName}}</span>
+        <div v-if="reRender == false && participates.length > 0" class="manageTabWrapper">
+          <div v-for="(participate, index) in participates" :key="index" @click="selectIndividualSelectedUser(index)" class="singleUserWrapper">
+            <span :class="individualSelectedUser == index ?'selectedUser nickName' : 'nickName'">{{participate.author.nickName}}</span>
           </div>
         </div>
       </div>
@@ -64,9 +68,9 @@
         <div class="manageTitleWrapper">
           <span class="manageTitle">상태 관리 창</span>
         </div>
-        <div class="manageTabWrapper">
-          <div v-for="(participate, index) in participates" :key="index" @click="selectedUser = index" class="singlePassWrapper">
-            <span :class="selectedUser == index ?'selectedUser nickName' : 'nickName'">{{participate.author.nickName}}</span>
+        <div v-if="participates.length > 0" class="manageTabWrapper">
+          <div v-for="(participate, index) in participates" :key="index" class="singlePassWrapper">
+            <span class="nickName">{{participate.author.nickName}}</span>
             <span @click="passList[index].type = 1" :class="passList[index].type == 1 ? 'passSpan greenPassSpan' : 'passSpan'">합격</span>
             <span @click="passList[index].type = 2" :class="passList[index].type == 2 ? 'passSpan redPassSpan' : 'passSpan'">불합격</span>
             <span @click="passList[index].type = 3" :class="passList[index].type == 3 ? 'passSpan normalPassSpan' : 'passSpan'">미정</span>
@@ -86,6 +90,7 @@
 </template>
 <script>
 import PaperAnswerForm from "@/components/PaperAnswerForm";
+import Chart from "@/components/Chart";
 import axios from "@/axios-auth";
 
 export default {
@@ -93,7 +98,7 @@ export default {
     return {
       selectedTab: 1,
       selectedPaperTab: 1,
-      selectedUser: 0,
+      individualSelectedUser: 0,
       participates: [],
       questions: [],
       title: "",
@@ -102,11 +107,13 @@ export default {
       loading: true,
       passList: [],
       passedUsersMail: "",
-      failedUsersMail: ""
+      failedUsersMail: "",
+      reRender: false
     };
   },
   components: {
-    PaperAnswerForm
+    PaperAnswerForm,
+    Chart
   },
   created() {
     axios({
@@ -135,6 +142,15 @@ export default {
       this.finalAnswers = this.computedAnswers;
       this.loading = false;
     });
+  },
+  methods: {
+    selectIndividualSelectedUser(num) {
+      this.individualSelectedUser = num;
+      this.reRender = true;
+      this.$nextTick(() => {
+        this.reRender = false;
+      })
+    }
   },
   computed: {
     computedAnswers() {
@@ -165,8 +181,45 @@ export default {
       } else {
         return undefined;
       }
+    },
+    computedLabels() {
+      return this.questions.map(question => {
+        if (question.type != "O") {
+          return {
+            labels: question.choices.map(choice => choice.option),
+            datasets: [
+              {
+                label: "Data One",
+                backgroundColor: "#f87979",
+                pointBackgroundColor: "white",
+                borderWidth: 1,
+                pointBorderColor: "#249EBF",
+                //Data to be represented on y-axis
+                data: [40, 20, 30, 50, 90, 10, 20, 40, 50, 70, 90, 100]
+              }
+            ]
+          };
+        }
+      });
+    },
+    dataArray() {
+      // Array Iinitialize
+      let Compare = this.questions.map(question => {
+        if (question.type != "O") {
+          return {
+            questionIds: question.choices.map(choice => choice.option),
+            datasets: question.choices.map(choice => 0)
+          };
+        }
+      });
+      // Compare = [{questionIds: [10,31,35], datasets: [0,0,0]}, ...]
+      this.answers.map(answer => {
+        for (let i = 0; i < answer.selects.length; i++) {
+          Compare[i].datasets[Compare[i].questionIds.indexOf()];
+        }
+      });
     }
-  }
+  },
 };
 </script>
 <style lang='scss' scoped>
@@ -266,6 +319,11 @@ export default {
           font-size: $h1-font-size;
         }
       }
+      .noAnswers {
+        margin-top: 40px;
+        margin-left: 10px;
+        font-size: $h1-font-size;
+      }
       @include breakPoint("phone") {
         flex-direction: column;
         justify-content: flex-start;
@@ -317,16 +375,16 @@ export default {
             width: 100%;
             display: flex;
             align-items: center;
-            justify-content: space-around;
+            justify-content: flex-start;
             flex-wrap: wrap;
             padding: 20px;
             .singleUserWrapper {
               display: flex;
               align-items: center;
-              justify-content: center;
+              justify-content: flex-start;
               min-width: 100px;
               height: 35px;
-              width: 25%;
+              flex: 1;
               cursor: pointer;
               .nickName {
                 font-size: $normal-font-size;
