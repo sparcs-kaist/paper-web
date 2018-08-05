@@ -8,12 +8,10 @@
         <span @click="selectTab('tab2')" :class="tab2 ? 'selectedTab' : 'tabs'">{{$t('페이퍼 찾아보기')}}</span>
       </div>
       <div v-if="currentUser.nickName == undefined" class="column">
-        <img @click="profileModalState = !profileModalState" src="@/assets/userProfile.jpg" class="profileImage">
         <span @click="profileModalState = !profileModalState" class="userName">nickName</span>
         <v-icon @click="profileModalState = !profileModalState" medium class="arrowIcon">arrow_drop_down</v-icon>
       </div>
       <div v-else class="column">
-        <img @click="profileModalState = !profileModalState" :src="currentUser.profile_image" class="profileImage">
         <span @click="profileModalState = !profileModalState" class="userName">{{currentUser.nickName}}</span>
         <v-icon @click="profileModalState = !profileModalState" medium class="arrowIcon">arrow_drop_down</v-icon>
       </div>
