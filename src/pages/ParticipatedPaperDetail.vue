@@ -34,45 +34,7 @@ export default {
     return {
       paperId: null,
       nickName: "sbagi",
-      answers: [
-        {
-          id: 39,
-          question: {
-            type: "C",
-            content: "niaosvnosd",
-            is_multiple: true
-          },
-          selects: [
-            {
-              choice: {
-                id: 73,
-                option: "adsvasb",
-                _order: 3,
-                question: 32
-              }
-            },
-            {
-              choice: {
-                id: 72,
-                option: "asdvion",
-                _order: 2,
-                question: 32
-              }
-            }
-          ],
-          content: null
-        },
-        {
-          id: 40,
-          question: {
-            type: "O",
-            content: "adfbadfbadfb",
-            is_multiple: true
-          },
-          selects: [],
-          content: "asdvsadv"
-        }
-      ],
+      answers: [],
       finalAnswers: [],
       loading: true
     };
@@ -88,11 +50,11 @@ export default {
           };
         }
         if (answer.question.type == "R") {
-          return {
-            selects: answer.selects.map(select => {
-              return select.choice.id;
-            })
-          };
+          if (answer.selects.length > 0) {
+            return {
+              selects: answer.selects[0].choice.id
+            };
+          }
         }
         if (answer.question.type == "O") {
           return {
@@ -107,9 +69,7 @@ export default {
           content: answer.question.content,
           type: answer.question.type,
           is_multiple: answer.question.is_multiple,
-          choices: answer.selects.map(select => {
-            return select.choice;
-          })
+          choices: answer.question.choices
         };
       });
     }
@@ -125,22 +85,16 @@ export default {
         Authorization: localStorage.getItem("token")
       }
     }).then(res => {
+      console.log(res);
       this.answers = res.data.answers;
       this.finalAnswers = this.computedAnswers;
       this.paperId = res.data.paper.id;
       this.loading = false;
     });
   },
-  mounted() {
-    console.log(
-      this.finalAnswers,
-      this.finalQuestions,
-      this.computedAnswers,
-      this.paperId
-    );
-  },
   methods: {
     submitPaper() {
+      console.log(this.finalAnswers);
       axios({
         method: "put",
         url: `/api/participates/${this.$route.params.participatedId}/`,
@@ -149,10 +103,14 @@ export default {
           Authorization: localStorage.getItem("token")
         },
         data: {
-          paper: this.paperId,
+          paper: `${this.paperId}`,
           answers: JSON.stringify(this.finalAnswers)
         }
-      }).then(res => console.log(res));
+      }).then(res => {
+        if (res.status == 200) {
+          this.$router.push({ name: "ParticipatedPaperEdit" });
+        }
+      });
     }
   }
 };
