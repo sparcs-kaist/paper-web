@@ -5,7 +5,7 @@
       <span class="imageTitle">{{computedTitle}}</span>
       <span class="imageDeadline">{{deadline}}</span>
     </div>
-    <div @click="modalState = !modalState" class="paperTabController">
+    <div @click="modalState = !modalState" v-show="type != 'participate'" class="paperTabController">
       <v-icon color="grey darken-2">mdi-dots-vertical</v-icon>
     </div>
     <div v-show="modalState" v-if="type == 'participated'" class="tabModalWrapper">
@@ -59,6 +59,7 @@ export default {
     url: String,
     createdId: Number,
     participatedId: Number,
+    participateId: Number,
     type: String
   },
   data() {
@@ -86,6 +87,12 @@ export default {
           name: "CreatedPaperDetail",
           params: { paperId: this.createdId }
         });
+      }
+      if (this.type == "participate") {
+        this.$router.push({
+          name: "ParticipatePaper",
+          params: {PaperId: this.participateId}
+        })
       }
     },
     deleteCreatedPaper() {
