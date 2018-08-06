@@ -28,7 +28,7 @@
   <v-tabs-items v-model="tabs">
       <v-tab-item>
         <div class="tabItemsWrapper">
-          <my-page-paper-tab v-if="papers != [] && !loading" type="participate" v-for="(paper, index) in papers" :key="index" :participateId="paper.id" deadline="2018-06-07 04:25" :url="paper.preview_image_thumbnail" :title="paper.title"></my-page-paper-tab>
+          <my-page-paper-tab v-if="papers != [] && !loading" type="participate" v-for="(paper, index) in papers" :key="index" :participateId="paper.id" :deadline="paper.deadline" :url="paper.preview_image_thumbnail" :title="paper.title"></my-page-paper-tab>
         </div>
       </v-tab-item>
     </v-tabs-items>

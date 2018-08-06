@@ -18,10 +18,10 @@
       <div :class="selectedTab == 2 ? 'selectedTab tab' : 'tab'" @click="selectTab(2)"><span class="tabSpan"> 참여한 어플라이</span></div>
     </div>
     <div v-if="selectedTab == 1" class="contentWrapper">
-      <my-page-paper-tab type="created" v-for="(paper, index) in createdPapers" :key="index" :createdId="paper.id" deadline="2018-06-07 04:25" :url="paper.preview_image_thumbnail" :title="paper.title"></my-page-paper-tab>
+      <my-page-paper-tab type="created" v-for="(paper, index) in createdPapers" :key="index" :createdId="paper.id" :deadline="paper.deadline" :url="paper.preview_image_thumbnail" :title="paper.title"></my-page-paper-tab>
     </div>
     <div v-if="selectedTab == 2" class="contentWrapper">
-      <my-page-paper-tab type="participated" v-for="(paper, index) in participatedPapers" :key="index" :participatedId="paper.id" deadline="2018-06-07 04:25" :url="paper.paper.preview_image_thumbnail" :title="paper.paper.title"></my-page-paper-tab>
+      <my-page-paper-tab type="participated" v-for="(paper, index) in participatedPapers" :key="index" :participatedId="paper.id" :deadline="paper.paper.deadline" :url="paper.paper.preview_image_thumbnail" :title="paper.paper.title"></my-page-paper-tab>
     </div>
   </div>
 </div>
