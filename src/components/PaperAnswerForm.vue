@@ -18,12 +18,12 @@
       </div>
     </div>
     <v-radio-group v-model="finalAnswer.selects" v-if="optionsType == 'R'" class="optionsWrapper">
-      <v-radio :disabled="disabled" v-for="(option, index) in inputOptions" :key="index" style="height: 40px; margin: 0; padding: 0;" @click.native="$emit('update:answers', computedAnswers)" :label="option.option" :value="option.id"></v-radio>
+      <v-radio color="black" :disabled="disabled" v-for="(option, index) in inputOptions" :key="index" style="height: 40px; margin: 0; padding: 0;" @click.native="$emit('update:answers', computedAnswers)" :label="option.option" :value="option.id"></v-radio>
     </v-radio-group>
     <div v-for="(option, index) in inputOptions" :key="index" v-if="optionsType == 'C'" class="optionsWrapper">
-      <v-checkbox :disabled="disabled" style="height: 40px; margin: 0; padding: 0;" @click.native="$emit('update:answers', computedAnswers)" v-model="finalAnswer.selects" :label="option.option" :value="option.id"></v-checkbox>
+      <v-checkbox color="black" :disabled="disabled" style="height: 40px; margin: 0; padding: 0;" @click.native="$emit('update:answers', computedAnswers)" v-model="finalAnswer.selects" :label="option.option" :value="option.id"></v-checkbox>
     </div>
-    <textarea v-if="optionsType == 'O'" @change.native="$emit('update:answers', computedAnswers)" class="textArea" placeholder="장문형 텍스트" v-model="finalAnswer.content"/>
+    <textarea :disabled="disabled" v-if="optionsType == 'O'" @change="emit" class="textArea" placeholder="장문형 텍스트" v-model="finalAnswer.content"/>
   </div>
 </template>
 <script>
@@ -53,35 +53,36 @@ export default {
     this.formTitle = this.title;
     this.inputOptions = this.choices;
     this.finalAnswer = this.answers;
-    console.log(this.answers);
+    this.$emit("update:answers", this.computedAnswers);
   },
   computed: {
-    computedAnswers () {
-      console.log(this.finalAnswer);
+    computedAnswers() {
       if (this.type == "O") {
         return {
-            content: this.finalAnswer.content
-          }
+          content: this.finalAnswer.content
+        };
       } else if (this.type == "R") {
         return {
-            selects: this.finalAnswer.selects.map(ans => {
-                return {
-                  choice: ans
-                }
-              })
-          }
+          selects: [{ choice: this.finalAnswer.selects }]
+        };
       } else if (this.type == "C") {
-        return {
+        if (this.finalAnswer.selects.length > 0) {
+          return {
             selects: this.finalAnswer.selects.map(ans => {
-                return {
-                  choice: ans
-                }
-              })
-          }
+              return {
+                choice: ans
+              };
+            })
+          };
+        }
       }
     }
   },
   methods: {
+    emit() {
+      console.log(this.computedAnswers);
+      this.$emit('update:answers', this.computedAnswers)
+    },
     addOption(event, index) {
       if (this.inputOptions.length == index + 1) {
         this.inputOptions.push("");

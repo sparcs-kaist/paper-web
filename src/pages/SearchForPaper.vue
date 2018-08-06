@@ -12,6 +12,8 @@
     prepend-inner-icon="search"
     solo-inverted
     style="margin-top: 20px;"
+    v-model="searchTerm"
+    @keyup.enter="search"
   ></v-text-field>
   <v-tabs
     slot="extension"
@@ -21,18 +23,12 @@
     slider-color="white"
   >
     <v-tab>리크루팅</v-tab>
-    <v-tab>설문조사</v-tab>
   </v-tabs>
   </v-toolbar>
   <v-tabs-items v-model="tabs">
       <v-tab-item>
         <div class="tabItemsWrapper">
-          <my-page-paper-tab type="participated" v-for="(n, index) in 6" :key="index" :participatedId="index" deadline="2018-06-07 04:25" url="/api/papers/20" title="스팍스 2018 봄 지원 질문지"></my-page-paper-tab>
-        </div>
-      </v-tab-item>
-      <v-tab-item>
-        <div class="tabItemsWrapper">
-          <my-page-paper-tab type="participated" v-for="(n, index) in 6" :key="index" :participatedId="index" deadline="2018-06-07 04:25" url="/api/papers/20" title="스팍스 2018 봄 지원 질문지"></my-page-paper-tab>
+          <my-page-paper-tab v-if="papers != [] && !loading" type="participate" v-for="(paper, index) in papers" :key="index" :participateId="paper.id" :deadline="paper.deadline" :url="paper.preview_image_thumbnail" :title="paper.title"></my-page-paper-tab>
         </div>
       </v-tab-item>
     </v-tabs-items>
@@ -40,16 +36,30 @@
 </template>
 <script>
 import MyPagePaperTab from "@/components/MyPagePaperTab";
+import axios from '@/axios-auth';
 
 export default {
   data() {
     return {
       text: "hey!",
-      tabs: ""
+      tabs: "",
+      searchTerm: "",
+      papers: [],
+      loading: false
     };
   },
   components: {
     MyPagePaperTab
+  },
+  methods: {
+    search () {
+      this.loading = true;
+      axios.get(`/api/papers/?search=${this.searchTerm}`)
+        .then(res => {
+          this.papers = res.data.data;
+          this.loading = false;
+        })
+    }
   }
 };
 </script>
@@ -66,6 +76,10 @@ export default {
     align-items: flex-start;
     padding: 20px 20px;
     margin-bottom: 100px;
+    max-height: 60vh;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    @include scrollBarDark(small);
   }
 }
 </style>

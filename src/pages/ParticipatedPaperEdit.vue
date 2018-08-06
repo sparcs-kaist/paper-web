@@ -1,6 +1,6 @@
 <template lang=''>
   <div class="totalWrapper">
-    <span class="replyWrapper">답변을 성공적으로 제출하셨습니다.</span>
+    <span class="replyWrapper">답변을 성공적으로 수정하셨습니다.</span>
     <div class="tabWrapper">
       <span @click="routing('Main')" class="tabs">메인으로 돌아가기</span>
       <span @click="routing('MyPage')" class="tabs">마이페이지 가기</span>

@@ -4,27 +4,25 @@
     <div class="headerWrapper">
       <div class="column">
         <img @click="mainPage" src="@/assets/logo.png" class="logo">
-        <span @click="selectTab('tab1')" :class="tab1 ? 'selectedTab' : 'tabs'">{{$t('페이퍼 생성하기')}}</span>
-        <span @click="selectTab('tab2')" :class="tab2 ? 'selectedTab' : 'tabs'">{{$t('페이퍼 찾아보기')}}</span>
+        <span @click="selectTab('tab1')" :class="computedTab1 ? 'selectedTab' : 'tabs'">{{$t('페이퍼 생성하기')}}</span>
+        <span @click="selectTab('tab2')" :class="computedTab2 ? 'selectedTab' : 'tabs'">{{$t('페이퍼 찾아보기')}}</span>
       </div>
       <div v-if="currentUser.nickName == undefined" class="column">
-        <img @click="profileModalState = !profileModalState" src="@/assets/userProfile.jpg" class="profileImage">
         <span @click="profileModalState = !profileModalState" class="userName">nickName</span>
         <v-icon @click="profileModalState = !profileModalState" medium class="arrowIcon">arrow_drop_down</v-icon>
       </div>
       <div v-else class="column">
-        <img @click="profileModalState = !profileModalState" :src="currentUser.profile_image" class="profileImage">
         <span @click="profileModalState = !profileModalState" class="userName">{{currentUser.nickName}}</span>
         <v-icon @click="profileModalState = !profileModalState" medium class="arrowIcon">arrow_drop_down</v-icon>
       </div>
       <div class="profileModalWrapper" v-show="profileModalState">
         <div @click="logout" class="singleTapWrapper">
-          <v-icon medium class="profileIcons">power_settings_new</v-icon>
+          <v-icon class="profileIcons">power_settings_new</v-icon>
           <span class="profileSpan">{{$t('로그아웃')}}</span>
         </div>
         <div @click="profilePush" class="singleTapWrapper">
-          <v-icon medium class="profileIcons">person</v-icon>
-          <span class="profileSpan">{{$t('프로필 관리')}}</span>
+          <v-icon class="profileIcons">mdi-content-copy</v-icon>
+          <span class="profileSpan">{{$t('페이퍼 관리')}}</span>
         </div>
       </div>
       <div v-show="profileModalState" class="profileTriangle"></div>
@@ -77,6 +75,28 @@ export default {
   computed: {
     currentUser() {
       return this.$store.getters.currentUser;
+    },
+    computedTab1 () {
+      console.log(this.$router.currentRoute.name)
+      if (this.tab1 == false) {
+        return false;
+      } else {
+        if (this.$router.currentRoute.name != "CreatePaper") {
+          return false
+        }
+      }
+      return true;
+    },
+    computedTab2 () {
+      console.log(this.$router.currentRoute.name)
+      if (this.tab2 == false) {
+        return false;
+      } else {
+        if (this.$router.currentRoute.name != "SearchForPaper") {
+          return false
+        }
+      }
+      return true;
     }
   }
 };
@@ -182,7 +202,7 @@ export default {
           border-bottom: 1px solid #ececec;
         }
         .profileIcons {
-          margin-right: 4px;
+          margin-right: 8px;
         }
         .profileSpan {
           font-size: $normal-font-size;
@@ -197,7 +217,7 @@ export default {
       right: 40px;
       border-left: 11px solid transparent;
       border-right: 11px solid transparent;
-      border-bottom: 10px solid white;
+      border-bottom: 10px solid #fafafa;
       z-index: 301;
     }
     .profileTriangleBorder {

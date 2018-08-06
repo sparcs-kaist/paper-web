@@ -1,53 +1,21 @@
 <template lang=''>
   <div id="background_div">
     <div id="loginbox">
-      <v-app id="vform">
+      <div id="vform">
         <router-link to="/">
           <img src="@/assets/logo.png" id="logo">
         </router-link>
-          <transition name="slide-fade" mode="out-in">
-            <div key="option" v-if="isZabologin === false" style="padding-left: 0px;">
-              <v-btn depressed color="indigo darken-3" class="sso-login">
-                sparcs sso로 로그인
-              </v-btn>
-              <v-btn depressed color="grey lighten-3" class="zabo-login" @click="zabologin">
-                paper 단체 계정으로 로그인
-              </v-btn>
-            </div>
-            <div key="teamaccount" v-if="isZabologin === true" style="margin-top: -20px;">
-              <div class="zabologin-text" @click="zabologin">
-                <div style="width: 10px; float: left;">
-                  <img src="../assets/backword.svg" style="width: 10px; padding-top: 5px; margin-left: 60px;">
-                </div>
-                단체 계정으로 로그인
-              </div>
-                <v-form v-model="valid" method="get" @submit.prevent="login">
-                  <div style="height:15px;"/>
-                  <v-text-field
-                  required
-                  label = "E-mail"
-                  v-model = "email"
-                  :rules="emailRules"
-                  class = "field"/>
-                  <div style="height:20px;"/>
-                  <v-text-field
-                  required
-                  label = "Password"
-                  v-model = "password"
-                  :rules="passwordRules"
-                  type = "password"
-                  class = "field"/>
-                  <v-btn type="submit" :disabled="!valid" depressed color="indigo darken-3" id="login_button">로그인</v-btn>
-                </v-form>
-                <div v-if="loginfailed" class="error-message">
-                  아이디/비밀번호가 틀렸습니다.
-                </div>
-            </div>
-          </transition>
+        <transition name="slide-fade" mode="out-in">
+          <div key="option" v-if="isZabologin === false" style="padding-left: 0px;">
+            <v-btn depressed color="indigo darken-3" class="sso-login">
+              sparcs sso로 로그인
+            </v-btn>
+          </div>
+        </transition>
         <p class="copyright">
           Copyright 2018. All right reserved.
         </p>
-      </v-app>
+      </div>
     </div>
   </div>
 </template>
@@ -150,34 +118,35 @@ export default {
 }
 #loginbox {
   width: 500px;
-  height: 500px;
+  height: 300px;
   /* transform: translateX(-50%); */
-  position: relative;
+  position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  justify-content: center;
+  align-items: center;
   background-color: white;
   box-shadow: 0px 15px 65px #1f1f1f;
 }
 
 #vform {
   width: 300px;
-  height: 240px;
+  height: 300px;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -80%);
-  position: relative;
+  transform: translate(-50%, -50%);
+  position: absolute;
   background-color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 #logo {
   height: 70px;
-  left: 50%;
-  transform: translateX(-50%);
-  position: relative;
-  margin-left: -10px;
-  margin-bottom: 35px;
+  margin-left: -20px;
+  margin-bottom: 20px;
 }
 
 .sso-login {
@@ -226,11 +195,10 @@ export default {
 }
 
 .copyright {
-  width: 300px;
+  width: 100%;
   text-align: center;
-  font-size: 8pt;
-  position: absolute;
-  top: 360px;
+  font-size: 12px;
+  margin-top: 20px;
 }
 
 .slide-fade-enter-active {
