@@ -8,6 +8,7 @@ import CreatedPaperDetail from "@/pages/CreatedPaperDetail.vue";
 import ParticipatedPaperDetail from "@/pages/ParticipatedPaperDetail.vue";
 import ParticipateSubmitted from "@/pages/ParticipateSubmitted.vue";
 import ParticipatePaper from "@/pages/ParticipatePaper.vue";
+import ParticipatedPaperEdit from "@/pages/ParticipatedPaperEdit.vue";
 import SearchForPaper from "@/pages/SearchForPaper.vue";
 import Credit from "@/pages/Credit.vue";
 import License from "@/pages/License.vue";
@@ -57,6 +58,11 @@ export default new Router({
       path: "/user/participated/:participatedId",
       name: "ParticipatedPaperDetail",
       component: ParticipatedPaperDetail
+    },
+    {
+      path: "/user/participated/edited",
+      name: "ParticipatedPaperEdit",
+      component: ParticipatedPaperEdit
     },
     {
       path: "/credit",
