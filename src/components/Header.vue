@@ -4,8 +4,8 @@
     <div class="headerWrapper">
       <div class="column">
         <img @click="mainPage" src="@/assets/logo.png" class="logo">
-        <span @click="selectTab('tab1')" :class="tab1 ? 'selectedTab' : 'tabs'">{{$t('페이퍼 생성하기')}}</span>
-        <span @click="selectTab('tab2')" :class="tab2 ? 'selectedTab' : 'tabs'">{{$t('페이퍼 찾아보기')}}</span>
+        <span @click="selectTab('tab1')" :class="computedTab1 ? 'selectedTab' : 'tabs'">{{$t('페이퍼 생성하기')}}</span>
+        <span @click="selectTab('tab2')" :class="computedTab2 ? 'selectedTab' : 'tabs'">{{$t('페이퍼 찾아보기')}}</span>
       </div>
       <div v-if="currentUser.nickName == undefined" class="column">
         <span @click="profileModalState = !profileModalState" class="userName">nickName</span>
@@ -75,6 +75,28 @@ export default {
   computed: {
     currentUser() {
       return this.$store.getters.currentUser;
+    },
+    computedTab1 () {
+      console.log(this.$router.currentRoute.name)
+      if (this.tab1 == false) {
+        return false;
+      } else {
+        if (this.$router.currentRoute.name != "CreatePaper") {
+          return false
+        }
+      }
+      return true;
+    },
+    computedTab2 () {
+      console.log(this.$router.currentRoute.name)
+      if (this.tab2 == false) {
+        return false;
+      } else {
+        if (this.$router.currentRoute.name != "SearchForPaper") {
+          return false
+        }
+      }
+      return true;
     }
   }
 };
