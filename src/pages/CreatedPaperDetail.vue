@@ -77,8 +77,8 @@
           </div>
         </div>
         <div class="MailTabWrapper">
-          <button class="MailTab">합격자들에게 메일 보내기</button>
-          <button class="MailTab">불합격자들에게 메일 보내기</button>
+          <button @click="sendMail('pass')" class="MailTab">합격자들에게 메일 보내기</button>
+          <button @click="sendMail('fail')" class="MailTab">불합격자들에게 메일 보내기</button>
         </div>
       </div>
     </div>
@@ -142,9 +142,56 @@ export default {
       this.$nextTick(() => {
         this.reRender = false;
       });
+    },
+    sendMail(type) {
+      let emailList = [];
+      if (type == "pass") {
+        for (let i = 0; i < this.passList.length; i++) {
+          if (this.passList[i].type == 1) {
+            emailList.push(this.participates[i].author.email);
+          }
+        }
+        axios({
+          method: "post",
+          url: "/api/mails/",
+          headers: {
+            Authorization: localStorage.getItem("token")
+          },
+          data: {
+            sender_address: this.currentUser.email,
+            receivers_address: JSON.stringify(emailList),
+            subject: "Pass",
+            message: this.passedUsersMail
+          }
+        });
+      }
+      if (type == "fail") {
+        for (let i = 0; i < this.passList.length; i++) {
+          if (this.passList[i].type == 2) {
+            emailList.push(this.participates[i].author.email);
+          }
+        }
+        axios({
+          method: "post",
+          url: "/api/mails/",
+          headers: {
+            Authorization: localStorage.getItem("token")
+          },
+          data: {
+            sender_address: this.currentUser.email,
+            receivers_address: JSON.stringify(emailList),
+            subject: "Fail",
+            message: this.failedUsersMail
+          }
+        });
+      }
+      console.log(emailList);
     }
   },
   computed: {
+    currentUser() {
+      return this.$store.getters.currentUser;
+    },
     computedAnswers() {
       console.log(this.answers);
       if (this.answers.length > 0) {
