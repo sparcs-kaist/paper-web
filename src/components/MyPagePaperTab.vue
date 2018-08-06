@@ -78,7 +78,7 @@ export default {
       if (this.type == "participated") {
         this.$router.push({
           name: "ParticipatedPaperDetail",
-          params: { paperId: this.participatedId }
+          params: { participatedId: this.participatedId }
         });
       }
       if (this.type == "created") {

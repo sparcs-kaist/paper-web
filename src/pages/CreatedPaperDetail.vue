@@ -8,7 +8,7 @@
       <div class="tabsWrapper">
         <div @click="selectedTab = 1" :class="selectedTab == 1 ? 'singleTabWrapper selectedTab' : 'singleTabWrapper'">
           <span class="singleTabSpan">응답</span>
-          <span class="singleTabSpan">{{finalAnswers.length}}</span>
+          <span class="singleTabSpan">{{computedAnswers.length}}</span>
         </div>
         <div @click="selectedTab = 2" :class="selectedTab == 2 ? 'singleTabWrapper selectedTab' : 'singleTabWrapper'">
           <span class="singleTabSpan">메일링</span>
@@ -22,13 +22,13 @@
           <span @click="selectedPaperTab = 2" :class="selectedPaperTab == 2 ? 'selectedPaperTab paperTab' : 'paperTab'">통계</span>
         </div>
         <div v-show="selectedPaperTab == 1" class="paperWrapper">
-          <paper-answer-form v-if="reRender == false && finalAnswers != undefined" :disabled="true" v-for="(question, index) in questions" :key="index" :margin="true" :choices="question.choices" :title="question.content" :type="question.type" :answers="computedAnswers[individualSelectedUser][index]"></paper-answer-form>
+          <paper-answer-form v-if="reRender == false && computedAnswers != undefined" :disabled="true" v-for="(question, index) in questions" :key="index" :margin="true" :choices="question.choices" :title="question.content" :type="question.type" :answers="computedAnswers[individualSelectedUser][index]"></paper-answer-form>
           <div class="noAnswers" v-else>답변이 존재하지 않습니다.</div>
         </div>
         <div v-show="selectedPaperTab == 2">
-          <div class="noAnswers" v-if="finalAnswers == undefined">답변이 존재하지 않습니다.</div>
+          <div class="noAnswers" v-if="computedAnswers == undefined">답변이 존재하지 않습니다.</div>
         </div>
-        <chart v-for="(data, index) in finalChartData" :key="index" :datasets="data.datasets" :labels="data.labels" style="margin-top: 50px;" v-if="selectedPaperTab == 2 && finalAnswers != undefined"></chart>
+        <chart v-for="(data, index) in finalChartData" :key="index" :datasets="data.datasets" :labels="data.labels" style="margin-top: 50px;" v-if="selectedPaperTab == 2 && computedAnswers != undefined"></chart>
       </div>
       <div class="column">
         <div class="manageTitleWrapper">
@@ -103,7 +103,6 @@ export default {
       questions: [],
       title: "",
       answers: [],
-      finalAnswers: [],
       loading: true,
       passList: [],
       passedUsersMail: "",
@@ -123,10 +122,7 @@ export default {
       }
     }).then(res => {
       const { participates, questions, title } = res.data;
-      console.log(
-        participates,
-        questions
-      );
+      console.log(participates, questions);
       this.participates = participates;
       this.questions = questions;
       this.title = title;
@@ -136,7 +132,6 @@ export default {
           this.answers.push(participate.answers);
         });
       }
-      this.finalAnswers = this.computedAnswers;
       this.loading = false;
     });
   },
@@ -146,7 +141,7 @@ export default {
       this.reRender = true;
       this.$nextTick(() => {
         this.reRender = false;
-      })
+      });
     }
   },
   computed: {
@@ -185,12 +180,12 @@ export default {
     finalChartData() {
       let data = [];
       let newQuestions = [];
-      for (let i=0; i < this.questions.length; i++) {
+      for (let i = 0; i < this.questions.length; i++) {
         if (this.questions[i].type != "O") {
-          newQuestions.push(this.questions[i])
+          newQuestions.push(this.questions[i]);
         }
       }
-      for (let j=0; j < newQuestions.length; j++) {
+      for (let j = 0; j < newQuestions.length; j++) {
         data.push({
           labels: newQuestions[j].choices.map(choice => choice.option),
           datasets: [
@@ -211,7 +206,7 @@ export default {
     dataArray() {
       // Array Iinitialize
       let Compare = [];
-      for (let k=0; k<this.questions.length; k++) {
+      for (let k = 0; k < this.questions.length; k++) {
         if (this.questions[k].type != "O") {
           Compare.push({
             choiceIds: this.questions[k].choices.map(choice => choice.option),
@@ -221,10 +216,12 @@ export default {
       }
       // Compare = [{questionIds: [10,31,35], datasets: [0,0,0]}, ...]
       this.answers.map(answer => {
-        for (let j=0; j < answer.length; j++) {
+        for (let j = 0; j < answer.length; j++) {
           if (answer[j].question.type != "O") {
             for (let i = 0; i < answer[j].selects.length; i++) {
-              Compare[j].datasets[Compare[j].choiceIds.indexOf(answer[j].selects[i].choice.option)] += 1;
+              Compare[j].datasets[
+                Compare[j].choiceIds.indexOf(answer[j].selects[i].choice.option)
+              ] += 1;
             }
           }
         }
@@ -234,7 +231,7 @@ export default {
       });
       return finalArray;
     }
-  },
+  }
 };
 </script>
 <style lang='scss' scoped>
