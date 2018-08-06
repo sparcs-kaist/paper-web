@@ -1,11 +1,5 @@
 <template lang=''>
 <div class="totalWrapper">
-  <div v-if="currentUser.nickName == undefined" class="row">
-    <!-- <div class="nickName">SPARCS</div> -->
-  </div>
-  <div v-else class="row">
-    <!-- <div class="nickName">{{currentUser.nickName}}</div> -->
-  </div>
   <div v-if="participatedPapers.length == 0 || participatedPapers == []" class="row">
     <div class="tabsWrapper">
       <div :class="selectedTab == 1 ? 'selectedTab tab' : 'tab'" @click="selectTab(1)"><span class="tabSpan">생성한 페이퍼</span></div>
@@ -69,76 +63,58 @@ export default {
 <style lang='scss' scoped>
 .totalWrapper {
   @include marginPage();
+  bottom: 0px;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  margin-top: 64px;
+  margin-top: 30px;
   .row {
     width: 100%;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    &:first-child {
-      // margin-bottom: 40px;
-      .profileImage {
-        width: 150px;
-        height: 150px;
-        border-radius: 50%;
-        margin-bottom: 15px;
+    @include footerRegardingMargin();
+    .tabsWrapper {
+      display: flex;
+      width: 100%;
+      align-items: center;
+      justify-content: center;
+      .tab {
+        flex: 1;
+        .tabSpan {
+          font-size: $big-font-size;
+          cursor: pointer;
+        }
+        &:first-child {
+          text-align: right;
+          margin-right: 15px;
+        }
+        &:last-child {
+          text-align: left;
+          margin-left: 15px;
+        }
       }
-      .nickName {
-        font-size: $biggest-font-size;
+      .selectedTab {
         font-weight: $big-font-weight;
-        margin-bottom: 15px;
-      }
-      .bio {
-        font-size: $normal-font-size;
+        color: $theme-color;
       }
     }
-    &:last-child {
-      @include footerRegardingMargin();
-      .tabsWrapper {
-        display: flex;
-        width: 100%;
-        align-items: center;
-        justify-content: center;
-        .tab {
-          flex: 1;
-          .tabSpan {
-            font-size: $big-font-size;
-            cursor: pointer;
-          }
-          &:first-child {
-            text-align: right;
-            margin-right: 15px;
-          }
-          &:last-child {
-            text-align: left;
-            margin-left: 15px;
-          }
-        }
-        .selectedTab {
-          font-weight: $big-font-weight;
-          color: $theme-color;
-        }
-      }
-      .contentWrapper {
-        flex: 1;
-        width: 100%;
-        background-color: #ececec;
-        margin-top: 25px;
-        padding: 25px 20px;
-        max-height: 650px;
-        overflow-y: scroll;
-        overflow-x: hidden;
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-start;
-        flex-wrap: wrap;
-        @include scrollBarDark(small);
-      }
+    .contentWrapper {
+      flex: 1;
+      width: 100%;
+      background-color: #ececec;
+      margin-top: 25px;
+      padding: 25px 20px;
+      // max-height: 650px;
+      overflow-y: scroll;
+      overflow-x: hidden;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      @include scrollBarDark(small);
     }
   }
 }
