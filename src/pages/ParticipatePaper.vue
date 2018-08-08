@@ -72,7 +72,7 @@ export default {
       title: "",
       explaination: "",
       time: "",
-      url: "https://zabo.sparcs.org/zabo/98",
+      url: "",
       currentTotalState: "start",
       questions: [],
       answers: [],
@@ -84,34 +84,33 @@ export default {
       method: "get",
       url: `/api/papers/${this.$route.params.PaperId}/`
     }).then(res => {
-      console.log(res.data.title);
-      // if (res.status == 200) {
-      this.title = res.data.title;
-      this.explaination = res.data.content;
-      this.questions = res.data.questions;
-      // this.url = res.url;
-      this.time =
-        res.data.deadline.split(" ")[0] + "T" + res.data.deadline.split(" ")[1];
-      res.data.questions.map(question => {
-        console.log(this.answers);
-        console.log(question);
-        if (question.type == "C") {
-          this.answers.push({
-            selects: []
-          });
-        } else if (question.type == "O") {
-          this.answers.push({
-            content: ""
-          });
-        } else if (question.type == "R") {
-          this.answers.push({
-            selects: []
-          });
-        }
-      });
-      console.log(this.answers);
-      this.loading = false;
-      // }
+      console.log(res);
+      if (res.status == 200) {
+        this.title = res.data.title;
+        this.explaination = res.data.content;
+        this.questions = res.data.questions;
+        this.url = res.data.url;
+        this.time =
+          res.data.deadline.split(" ")[0] +
+          "T" +
+          res.data.deadline.split(" ")[1];
+        res.data.questions.map(question => {
+          if (question.type == "C") {
+            this.answers.push({
+              selects: []
+            });
+          } else if (question.type == "O") {
+            this.answers.push({
+              content: ""
+            });
+          } else if (question.type == "R") {
+            this.answers.push({
+              selects: []
+            });
+          }
+        });
+        this.loading = false;
+      }
     });
   },
   components: {
