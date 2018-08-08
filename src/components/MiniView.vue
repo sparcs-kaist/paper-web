@@ -42,7 +42,7 @@ export default {
   },
   computed: {
     miniview() {
-      var expUrl = /^http[s]?\:\/\/zabo.sparcs.org\/zabo\//;
+      var expUrl = /^http[s]?\:\/\/ssal.sparcs.org:16139\/zabo\//;
       return expUrl.test(this.url);
     }
   },
@@ -64,9 +64,15 @@ export default {
   mounted() {
     if (this.miniview) {
       let zabo = this.url.split("/");
-      let zaboId = zabo[zabo.length - 1];
+      let zaboId = undefined;
+      if (zabo[zabo.length - 1] == "") {
+        zaboId = zabo[zabo.length - 2];
+      } else {
+        zaboId = zabo[zabo.length - 1];
+      }
+      console.log(zaboId);
       axios
-        .get("http://ssal.sparcs.org:16133/api/zaboes/" + zaboId)
+        .get("http://ssal.sparcs.org:16135/api/zaboes/" + zaboId)
         .then(res => {
           const {
             title,
@@ -101,7 +107,7 @@ export default {
         let zabo = this.url.split("/");
         let zaboId = zabo[zabo.length - 1];
         axios
-          .get("http://ssal.sparcs.org:16133/api/zaboes/" + zaboId)
+          .get("http://ssal.sparcs.org:16135/api/zaboes/" + zaboId)
           .then(res => {
             const {
               title,
