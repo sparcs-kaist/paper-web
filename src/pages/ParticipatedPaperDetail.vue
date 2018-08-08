@@ -2,7 +2,7 @@
 <div class="createdTotalWrapper">
   <div class="row">
     <div class="headingWrapper">
-      <span class="headingTitle">스팍스 2018 봄 지원 설문지</span>
+      <span class="headingTitle">{{title}}</span>
     </div>
   </div>
   <div class="row">
@@ -36,7 +36,8 @@ export default {
       nickName: "sbagi",
       answers: [],
       finalAnswers: [],
-      loading: true
+      loading: true,
+      title: ""
     };
   },
   computed: {
@@ -90,6 +91,7 @@ export default {
       this.finalAnswers = this.computedAnswers;
       this.paperId = res.data.paper.id;
       this.loading = false;
+      this.title = res.data.paper.title;
     });
   },
   methods: {
