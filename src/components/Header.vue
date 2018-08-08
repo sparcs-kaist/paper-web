@@ -28,6 +28,25 @@
       <div v-show="profileModalState" class="profileTriangle"></div>
       <div v-show="profileModalState" class="profileTriangle profileTriangleBorder"></div>
     </div>
+    <div class="mobileHeaderWrapper">
+      <img @click="mainPage" src="@/assets/logo.png" class="logo">
+      <v-icon v-show="dropdownState == false" @click="dropdownState = true">mdi-menu</v-icon>
+      <v-icon v-show="dropdownState == true" @click="dropdownState = false">mdi-close</v-icon>
+    </div>
+    <div v-show="dropdownState" class="dropdownList">
+      <div @click="selectTab('tab1')" class="dropdownContent">
+        {{ $t('페이퍼 생성하기') }}
+      </div>
+      <div @click="selectTab('tab2')" class="dropdownContent">
+        {{ $t('페이퍼 찾아보기') }}
+      </div>
+      <div @click="profilePush" class="dropdownContent">
+        {{ $t('페이퍼 관리')}}
+      </div>
+      <div @click="logout" class="dropdownContent">
+        {{ $t('로그아웃')}}
+      </div>
+    </div>
   </div>
 </template>
 
@@ -40,7 +59,8 @@ export default {
       tab1: false,
       tab2: false,
       selectedTab: "",
-      profileModalState: false
+      profileModalState: false,
+      dropdownState: false
     };
   },
   props: {
@@ -50,50 +70,56 @@ export default {
     mainPage() {
       this.tab1 = false;
       this.tab2 = false;
+      this.dropdownState = false;
       this.$router.push({ name: "MainPage" });
     },
     selectTab(tabName) {
       if (tabName == "tab1") {
         this.tab1 = true;
         this.tab2 = false;
+        this.dropdownState = false;
+        this.profileModalState = false;
         this.$router.push({ name: "CreatePaper" });
       } else {
         this.tab2 = true;
         this.tab1 = false;
+        this.dropdownState = false;
         this.$router.push({ name: "SearchForPaper" });
       }
     },
     logout(event) {
-      this.$store.commit("LOGOUT");
       this.profileModalState = false;
+      this.dropdownState = false;
+      this.$store.commit("LOGOUT");
     },
     profilePush() {
-      this.$router.push({ name: "MyPage" });
       this.profileModalState = false;
+      this.dropdownState = false;
+      this.$router.push({ name: "MyPage" });
     }
   },
   computed: {
     currentUser() {
       return this.$store.getters.currentUser;
     },
-    computedTab1 () {
-      console.log(this.$router.currentRoute.name)
+    computedTab1() {
+      console.log(this.$router.currentRoute.name);
       if (this.tab1 == false) {
         return false;
       } else {
         if (this.$router.currentRoute.name != "CreatePaper") {
-          return false
+          return false;
         }
       }
       return true;
     },
-    computedTab2 () {
-      console.log(this.$router.currentRoute.name)
+    computedTab2() {
+      console.log(this.$router.currentRoute.name);
       if (this.tab2 == false) {
         return false;
       } else {
         if (this.$router.currentRoute.name != "SearchForPaper") {
-          return false
+          return false;
         }
       }
       return true;
@@ -104,8 +130,6 @@ export default {
 
 <style lang='scss' scoped>
 .totalWrapper {
-  min-height: 64px;
-  max-height: 64px;
   box-sizing: border-box;
   position: absolute;
   top: 0;
@@ -125,7 +149,6 @@ export default {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 24px;
     background-color: $transparent-white;
     .column {
       height: 59px;
@@ -159,8 +182,9 @@ export default {
       }
       .logo {
         height: 37px;
-        cursor: pointer;
         margin-right: 20px;
+        margin-left: 27px;
+        cursor: pointer;
       }
       .profileImage {
         width: 25px;
@@ -179,6 +203,7 @@ export default {
       }
       .arrowIcon {
         cursor: pointer;
+        margin-right: 27px;
       }
     }
     .profileModalWrapper {
@@ -224,6 +249,58 @@ export default {
       top: 64px;
       border-bottom: 10px solid #e0e0e0;
       z-index: 2;
+    }
+  }
+  .mobileHeaderWrapper {
+    width: 100%;
+    height: 59px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 17px;
+    background-color: $transparent-white;
+    .logo {
+      height: 27px;
+      cursor: pointer;
+    }
+  }
+  .dropdownList {
+    background-color: $transparent-white;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    z-index: 100;
+    .dropdownContent {
+      height: 45px;
+      color: $font-black-dark;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      font-size: $normal-font-size;
+      padding-left: 10px;
+      cursor: pointer;
+    }
+  }
+  @include breakPoint("phone") {
+    .headerWrapper {
+      display: none;
+    }
+  }
+  @include breakPoint("tablet") {
+    .mobileHeaderWrapper {
+      display: none;
+    }
+    .dropdownList {
+      display: none;
+    }
+  }
+  @include breakPoint("desktop") {
+    .mobileHeaderWrapper {
+      display: none;
+    }
+    .dropdownList {
+      display: none;
     }
   }
 }
