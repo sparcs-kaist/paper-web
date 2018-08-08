@@ -19,6 +19,7 @@ export default {};
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  padding: 0 20px;
   // background-color: pink;
   background: linear-gradient(
       rgba(255, 255, 255, 0.1),
@@ -27,7 +28,7 @@ export default {};
     url("../assets/white_wood.jpg") no-repeat center center fixed;
   background-size: cover;
   .logo {
-    margin-bottom: 10px;
+    margin-top: -10px;
     margin-right: 8px;
     width: 130px;
   }
@@ -35,7 +36,7 @@ export default {};
     font-size: $small-max-font-size;
     margin: 20px 0 20px 0;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
   }
   .explaination {
