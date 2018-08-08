@@ -101,7 +101,7 @@ export default {
   }
 };
 </script>
-<style lang='' scoped>
+<style lang='scss' scoped>
 #background_div {
   width: 100%;
   display: flex;
@@ -112,93 +112,57 @@ export default {
   bottom: 0;
   right: 0;
   position: fixed;
-  background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
-    url("../assets/background.jpg");
+  background: linear-gradient(
+      rgba(255, 255, 255, 0.1),
+      rgba(255, 255, 255, 0.1)
+    ),
+    url("../assets/white_wood.jpg") no-repeat center center fixed;
   background-size: cover;
-}
-#loginbox {
-  width: 500px;
-  height: 300px;
-  /* transform: translateX(-50%); */
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  align-items: center;
-  background-color: white;
-  box-shadow: 0px 15px 65px #1f1f1f;
-}
-
-#vform {
-  width: 300px;
-  height: 300px;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  position: absolute;
-  background-color: white;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-#logo {
-  height: 70px;
-  margin-left: -20px;
-  margin-bottom: 20px;
-}
-
-.sso-login {
-  width: 300px;
-  height: 80px;
-  font-size: 14pt;
-  font-family: Nanumsquare;
-  font-weight: 700;
-  color: white;
-  margin-left: 0px;
-}
-
-.zabo-login {
-  width: 300px;
-  height: 80px;
-  font-size: 14pt;
-  font-family: Nanumsquare;
-  font-weight: 700;
-  margin-left: 0px;
-}
-
-.zabologin-text {
-  width: 300px;
-  height: 30px;
-  text-align: center;
-  font-family: Nanumsquare;
-  color: #12397d;
-  font-size: 13pt;
-  font-weight: 800;
-  /* margin-top: -10px; */
-  cursor: pointer;
-}
-
-.field {
-  margin-top: 0px;
-}
-
-#login_button {
-  width: 300px;
-  height: 55px;
-  margin-left: 0px;
-  font-size: 13pt;
-  font-family: Nanumsquare;
-  font-weight: 700;
-  color: white;
-}
-
-.copyright {
-  width: 100%;
-  text-align: center;
-  font-size: 12px;
-  margin-top: 20px;
+  #loginbox {
+    width: 500px;
+    height: 300px;
+    /* transform: translateX(-50%); */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    align-items: center;
+    background-color: white;
+    @include smallBoxShadow();
+    #vform {
+      width: 300px;
+      height: 300px;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      position: absolute;
+      background-color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      #logo {
+        height: 70px;
+        margin-left: -20px;
+        margin-bottom: 20px;
+      }
+      .sso-login {
+        width: 300px;
+        height: 80px;
+        font-size: 14pt;
+        font-family: Nanumsquare;
+        font-weight: 700;
+        color: white;
+        margin-left: 0px;
+      }
+      .copyright {
+        width: 100%;
+        text-align: center;
+        font-size: 12px;
+        margin-top: 20px;
+      }
+    }
+  }
 }
 
 .slide-fade-enter-active {
@@ -213,11 +177,5 @@ export default {
 .slide-fade-leave-to {
   transform: translate(30px);
   opacity: 0;
-}
-
-.error-message {
-  text-align: center;
-  font-size: 10pt;
-  color: red;
 }
 </style>
