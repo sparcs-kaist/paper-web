@@ -31,8 +31,8 @@ export default {
     };
   },
   created() {
-    if (localStorage.getItem('token')) {
-      this.$store.dispatch("login", localStorage.getItem('token').slice(6,));
+    if (localStorage.getItem("token")) {
+      this.$store.dispatch("login", localStorage.getItem("token").slice(6));
     }
   },
   methods: {},
@@ -228,7 +228,15 @@ table {
 }
 body {
   margin: 0;
-  @include scrollBarDark(big);
+  @include breakPoint("phone") {
+    @include scrollBarDark(small);
+  }
+  @include breakPoint("tablet") {
+    @include scrollBarDark(small);
+  }
+  @include breakPoint("desktop") {
+    @include scrollBarDark(big);
+  }
 }
 p {
   line-height: 1.6;
