@@ -7,7 +7,7 @@
         </router-link>
         <transition name="slide-fade" mode="out-in">
           <div key="option" v-if="isZabologin === false" style="padding-left: 0px;">
-            <v-btn depressed color="indigo darken-3" class="sso-login">
+            <v-btn @click="loginForAlpha" depressed color="indigo darken-3" class="sso-login">
               sparcs sso로 로그인
             </v-btn>
           </div>
@@ -40,6 +40,13 @@ export default {
   methods: {
     zabologin() {
       this.isZabologin = !this.isZabologin;
+    },
+    loginForAlpha() {
+      localStorage.setItem(
+        "token",
+        "PAPER eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJvcmlnX2lhdCI6MTUzMzAzMjQyOSwiZXhwIjoxNTY0NTY4NDI5LCJlbWFpbCI6InBhcGVyQHNwYXJjcy5vcmciLCJ1c2VybmFtZSI6InBhcGVyQHNwYXJjcy5vcmciLCJ1c2VyX2lkIjoxfQ.X28pGHU8fSpUhkPIK1QStN2UKwmkanxz4ZhMwo9Ork4"
+      );
+      window.location.reload();
     },
     login() {
       axios({
