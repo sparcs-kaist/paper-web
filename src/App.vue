@@ -6,7 +6,8 @@
       <Footer />
     </div>
     <div v-if="!loggedInState" class="public">
-      <login></login>
+      <login v-if="$router.currentRoute.name != 'LoginCallback'"></login>
+      <router-view v-else :key="$route.name + ($route.params.id || '')"></router-view>
     </div>
   </div>
 </template>
@@ -31,6 +32,7 @@ export default {
     };
   },
   created() {
+    console.log(this.$router.currentRoute);
     if (localStorage.getItem("token")) {
       this.$store.dispatch("login", localStorage.getItem("token").slice(6));
     }
