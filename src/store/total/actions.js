@@ -23,11 +23,10 @@ const actions = {
       commit(types.SET_CREATED_PAPERS, res.data.data);
     });
   },
-  login ({commit, dispatch, state}, payload) {
-    console.log('PAPER '+ payload)
+  login({ commit, dispatch, state }, payload) {
     axios({
-      url: '/api-token-verify/',
-      method: 'post',
+      url: "/api-token-verify/",
+      method: "post",
       headers: {
         "Content-Type": "application/json"
       },
@@ -35,14 +34,13 @@ const actions = {
         token: payload
       }
     }).then(res => {
-      console.log(res)
       if (res.status == 200) {
-        commit(types.LOGIN, payload)
-        commit(types.SET_CURRENT_USER, res.data.user)
+        commit(types.LOGIN, payload);
+        commit(types.SET_CURRENT_USER, res.data.user);
       } else {
-        commit(types.LOGOUT)
+        commit(types.LOGOUT);
       }
-    })
+    });
   }
 };
 

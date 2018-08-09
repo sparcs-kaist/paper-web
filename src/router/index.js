@@ -2,6 +2,7 @@ import Vue from "vue";
 import Router from "vue-router";
 import MainPage from "@/pages/MainPage.vue";
 import MyPage from "@/pages/MyPage.vue";
+import LoginCallback from "@/pages/LoginCallback.vue";
 import CreatePaper from "@/pages/CreatePaper.vue";
 import CreateSubmitted from "@/pages/CreateSubmitted.vue";
 import CreatedPaperDetail from "@/pages/CreatedPaperDetail.vue";
@@ -33,6 +34,11 @@ export default new Router({
       path: "/paper/participate/:PaperId",
       name: "ParticipatePaper",
       component: ParticipatePaper
+    },
+    {
+      path: "/login/:email",
+      name: "LoginCallback",
+      component: LoginCallback
     },
     {
       path: "/paper/participate/submitted",

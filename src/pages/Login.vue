@@ -7,7 +7,7 @@
         </router-link>
         <transition name="slide-fade" mode="out-in">
           <div key="option" v-if="isZabologin === false" style="padding-left: 0px;">
-            <v-btn @click="loginForAlpha" depressed color="indigo darken-3" class="sso-login">
+            <v-btn @click="login" depressed color="indigo darken-3" class="sso-login">
               sparcs sso로 로그인
             </v-btn>
           </div>
@@ -49,61 +49,7 @@ export default {
       window.location.reload();
     },
     login() {
-      axios({
-        url: "http://ssal.sparcs.org:16138/api-token-auth/",
-        method: "post",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        data: {
-          email: this.email,
-          password: this.password
-        }
-      }).then(res => {
-        console.log(res);
-        console.log(res.data);
-        this.$store.dispatch("login", res.data.token);
-        // axios({
-        //   url: "http://ssal.sparcs.org:16138/api/users/1/",
-        //   method: "get",
-        //   headers: {
-        //     Authorization: localStorage.getItem("token")
-        //   }
-        // }).then(res => {
-        //   this.$store.commit("SET_CURRENT_USER", res.data);
-        // });
-      });
-      // this.$store.commit("START_AJAX");
-      // axios
-      //   .post("/api-token-auth/", {
-      //     email: this.email,
-      //     password: this.password
-      //   })
-      //   .then(response => {
-      //     localStorage.setItem("token", `ZABO ${response.data.token}`);
-      //   })
-      //   .catch(err => {
-      //     this.loginfailed = true;
-      //     this.$store.commit("GOT_RESPONSE");
-      //   })
-      //   .then(() => {
-      //     axios("api/users/myInfo/", {
-      //       method: "GET",
-      //       headers: {
-      //         Authorization: localStorage.getItem("token")
-      //       }
-      //     })
-      //       .then(response => {
-      //         this.$store.commit("LOGIN", response.data);
-      //       })
-      //       .then(() => {
-      //         this.$store.commit("GOT_RESPONSE");
-      //       })
-      //       .then(() => {
-      //         this.$emit("logged-in");
-      //         this.$store.dispatch("getNotifications");
-      //       });
-      //   });
+      window.location = "http://ssal.sparcs.org:16138/api/login/";
     }
   }
 };
