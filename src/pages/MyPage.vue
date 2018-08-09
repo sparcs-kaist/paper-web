@@ -1,26 +1,20 @@
 <template lang=''>
 <div class="totalWrapper">
-  <div v-if="participatedPapers.length == 0 || participatedPapers == []" class="row">
+  <div class="row">
     <div class="tabsWrapper">
       <div :class="selectedTab == 1 ? 'selectedTab tab' : 'tab'" @click="selectTab(1)"><span class="tabSpan">생성한 페이퍼</span></div>
       <div :class="selectedTab == 2 ? 'selectedTab tab' : 'tab'" @click="selectTab(2)"><span class="tabSpan"> 참여한 페이퍼</span></div>
     </div>
-    <div v-show="selectedTab == 1" class="contentWrapper">
-      <my-page-paper-tab type="created" v-for="(n, index) in 6" :key="index" :createdId="index" deadline="2018-06-07 04:25" url="https://zabo.sparcs.org/zabo/96" title="스팍스 2018 봄 지원 질문지"></my-page-paper-tab>
+    <div v-if="createdPapers.length == 0 || createdPapers == []" v-show="selectedTab == 1" class="contentWrapper">
+      <span>생성한 페이퍼가 없습니다.</span>
     </div>
-    <div v-show="selectedTab == 2" class="contentWrapper">
-      <my-page-paper-tab type="participated" v-for="(n, index) in 6" :key="index" :participatedId="index" deadline="2018-06-07 04:25" url="https://zabo.sparcs.org/zabo/96" title="스팍스 2018 봄 지원 질문지"></my-page-paper-tab>
-    </div>
-  </div>
-  <div v-else class="row">
-    <div class="tabsWrapper">
-      <div :class="selectedTab == 1 ? 'selectedTab tab' : 'tab'" @click="selectTab(1)"><span class="tabSpan">생성한 어플라이</span></div>
-      <div :class="selectedTab == 2 ? 'selectedTab tab' : 'tab'" @click="selectTab(2)"><span class="tabSpan"> 참여한 어플라이</span></div>
-    </div>
-    <div v-if="selectedTab == 1" class="contentWrapper">
+    <div v-else v-show="selectedTab == 1" class="contentWrapper">
       <my-page-paper-tab type="created" v-for="(paper, index) in createdPapers" :key="index" :createdId="paper.id" :deadline="paper.deadline" :url="paper.preview_image_thumbnail" :title="paper.title"></my-page-paper-tab>
     </div>
-    <div v-if="selectedTab == 2" class="contentWrapper">
+    <div v-if="participatedPapers.length == 0 || participatedPapers == []" v-show="selectedTab == 2" class="contentWrapper">
+      <span>참여한 페이퍼가 없습니다.</span>
+    </div>
+    <div v-else v-show="selectedTab == 2" class="contentWrapper">
       <my-page-paper-tab type="participated" v-for="(paper, index) in participatedPapers" :key="index" :participatedId="paper.id" :deadline="paper.paper.deadline" :url="paper.paper.preview_image_thumbnail" :title="paper.paper.title"></my-page-paper-tab>
     </div>
   </div>
