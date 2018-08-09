@@ -10,8 +10,13 @@ const mutations = {
     }
   },
   [types.LOGOUT](state, payload) {
-    localStorage.removeItem("token");
+    const {
+      currentUser: { email }
+    } = state;
     state.loggedInState = false;
+    state.currentUser = {};
+    localStorage.removeItem("token");
+    window.location = `http://ssal.sparcs.org:16138/api/logout/?email=${email}`;
   },
   [types.SET_CURRENT_USER](state, payload) {
     state.currentUser = payload;
@@ -21,7 +26,7 @@ const mutations = {
   },
   [types.SET_CREATED_PAPERS](state, payload) {
     state.createdPapers = payload;
-  },
+  }
 };
 
 export default mutations;
