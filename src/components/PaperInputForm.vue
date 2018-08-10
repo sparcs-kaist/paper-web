@@ -1,7 +1,7 @@
 <template lang=''>
   <div class="formWrapper" :class="margin && 'marginTop'">
     <div class="formTitleWrapper">
-      <v-text-field class="formTitle" single-line label="제목" outline style="font-size: 18px; height: 55px;" @change.native="$emit('update:content', formTitle)" v-model="formTitle"></v-text-field>
+      <v-text-field class="formTitle" single-line label="질문" outline style="font-size: 18px; height: 55px;" @change.native="$emit('update:content', formTitle)" v-model="formTitle"></v-text-field>
       <div class="tabsWrapper">
         <div @click="selectType('C')" class="singleTabWrapper">
           <v-icon :color="optionsType == 'C' ? 'purple darken-2' : ''">mdi-checkbox-marked-outline</v-icon>

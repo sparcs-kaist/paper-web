@@ -14,6 +14,7 @@ import SearchForPaper from "@/pages/SearchForPaper.vue";
 import Credit from "@/pages/Credit.vue";
 import License from "@/pages/License.vue";
 import CodeOfConduct from "@/pages/CodeOfConduct.vue";
+import NotFound from "@/pages/NotFound.vue";
 
 Vue.use(Router);
 
@@ -89,6 +90,11 @@ export default new Router({
       path: "/",
       name: "MainPage",
       component: MainPage
+    },
+    {
+      path: "*",
+      name: "NotFound",
+      component: NotFound
     }
   ]
 });
