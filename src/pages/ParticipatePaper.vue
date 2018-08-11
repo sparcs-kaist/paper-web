@@ -168,6 +168,17 @@ export default {
 <style lang='scss' scoped>
 .totalWrapper {
   @include marginPage();
+  @include breakPoint('phone') {
+    left: 5%;
+    right: 5%;
+  }
+  @include breakPoint('tablet') {
+    left: 5%;
+    right: 5%;
+  }
+  @include breakPoint('desktop') {
+    top: 100px;
+  }
   top: 100px;
   display: flex;
   flex-direction: column;
@@ -180,6 +191,11 @@ export default {
     align-items: flex-start;
     &:first-child {
       align-items: center;
+      @include breakPoint('phone'){
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+      }
       .headingWrapper {
         display: flex;
         justify-content: flex-start;
@@ -199,9 +215,24 @@ export default {
           color: $essential-color;
           margin-left: 5px;
         }
+        @include breakPoint('phone'){
+          .headingTitle {
+            font-size: $normal-font-size;
+            font-weight: $big-font-weight;
+            .arrowIcon {
+              font-size: 24px;
+            }
+          }
+          margin-bottom: 12px;
+        }
       }
       .categoryWrapper {
-        margin-left: 20px;
+        @include breakPoint('desktop') {
+          margin-left: 40px;
+        }
+        @include breakPoint('tablet') {
+          margin-left: 30px;
+        }
         .categoryHeading {
           font-size: $normal-font-size;
           font-weight: $big-font-weight;
