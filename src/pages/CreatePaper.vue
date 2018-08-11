@@ -21,7 +21,7 @@
         <form-wrapper :required="true" :toggle="false" type="text" :textarea="true" :margin="true" title="페이퍼 설명(1500자 이내)" placeholder="이 어플라이에 대한 설명을 입력해주세요." :content.sync="explaination" ></form-wrapper>
       </div>
       <div class="column">
-        <form-wrapper :required="true" :toggle="true" type="text" :margin="true" title="페이퍼 설명 URL(자보 미니뷰)" placeholder="ex) https://zabo.sparcs.org/zabo/24" :content.sync="url" ></form-wrapper>
+        <form-wrapper :required="false" :toggle="false" type="text" :margin="true" title="페이퍼 설명 URL(자보 미니뷰)" placeholder="ex) https://zabo.sparcs.org/zabo/24" :content.sync="url" ></form-wrapper>
         <mini-view :url="url"></mini-view>
         <button v-if="StartFormValidation" @click="currentTotalState = 'end' " class="goNext">질문지 만들러 가기</button>
         <button v-else @click="notYetWarn" class="notYet">필수란들을 채워주세요</button>
@@ -44,9 +44,8 @@
           <span class="manageTitle">유의 사항</span>
         </div>
         <div class="manageTabWrapper">
-          <div class="singleManagement">다음과 같은 유의사항이 있습니다.</div>
-          <div class="singleManagement">다음과 같은 유의사항이 있습니다.</div>
-          <div class="singleManagement">다음과 같은 유의사항이 있습니다.</div>
+          <div class="singleManagement">한번 생성한 질문지는 수정할 수 없습니다.</div>
+          <div class="singleManagement">두번째 유의사항입니다.</div>
         </div>
         <button v-show="EndFormValidation" @click="submitPaper" class="goNext">질문지 생성하기</button>
         <button v-show="!EndFormValidation" @click="notYetWarn" class="notYet">모든 란을 채워주세요</button>
@@ -188,7 +187,17 @@ export default {
 <style lang='scss' scoped>
 .totalWrapper {
   @include marginPage();
-  top: 100px;
+  @include breakPoint('phone') {
+    left: 5%;
+    right: 5%;
+  }
+  @include breakPoint('tablet') {
+    left: 5%;
+    right: 5%;
+  }
+  @include breakPoint('desktop') {
+    top: 100px;
+  }
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -199,7 +208,17 @@ export default {
     justify-content: flex-start;
     align-items: flex-start;
     &:first-child {
-      align-items: center;
+      @include breakPoint('phone'){
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+      }
+      @include breakPoint('tablet'){
+        align-items: center;
+      }
+      @include breakPoint('desktop') {
+        align-items: center;
+      }
       .headingWrapper {
         display: flex;
         justify-content: flex-start;
@@ -219,9 +238,24 @@ export default {
           color: $essential-color;
           margin-left: 5px;
         }
+        @include breakPoint('phone'){
+          .headingTitle {
+            font-size: $normal-font-size;
+            font-weight: $big-font-weight;
+            .arrowIcon {
+              font-size: 24px;
+            }
+          }
+          margin-bottom: 12px;
+        }
       }
       .categoryWrapper {
-        margin-left: 40px;
+        @include breakPoint('desktop') {
+          margin-left: 40px;
+        }
+        @include breakPoint('tablet') {
+          margin-left: 30px;
+        }
         .categoryHeading {
           font-size: $normal-font-size;
           font-weight: $big-font-weight;
@@ -279,6 +313,12 @@ export default {
               font-size: $h1-font-size;
               font-weight: $big-font-weight;
             }
+            @include breakPoint('phone') {
+              margin-top: 0;
+              .manageTitle {
+                font-size: $normal-font-size;
+              }
+            }
           }
           .manageTabWrapper {
             @include modalTabCss();
@@ -296,6 +336,10 @@ export default {
               justify-content: flex-start;
               margin: 10px 0;
               font-size: $h1-font-size;
+              text-align: center;
+              @include breakPoint('phone') {
+                font-size: $h2-font-size;
+              }
               font-weight: $big-font-weight;
             }
           }

@@ -42,9 +42,8 @@
           <span class="manageTitle">유의 사항</span>
         </div>
         <div class="manageTabWrapper">
-          <div class="singleManagement">다음과 같은 유의사항이 있습니다.</div>
-          <div class="singleManagement">다음과 같은 유의사항이 있습니다.</div>
-          <div class="singleManagement">다음과 같은 유의사항이 있습니다.</div>
+          <div class="singleManagement">제출하신 질문지는 데드라인이 지날때까지 수정 가능합니다.</div>
+          <div class="singleManagement">두번째 유의사항입니다.</div>
         </div>
         <button @click="submitPaper" class="goNext">답변 제출하기</button>
       </div>
@@ -168,6 +167,17 @@ export default {
 <style lang='scss' scoped>
 .totalWrapper {
   @include marginPage();
+  @include breakPoint('phone') {
+    left: 5%;
+    right: 5%;
+  }
+  @include breakPoint('tablet') {
+    left: 5%;
+    right: 5%;
+  }
+  @include breakPoint('desktop') {
+    top: 100px;
+  }
   top: 100px;
   display: flex;
   flex-direction: column;
@@ -180,6 +190,11 @@ export default {
     align-items: flex-start;
     &:first-child {
       align-items: center;
+      @include breakPoint('phone'){
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+      }
       .headingWrapper {
         display: flex;
         justify-content: flex-start;
@@ -199,9 +214,24 @@ export default {
           color: $essential-color;
           margin-left: 5px;
         }
+        @include breakPoint('phone'){
+          .headingTitle {
+            font-size: $normal-font-size;
+            font-weight: $big-font-weight;
+            .arrowIcon {
+              font-size: 24px;
+            }
+          }
+          margin-bottom: 12px;
+        }
       }
       .categoryWrapper {
-        margin-left: 20px;
+        @include breakPoint('desktop') {
+          margin-left: 40px;
+        }
+        @include breakPoint('tablet') {
+          margin-left: 30px;
+        }
         .categoryHeading {
           font-size: $normal-font-size;
           font-weight: $big-font-weight;
@@ -259,6 +289,12 @@ export default {
               font-size: $h1-font-size;
               font-weight: $big-font-weight;
             }
+            @include breakPoint('phone') {
+              margin-top: 0;
+              .manageTitle {
+                font-size: $normal-font-size;
+              }
+            }
           }
           .manageTabWrapper {
             @include modalTabCss();
@@ -277,6 +313,9 @@ export default {
               margin: 10px 0;
               font-size: $h1-font-size;
               font-weight: $big-font-weight;
+              @include breakPoint('phone') {
+                font-size: $h2-font-size;
+              }
             }
           }
           .goNext {

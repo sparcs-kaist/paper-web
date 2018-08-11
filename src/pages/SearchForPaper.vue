@@ -26,12 +26,12 @@
   </v-tabs>
   </v-toolbar>
   <v-tabs-items v-model="tabs">
-      <v-tab-item>
-        <div class="tabItemsWrapper">
-          <my-page-paper-tab v-if="papers != [] && !loading" type="participate" v-for="(paper, index) in papers" :key="index" :participateId="paper.id" :deadline="paper.deadline" :url="paper.preview_image_thumbnail" :title="paper.title"></my-page-paper-tab>
-        </div>
-      </v-tab-item>
-    </v-tabs-items>
+    <v-tab-item>
+      <div class="tabItemsWrapper">
+        <my-page-paper-tab v-if="papers != [] && !loading" type="participate" v-for="(paper, index) in papers" :key="index" :participateId="paper.id" :deadline="paper.deadline" :url="paper.preview_image_thumbnail" :title="paper.title"></my-page-paper-tab>
+      </div>
+    </v-tab-item>
+  </v-tabs-items>
 </div>
 </template>
 <script>
@@ -66,7 +66,17 @@ export default {
 <style lang='scss' scoped>
 .searchTotalWrapper {
   @include marginPage();
-  top: 80px;
+  @include breakPoint('phone') {
+    left: 5%;
+    right: 5%;
+  }
+  @include breakPoint('tablet') {
+    left: 5%;
+    right: 5%;
+  }
+  @include breakPoint('desktop') {
+    top: 80px;
+  }
   .tabItemsWrapper {
     background-color: #ececec;
     width: 100%;
@@ -80,6 +90,9 @@ export default {
     overflow-y: scroll;
     overflow-x: hidden;
     @include scrollBarDark(small);
+    @include breakPoint('phone') {
+      justify-content: center;
+    }
   }
 }
 </style>

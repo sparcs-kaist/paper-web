@@ -1,6 +1,6 @@
 <template lang=''>
 <div class="totalWrapper">
-  <div class="header"><img src="@/assets/logo.png" class="logo">는 카이스트 리크루팅 및 설문조사 서비스입니다.</div>
+  <div class="header"><span class="theme">페이퍼</span>는 카이스트 리크루팅 및 설문조사 서비스입니다.</div>
   <div class="explaination">
     페이퍼 이용방법을 보고싶으시다면 아래 버튼을 눌러주세요.
   </div>
@@ -27,17 +27,14 @@ export default {};
     ),
     url("../assets/white_wood.jpg") no-repeat center center fixed;
   background-size: cover;
-  .logo {
-    margin-top: -10px;
-    margin-right: 8px;
-    width: 130px;
-  }
   .header {
     font-size: $small-max-font-size;
     margin: 20px 0 20px 0;
-    display: flex;
-    align-items: flex-start;
-    justify-content: center;
+    text-align: center;
+    .theme {
+      color: $theme-color;
+      font-weight: $big-font-weight;
+    }
   }
   .explaination {
     font-size: $big-font-size;
@@ -47,6 +44,17 @@ export default {};
     @include largeButton(theme);
     width: 50%;
     margin-top: 20px;
+  }
+  @include breakPoint('phone') {
+    .header {
+      font-size: $h1-font-size;
+    }
+    .explaination {
+      font-size: $normal-font-size;
+    }
+    .onBoardingButton {
+      width: 80%;
+    }
   }
 }
 </style>

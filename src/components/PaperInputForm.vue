@@ -150,6 +150,9 @@ export default {
         justify-content: flex-end;
         align-items: center;
         margin-left: 20px;
+        @include breakPoint('phone')  {
+          font-size: $small-font-size;
+        }
         cursor: pointer;
         &:first-child {
           margin-left: 0;
@@ -164,7 +167,6 @@ export default {
   .optionsWrapper {
     width: 100%;
     display: flex;
-    // margin-left: 10px;
     i {
       margin-right: 10px;
     }
@@ -189,5 +191,8 @@ export default {
 }
 .marginTop {
   margin-top: 20px;
+  @include breakPoint('phone') {
+    margin-top: 10px;
+  }
 }
 </style>
