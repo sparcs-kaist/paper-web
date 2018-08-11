@@ -42,9 +42,8 @@
           <span class="manageTitle">유의 사항</span>
         </div>
         <div class="manageTabWrapper">
-          <div class="singleManagement">다음과 같은 유의사항이 있습니다.</div>
-          <div class="singleManagement">다음과 같은 유의사항이 있습니다.</div>
-          <div class="singleManagement">다음과 같은 유의사항이 있습니다.</div>
+          <div class="singleManagement">제출하신 질문지는 데드라인이 지날때까지 수정 가능합니다.</div>
+          <div class="singleManagement">두번째 유의사항입니다.</div>
         </div>
         <button @click="submitPaper" class="goNext">답변 제출하기</button>
       </div>
@@ -290,6 +289,12 @@ export default {
               font-size: $h1-font-size;
               font-weight: $big-font-weight;
             }
+            @include breakPoint('phone') {
+              margin-top: 0;
+              .manageTitle {
+                font-size: $normal-font-size;
+              }
+            }
           }
           .manageTabWrapper {
             @include modalTabCss();
@@ -308,6 +313,9 @@ export default {
               margin: 10px 0;
               font-size: $h1-font-size;
               font-weight: $big-font-weight;
+              @include breakPoint('phone') {
+                font-size: $h2-font-size;
+              }
             }
           }
           .goNext {

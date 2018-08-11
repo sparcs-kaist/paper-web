@@ -44,9 +44,8 @@
           <span class="manageTitle">유의 사항</span>
         </div>
         <div class="manageTabWrapper">
-          <div class="singleManagement">다음과 같은 유의사항이 있습니다.</div>
-          <div class="singleManagement">다음과 같은 유의사항이 있습니다.</div>
-          <div class="singleManagement">다음과 같은 유의사항이 있습니다.</div>
+          <div class="singleManagement">한번 생성한 질문지는 수정할 수 없습니다.</div>
+          <div class="singleManagement">두번째 유의사항입니다.</div>
         </div>
         <button v-show="EndFormValidation" @click="submitPaper" class="goNext">질문지 생성하기</button>
         <button v-show="!EndFormValidation" @click="notYetWarn" class="notYet">모든 란을 채워주세요</button>
@@ -314,6 +313,12 @@ export default {
               font-size: $h1-font-size;
               font-weight: $big-font-weight;
             }
+            @include breakPoint('phone') {
+              margin-top: 0;
+              .manageTitle {
+                font-size: $normal-font-size;
+              }
+            }
           }
           .manageTabWrapper {
             @include modalTabCss();
@@ -331,6 +336,10 @@ export default {
               justify-content: flex-start;
               margin: 10px 0;
               font-size: $h1-font-size;
+              text-align: center;
+              @include breakPoint('phone') {
+                font-size: $h2-font-size;
+              }
               font-weight: $big-font-weight;
             }
           }
