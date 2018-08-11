@@ -36,7 +36,7 @@
     </div>
     <div class="row">
       <div class="column">
-        <paper-input-form v-for="(question, index) in questions" :key="index" :index="index" :margin="true" :isMultiple.sync="question.is_multiple" :choices.sync="question.choices" :content.sync="question.content" :type.sync="question.type"></paper-input-form>
+        <paper-input-form v-if="!reRender" v-for="(question, index) in questions" :key="index" :index="index" :margin="true" @deleteQuestion="deleteQuestion(index)" :isMultiple.sync="question.is_multiple" :choices.sync="question.choices" :content.sync="question.content" :type.sync="question.type"></paper-input-form>
         <button @click="addQuestion" class="addQuestion">+ 질문 추가</button>
       </div>
       <div class="column">
@@ -79,18 +79,8 @@ export default {
       time: "",
       url: "",
       currentTotalState: "start",
-      questions: [
-        {
-          content: "",
-          choices: [
-            {
-              option: ""
-            }
-          ],
-          type: "C",
-          is_multiple: true
-        }
-      ]
+      questions: [],
+      reRender: false
     };
   },
   components: {
@@ -98,39 +88,53 @@ export default {
     MiniView,
     PaperInputForm
   },
-  computed : {
-    StartFormValidation () {
+  computed: {
+    StartFormValidation() {
       if (this.title == "") {
-        return false
+        return false;
       }
       if (this.explaination == "") {
-        return false
+        return false;
       }
       if (this.time == "") {
-        return false
+        return false;
       }
 
-      return true
+      return true;
     },
-    EndFormValidation () {
-      for (let i=0; i<this.questions.length; i++) {
+    EndFormValidation() {
+      for (let i = 0; i < this.questions.length; i++) {
         if (this.questions[i].content == "") {
-          return false
+          return false;
         }
         if (this.questions[i].type != "O") {
-          for (let j=0; j < this.questions[i].choices.length; j++) {
-            if (this.questions[i].choices[j].option == "")  {
-              return false
+          for (let j = 0; j < this.questions[i].choices.length; j++) {
+            if (this.questions[i].choices[j].option == "") {
+              return false;
             }
           }
         }
       }
-      return true
+      return true;
     }
   },
   methods: {
-    notYetWarn () {
-      alert('필수 란을 채우셔야 제출하실 수 있습니다.')
+    notYetWarn() {
+      alert("필수 란을 채우셔야 제출하실 수 있습니다.");
+    },
+    deleteQuestion(index) {
+      let newQuestions = [];
+      for (let i = 0; i < this.questions.length; i++) {
+        if (i != index) {
+          newQuestions.push(this.questions[i]);
+          console.log(newQuestions, i, index);
+        }
+      }
+      this.questions = newQuestions;
+      this.reRender = true;
+      this.$nextTick(() => {
+        this.reRender = false;
+      });
     },
     submitPaper() {
       // this.$router.push({ name: "CreateSubmitted" })

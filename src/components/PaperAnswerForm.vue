@@ -1,7 +1,7 @@
 <template lang=''>
   <div class="formWrapper" :class="margin && 'marginTop'">
     <div class="formTitleWrapper">
-      <v-text-field class="formTitle" disabled label="제목" outline v-model="formTitle"></v-text-field>
+      <v-text-field class="formTitle" disabled label="질문" outline v-model="formTitle"></v-text-field>
       <div class="tabsWrapper">
         <div v-if="optionsType == 'C'" class="singleTabWrapper">
           <v-icon :color="optionsType == 'C' ? 'purple darken-2' : 'grey darken-1'">mdi-checkbox-marked-outline</v-icon>
