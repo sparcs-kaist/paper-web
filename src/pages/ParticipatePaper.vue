@@ -1,5 +1,6 @@
 <template lang=''>
-<div v-if="!loading">
+<div>
+<div v-if="!loading && timeValid">
   <div v-show="currentTotalState == 'start'" class="totalWrapper">
     <div class="row">
       <div class="headingWrapper">
@@ -50,12 +51,18 @@
     </div>
   </div>
 </div>
-<div v-else>
+<div class="loadingPaper" v-if="loading">
   <v-progress-circular
     indeterminate
     color="primary"
     class="ListWrapper"
   ></v-progress-circular>
+</div>
+<div class="expiredPaper" v-if="!loading && !timeValid ">
+  <span class="expiredSpan">페이퍼 참여 기한이 넘었습니다.</span>
+  <span class="expiredSpan">페이퍼 관리자에게 문의해주십시요.</span>
+  <span class="emailSpan">관리자 이메일 : {{email}}</span>
+</div>
 </div>
 </template>
 <script>
@@ -76,7 +83,8 @@ export default {
       currentTotalState: "start",
       questions: [],
       answers: [],
-      loading: true
+      loading: true,
+      email: ""
     };
   },
   mounted() {
@@ -90,6 +98,7 @@ export default {
         this.explaination = res.data.content;
         this.questions = res.data.questions;
         this.url = res.data.url;
+        this.email = res.data.author.email;
         this.time =
           res.data.deadline.split(" ")[0] +
           "T" +
@@ -120,6 +129,8 @@ export default {
   },
   methods: {
     submitPaper() {
+      console.log(this.$route.params.PaperId);
+      console.log(JSON.stringify(this.answers));
       axios({
         method: "post",
         url: "/api/participates/",
@@ -143,6 +154,13 @@ export default {
         options: [""]
       });
       console.log(this.questions);
+    }
+  },
+  computed: {
+    timeValid() {
+      var today = new Date();
+      console.log(this.time, today.toISOString().substring(0, 16));
+      return this.time > today.toISOString().substring(0, 16);
     }
   }
 };
@@ -268,6 +286,34 @@ export default {
         }
       }
     }
+  }
+}
+.loadingPaper {
+  @include marginPage();
+  bottom: 68px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.expiredPaper {
+  @include marginPage();
+  bottom: 68px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  .expiredSpan {
+    font-size: $biggest-font-size;
+    font-weight: $big-font-weight;
+    &:first-child {
+      margin-bottom: 20px;
+    }
+  }
+  .emailSpan {
+    margin-top: 20px;
+    font-size: $big-font-size;
+    font-weight: $normal-font-weight;
   }
 }
 </style>

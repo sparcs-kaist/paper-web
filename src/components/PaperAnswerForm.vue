@@ -1,17 +1,17 @@
 <template lang=''>
   <div class="formWrapper" :class="margin && 'marginTop'">
     <div class="formTitleWrapper">
-      <v-text-field class="formTitle" disabled single-line label="제목" outline style="font-size: 18px; max-height: 50px;" v-model="formTitle"></v-text-field>
+      <v-text-field class="formTitle" disabled label="제목" outline v-model="formTitle"></v-text-field>
       <div class="tabsWrapper">
-        <div class="singleTabWrapper">
+        <div v-if="optionsType == 'C'" class="singleTabWrapper">
           <v-icon :color="optionsType == 'C' ? 'purple darken-2' : 'grey darken-1'">mdi-checkbox-marked-outline</v-icon>
           <span :class="optionsType == 'C' ? 'themeSpan optionSpan' : 'optionSpan'">체크박스</span>
         </div>
-        <div class="singleTabWrapper">
+        <div v-if="optionsType == 'R'" class="singleTabWrapper">
           <v-icon :color="optionsType == 'R' ? 'purple darken-2' : 'grey darken-1'">mdi-radiobox-marked</v-icon>
           <span :class="optionsType == 'R' ? 'themeSpan optionSpan' : 'optionSpan'">객관식 질문</span>
         </div>
-        <div class="singleTabWrapper">
+        <div v-if="optionsType == 'O'" class="singleTabWrapper">
           <v-icon :color="optionsType == 'O' ? 'purple darken-2' : 'grey darken-1'">mdi-text</v-icon>
           <span :class="optionsType == 'O' ? 'themeSpan optionSpan' : 'optionSpan'">주관식</span>
         </div>
@@ -81,7 +81,7 @@ export default {
   methods: {
     emit() {
       console.log(this.computedAnswers);
-      this.$emit('update:answers', this.computedAnswers)
+      this.$emit("update:answers", this.computedAnswers);
     },
     addOption(event, index) {
       if (this.inputOptions.length == index + 1) {
@@ -109,12 +109,16 @@ export default {
   display: flex;
   flex-direction: column;
   .formTitleWrapper {
-    width: 100%;
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    margin-bottom: 12px;
+    width: 100%;
     .formTitle {
-      font-size: $big-font-size;
+      font-size: $normal-font-size;
       font-weight: $big-font-weight;
+      width: 100%;
     }
     .requiredSpan {
       margin-left: 10px;
@@ -132,14 +136,14 @@ export default {
         display: flex;
         justify-content: flex-end;
         align-items: center;
-        margin-left: 20px;
-        &:nth-child(2) {
-          margin-left: 5px;
-        }
+        // margin-left: 20px;
+        // &:nth-child(2) {
+        // margin-left: 5px;
+        // }
         .optionSpan {
           color: $font-black-light;
           font-weight: $big-font-weight;
-          min-width: 78px;
+          // min-width: 78px;
         }
         .themeSpan {
           color: $theme-color;
