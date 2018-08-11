@@ -1,7 +1,7 @@
 <template lang=''>
   <div class="formWrapper" :class="margin && 'marginTop'">
     <div class="formTitleWrapper">
-      <v-text-field class="formTitle" single-line label="질문" outline style="font-size: 18px; height: 55px;" @change.native="$emit('update:content', formTitle)" v-model="formTitle"></v-text-field>
+      <v-text-field class="formTitle" label="질문" outline @change.native="$emit('update:content', formTitle)" v-model="formTitle"></v-text-field>
       <div class="tabsWrapper">
         <div @click="selectType('C')" class="singleTabWrapper">
           <v-icon :color="optionsType == 'C' ? 'purple darken-2' : ''">mdi-checkbox-marked-outline</v-icon>
@@ -68,7 +68,7 @@ export default {
           this.is_multiple = true;
       }
       if (this.optionsType == "O") {
-        this.inputChoices = [{option: ""}];
+        this.inputChoices = [{ option: "" }];
       }
       this.$emit("update:type", this.optionsType);
       this.$emit("update:isMultiple", this.is_multiple);
@@ -105,11 +105,14 @@ export default {
   .formTitleWrapper {
     width: 100%;
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
     margin-bottom: 12px;
     .formTitle {
-      font-size: $big-font-size;
+      font-size: $normal-font-size;
       font-weight: $big-font-weight;
+      width: 100%;
     }
     .requiredSpan {
       margin-left: 10px;
@@ -127,10 +130,9 @@ export default {
         justify-content: flex-end;
         align-items: center;
         margin-left: 20px;
-        min-width: 105px;
         cursor: pointer;
-        &:nth-child(3) {
-          margin-left: -10px;
+        &:first-child {
+          margin-left: 0;
         }
         .themeSpan {
           color: $theme-color;
@@ -142,7 +144,7 @@ export default {
   .optionsWrapper {
     width: 100%;
     display: flex;
-    margin-left: 10px;
+    // margin-left: 10px;
     i {
       margin-right: 10px;
     }
@@ -166,6 +168,6 @@ export default {
   }
 }
 .marginTop {
-  margin-top: 35px;
+  margin-top: 20px;
 }
 </style>
