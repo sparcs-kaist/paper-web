@@ -1,7 +1,10 @@
 <template lang=''>
   <div class="formWrapper" :class="margin && 'marginTop'">
     <div class="formTitleWrapper">
-      <v-text-field class="formTitle" label="질문" outline @change.native="$emit('update:content', formTitle)" v-model="formTitle"></v-text-field>
+      <div class="titleWrapper">
+        <v-text-field class="formTitle" label="질문" outline @change.native="$emit('update:content', formTitle)" v-model="formTitle"></v-text-field>
+        <v-icon @click="$emit('deleteQuestion')" large>mdi-delete-outline</v-icon>
+      </div>
       <div class="tabsWrapper">
         <div @click="selectType('C')" class="singleTabWrapper">
           <v-icon :color="optionsType == 'C' ? 'purple darken-2' : ''">mdi-checkbox-marked-outline</v-icon>
@@ -20,10 +23,12 @@
     <div v-for="(option, index) in inputChoices" :key="index" v-if="optionsType == 'R'" class="optionsWrapper">
       <v-icon>mdi-radiobox-blank</v-icon>
       <v-text-field single-line regular :label="'옵션' + `${index}`" @keyup.enter="addOption($event, index)" @change.native="$emit('update:choices', inputChoices)" v-model="inputChoices[index].option"></v-text-field>
+      <v-icon @click="deleteOption(index)" medium>mdi-close-circle-outline</v-icon>
     </div>
     <div v-for="(option, index) in inputChoices" :key="index" v-if="optionsType == 'C'" class="optionsWrapper">
       <v-icon>mdi-checkbox-blank-outline</v-icon>
       <v-text-field @keyup.enter="addOption($event, index)" single-line regular :label="'옵션' + `${index}`" @change.native="$emit('update:choices', inputChoices)" v-model="inputChoices[index].option"></v-text-field>
+      <v-icon @click="deleteOption(index)" medium>mdi-close-circle-outline</v-icon>
     </div>
     <textarea v-if="optionsType == 'O'" disabled class="textArea" placeholder="장문형 텍스트" />
   </div>
@@ -93,6 +98,15 @@ export default {
           .getElementsByTagName("input")[0]
           .focus();
       }
+    },
+    deleteOption(index) {
+      let newInputChoices = [];
+      for (let i = 0; i < this.inputChoices.length; i++) {
+        if (i != index) {
+          newInputChoices.push(this.inputChoices[i]);
+        }
+      }
+      this.inputChoices = newInputChoices;
     }
   }
 };
@@ -109,10 +123,16 @@ export default {
     justify-content: flex-start;
     align-items: flex-start;
     margin-bottom: 12px;
-    .formTitle {
-      font-size: $normal-font-size;
-      font-weight: $big-font-weight;
+    .titleWrapper {
       width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      .formTitle {
+        font-size: $normal-font-size;
+        font-weight: $big-font-weight;
+        width: 100%;
+      }
     }
     .requiredSpan {
       margin-left: 10px;
