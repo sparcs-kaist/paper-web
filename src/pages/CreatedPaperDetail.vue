@@ -347,7 +347,17 @@ export default {
 <style lang='scss' scoped>
 .createdTotalWrapper {
   @include marginPage();
-  top: 100px;
+  @include breakPoint('phone') {
+    left: 5%;
+    right: 5%;
+  }
+  @include breakPoint('tablet') {
+    left: 5%;
+    right: 5%;
+  }
+  @include breakPoint('desktop') {
+    top: 100px;
+  }
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -371,6 +381,12 @@ export default {
           font-size: $big-font-size;
           font-weight: $big-font-weight;
         }
+        @include breakPoint('phone'){
+          .headingTitle {
+            font-size: $normal-font-size;
+            font-weight: $big-font-weight;
+          }
+        }
       }
       .tabsWrapper {
         width: 230px;
@@ -387,6 +403,9 @@ export default {
           display: flex;
           justify-content: center;
           align-items: center;
+          @include breakPoint('phone') {
+            font-size: $normal-font-size;
+          }
           cursor: pointer;
           .singleTabSpan:nth-child(2) {
             color: white;
@@ -411,8 +430,6 @@ export default {
       justify-content: flex-start;
       align-items: center;
       margin-top: 30px;
-      margin-bottom: -20px;
-      margin-left: 10px;
       .paperTab {
         color: $font-black-light;
         font-size: $h1-font-size;
@@ -430,7 +447,7 @@ export default {
     .paperWrapper {
       .noAnswers {
         margin-top: 40px;
-        margin-left: 10px;
+        // margin-left: 10px;
         font-size: $h1-font-size;
       }
     }
@@ -439,13 +456,12 @@ export default {
       margin-left: 10px;
       font-size: $h1-font-size;
     }
-    &:last-child,
-    &:nth-child(2) {
+    &:last-child{
       width: 100%;
       display: flex;
       justify-content: flex-start;
       align-items: flex-start;
-      margin-bottom: 60px;
+      margin-bottom: 80px;
       @include breakPoint("phone") {
         flex-direction: column;
         justify-content: flex-start;
@@ -487,6 +503,12 @@ export default {
             font-size: $h1-font-size;
             font-weight: $big-font-weight;
           }
+          @include breakPoint('phone') {
+            margin-top: 0;
+            .manageTitle {
+              font-size: $normal-font-size;
+            }
+          }
         }
         .manageTabWrapper {
           @include modalTabCss();
@@ -501,9 +523,8 @@ export default {
             display: flex;
             align-items: center;
             justify-content: flex-start;
-            min-width: 100px;
             height: 35px;
-            flex: 1;
+            padding-right: 20px;
             cursor: pointer;
             .nickName {
               font-size: $normal-font-size;
@@ -520,13 +541,16 @@ export default {
             min-width: 100px;
             height: 35px;
             width: 45%;
+            font-size: $normal-font-size;
+            @include breakPoint('phone') {
+              width: 100%;
+              font-size: $h2-font-size;
+            }
             .nickName {
               margin-right: 8px;
-              font-size: $normal-font-size;
               font-weight: $big-font-weight;
             }
             .passSpan {
-              font-size: $normal-font-size;
               font-weight: $normal-font-weight;
               cursor: pointer;
               margin-right: 4px;
