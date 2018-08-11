@@ -3,15 +3,15 @@
     <div class="formTitleWrapper">
       <v-text-field class="formTitle" disabled label="질문" outline v-model="formTitle"></v-text-field>
       <div class="tabsWrapper">
-        <div v-if="optionsType == 'C'" class="singleTabWrapper">
+        <div class="singleTabWrapper">
           <v-icon :color="optionsType == 'C' ? 'purple darken-2' : 'grey darken-1'">mdi-checkbox-marked-outline</v-icon>
           <span :class="optionsType == 'C' ? 'themeSpan optionSpan' : 'optionSpan'">체크박스</span>
         </div>
-        <div v-if="optionsType == 'R'" class="singleTabWrapper">
+        <div class="singleTabWrapper">
           <v-icon :color="optionsType == 'R' ? 'purple darken-2' : 'grey darken-1'">mdi-radiobox-marked</v-icon>
           <span :class="optionsType == 'R' ? 'themeSpan optionSpan' : 'optionSpan'">객관식 질문</span>
         </div>
-        <div v-if="optionsType == 'O'" class="singleTabWrapper">
+        <div class="singleTabWrapper">
           <v-icon :color="optionsType == 'O' ? 'purple darken-2' : 'grey darken-1'">mdi-text</v-icon>
           <span :class="optionsType == 'O' ? 'themeSpan optionSpan' : 'optionSpan'">주관식</span>
         </div>
@@ -136,10 +136,13 @@ export default {
         display: flex;
         justify-content: flex-end;
         align-items: center;
-        // margin-left: 20px;
-        // &:nth-child(2) {
-        // margin-left: 5px;
-        // }
+        margin-left: 20px;
+        &:first-child {
+          margin-left: 0;
+        }
+        @include breakPoint('phone')  {
+          font-size: $small-font-size;
+        }
         .optionSpan {
           color: $font-black-light;
           font-weight: $big-font-weight;
@@ -155,7 +158,9 @@ export default {
   .optionsWrapper {
     width: 100%;
     display: flex;
-    margin-left: 10px;
+    &:first-child {
+      margin-left: 0;
+    }
     i {
       margin-right: 10px;
     }
@@ -180,5 +185,8 @@ export default {
 }
 .marginTop {
   margin-top: 30px;
+  @include breakPoint('phone') {
+    margin-top: 10px;
+  }
 }
 </style>
