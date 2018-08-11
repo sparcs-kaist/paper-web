@@ -120,6 +120,8 @@ export default {
   },
   methods: {
     submitPaper() {
+      console.log(this.$route.params.PaperId);
+      console.log(JSON.stringify(this.answers));
       axios({
         method: "post",
         url: "/api/participates/",

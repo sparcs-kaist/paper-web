@@ -96,10 +96,10 @@
             <span @click="passList[index].type = 3" :class="passList[index].type == 3 ? 'passSpan normalPassSpan' : 'passSpan'">미정</span>
           </div>
         </div>
-      </div>
-      <div class="MailTabWrapper">
-        <button @click="sendMail('pass')" class="MailTab">합격자들에게 메일 보내기</button>
-        <button @click="sendMail('fail')" class="MailTab">불합격자들에게 메일 보내기</button>
+        <div class="MailTabWrapper">
+          <button @click="sendMail('pass')" class="MailTab">합격자들에게 메일 보내기</button>
+          <button @click="sendMail('fail')" class="MailTab">불합격자들에게 메일 보내기</button>
+        </div>
       </div>
     </div>
     <div class="row" v-if="participates.length == 0 && selectedTab == 2">
@@ -132,10 +132,10 @@
         <div class="manageTabWrapper">
           <span>유저가 존재하지 않습니다.</span>
         </div>
-      </div>
-      <div class="MailTabWrapper">
-        <button @click="sendMail('pass')" class="MailTab">합격자들에게 메일 보내기</button>
-        <button @click="sendMail('fail')" class="MailTab">불합격자들에게 메일 보내기</button>
+        <div class="MailTabWrapper">
+          <button @click="sendMail('pass')" class="MailTab">합격자들에게 메일 보내기</button>
+          <button @click="sendMail('fail')" class="MailTab">불합격자들에게 메일 보내기</button>
+        </div>
       </div>
     </div>
   </div>
@@ -548,19 +548,19 @@ export default {
             }
           }
         }
-      }
-      .MailTabWrapper {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        justify-content: center;
-        width: 100%;
-        .MailTab {
-          @include largeButton(green);
-          margin-top: 12px;
-          text-align: center;
-          &:last-child {
-            @include largeButton(red);
+        .MailTabWrapper {
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+          justify-content: center;
+          width: 100%;
+          .MailTab {
+            @include largeButton(green);
+            margin-top: 12px;
+            text-align: center;
+            &:last-child {
+              @include largeButton(red);
+            }
           }
         }
       }
