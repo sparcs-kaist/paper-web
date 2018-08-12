@@ -51,6 +51,9 @@ export default {};
   text-decoration: none;
   color: rgba(0, 0, 0, 0.87);
   margin-left: 27px;
+  @include breakPoint('phone'){
+    display: none;
+  }
 }
 .image {
   height: 23px;
