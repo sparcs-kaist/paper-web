@@ -1,7 +1,7 @@
 <template lang=''>
   <div class="totalWrapper">
     <span class="replyWrapper">페이퍼를 성공적으로 생성하셨습니다.</span>
-    <span class="urlWrapper">질문지 공유 URL : https://apply.sparcs.org/apply/participate/2256</span>
+    <span class="urlWrapper">질문지 공유 URL : https://ssal.sparcs.org:16139/paper/participate/{{$route.params.paperId}}</span>
     <div class="tabWrapper">
       <span @click="routing('Main')" class="tabs">메인으로 돌아가기</span>
       <span @click="routing('MyPage')" class="tabs">마이페이지 가기</span>
@@ -25,12 +25,21 @@ export default {
 <style scoped lang='scss'>
 .totalWrapper {
   @include marginPage();
+  bottom: 68px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  @include breakPoint('phone') {
+    left: 5%;
+    right: 5%;
+  }
+  @include breakPoint('tablet') {
+    left: 5%;
+    right: 5%;
+  }
   .replyWrapper {
-    font-size: $max-font-size;
+    font-size: $small-max-font-size;
     font-weight: $big-font-weight;
     text-align: center;
   }
