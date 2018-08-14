@@ -16,11 +16,11 @@
     </div>
     <div class="row">
       <div class="column">
-        <form-wrapper :required="true" :toggle="false" type="text" :margin="true" title="제목" placeholder="제목을 입력하세요." :content.sync="title" ></form-wrapper>
-        <form-wrapper :required="true" :toggle="false" type="datetime-local" :margin="true" title="날짜 기한(Deadline)" placeholder="제목을 입력하세요." :content.sync="time" ></form-wrapper>
-        <form-wrapper :required="true" :toggle="false" type="text" :textarea="true" :margin="true" title="페이퍼 설명(1500자 이내)" placeholder="이 어플라이에 대한 설명을 입력해주세요." :content.sync="explaination" ></form-wrapper>
+        <form-wrapper v-intro="'The content of tooltip'" :required="true" :toggle="false" type="text" :margin="true" title="제목" placeholder="제목을 입력하세요." :content.sync="title" ></form-wrapper>
+        <form-wrapper v-intro="'The content of tooltip'" v-intro-step="2" :required="true" :toggle="false" type="datetime-local" :margin="true" title="날짜 기한(Deadline)" placeholder="제목을 입력하세요." :content.sync="time" ></form-wrapper>
+        <form-wrapper v-intro="'The content of tooltip'" v-intro-step="3" :required="true" :toggle="false" type="text" :textarea="true" :margin="true" title="페이퍼 설명(1500자 이내)" placeholder="이 어플라이에 대한 설명을 입력해주세요." :content.sync="explaination" ></form-wrapper>
       </div>
-      <div class="column">
+      <div v-intro="'페이퍼를 설명할 수 있는 URL을 넣어주세요. 자보의 URL을 넣으시면 해당하는 자보의 미니뷰가 생성됩니다.'" v-intro-step="3" class="column">
         <form-wrapper :required="false" :toggle="false" type="text" :margin="true" title="페이퍼 설명 URL(자보 미니뷰)" placeholder="ex) https://zabo.sparcs.org/zabo/24" :content.sync="url" ></form-wrapper>
         <mini-view :url="url"></mini-view>
         <button v-if="StartFormValidation" @click="currentTotalState = 'end' " class="goNext">질문지 만들러 가기</button>
@@ -87,6 +87,12 @@ export default {
     MiniView,
     PaperInputForm
   },
+  mounted () {
+    if (this.onBoardingState) {
+      this.$intro().start(); // start the guide
+      this.$store.commit("END_ONBOARDING", 'create')
+    }
+  },
   computed: {
     StartFormValidation() {
       if (this.title == "") {
@@ -98,8 +104,10 @@ export default {
       if (this.time == "") {
         return false;
       }
-
       return true;
+    },
+    onBoardingState () {
+      return this.$store.getters.onBoardingState.create;
     },
     EndFormValidation() {
       for (let i = 0; i < this.questions.length; i++) {
@@ -188,10 +196,12 @@ export default {
 .totalWrapper {
   @include marginPage();
   @include breakPoint('phone') {
+    top: 90px;
     left: 5%;
     right: 5%;
   }
   @include breakPoint('tablet') {
+    top: 90px;
     left: 5%;
     right: 5%;
   }
