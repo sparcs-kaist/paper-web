@@ -10,6 +10,9 @@ const getters = {
   },
   createdPapers(state) {
     return state.createdPapers;
+  },
+  onBoardingState (state) {
+    return state.onBoarding;
   }
 };
 
