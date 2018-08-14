@@ -47,7 +47,7 @@ export default new Router({
       component: ParticipateSubmitted
     },
     {
-      path: "/paper/create/submitted",
+      path: "/paper/create/submitted/:paperId",
       name: "CreateSubmitted",
       component: CreateSubmitted
     },
