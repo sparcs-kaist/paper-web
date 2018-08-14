@@ -17,13 +17,15 @@
         </div>
       </div>
     </div>
-    <v-radio-group v-model="finalAnswer.selects" v-if="optionsType == 'R'" class="optionsWrapper">
+    <v-radio-group v-intro-hint="'라디오 버튼'" v-intro-hint-position="'top-right'" v-model="finalAnswer.selects" v-if="optionsType == 'R'" class="optionsWrapper">
       <v-radio color="black" :disabled="disabled" v-for="(option, index) in inputOptions" :key="index" style="height: 40px; margin: 0; padding: 0;" @click.native="$emit('update:answers', computedAnswers)" :label="option.option" :value="option.id"></v-radio>
     </v-radio-group>
-    <div v-for="(option, index) in inputOptions" :key="index" v-if="optionsType == 'C'" class="optionsWrapper">
-      <v-checkbox color="black" :disabled="disabled" style="height: 40px; margin: 0; padding: 0;" @click.native="$emit('update:answers', computedAnswers)" v-model="finalAnswer.selects" :label="option.option" :value="option.id"></v-checkbox>
+    <div v-intro-hint="'체크박스'" v-intro-hint-position="'top-right'">
+      <div v-for="(option, index) in inputOptions" :key="index" v-if="optionsType == 'C'" class="optionsWrapper">
+        <v-checkbox color="black" :disabled="disabled" style="height: 40px; margin: 0; padding: 0;" @click.native="$emit('update:answers', computedAnswers)" v-model="finalAnswer.selects" :label="option.option" :value="option.id"></v-checkbox>
+      </div>
     </div>
-    <textarea :disabled="disabled" v-if="optionsType == 'O'" @change="emit" class="textArea" placeholder="장문형 텍스트" v-model="finalAnswer.content"/>
+    <textarea v-intro-hint="'장문'" v-intro-hint-position="'top-right'" :disabled="disabled" v-if="optionsType == 'O'" @change="emit" class="textArea" placeholder="장문형 텍스트" v-model="finalAnswer.content"/>
   </div>
 </template>
 <script>
@@ -54,8 +56,16 @@ export default {
     this.inputOptions = this.choices;
     this.finalAnswer = this.answers;
     this.$emit("update:answers", this.computedAnswers);
+    if (this.onBoardingState) {
+      setTimeout(() => {
+        this.$intro().showHints(); // show hints
+      }, 200)
+    }
   },
   computed: {
+    onBoardingState () {
+      return this.$store.getters.onBoardingState.participate;
+    },
     computedAnswers() {
       if (this.type == "O") {
         return {
