@@ -1,5 +1,5 @@
 <template lang=''>
-<div>
+<div id="createIntro">
   <div v-show="currentTotalState == 'start'" class="totalWrapper">
     <div class="row">
       <div class="headingWrapper">
@@ -16,15 +16,15 @@
     </div>
     <div class="row">
       <div class="column">
-        <form-wrapper v-intro="'The content of tooltip'" :required="true" :toggle="false" type="text" :margin="true" title="제목" placeholder="제목을 입력하세요." :content.sync="title" ></form-wrapper>
-        <form-wrapper v-intro="'The content of tooltip'" v-intro-step="2" :required="true" :toggle="false" type="datetime-local" :margin="true" title="날짜 기한(Deadline)" placeholder="제목을 입력하세요." :content.sync="time" ></form-wrapper>
-        <form-wrapper v-intro="'The content of tooltip'" v-intro-step="3" :required="true" :toggle="false" type="text" :textarea="true" :margin="true" title="페이퍼 설명(1500자 이내)" placeholder="이 어플라이에 대한 설명을 입력해주세요." :content.sync="explaination" ></form-wrapper>
+        <form-wrapper v-intro="'페이퍼의 제목을 입력하는 란입니다.'" :required="true" :toggle="false" type="text" :margin="true" title="제목" placeholder="제목을 입력하세요." :content.sync="title" ></form-wrapper>
+        <form-wrapper v-intro="'페이퍼의 날짜 기한(데드라인)을 입력하는 란입니다. 데드라인을 넘은 페이퍼는 자동으로 모집이 종료됩니다.'" v-intro-step="2" :required="true" :toggle="false" type="datetime-local" :margin="true" title="날짜 기한(Deadline)" placeholder="제목을 입력하세요." :content.sync="time" ></form-wrapper>
+        <form-wrapper v-intro="'페이퍼에 대한 설명을 1500자 이내로 적어주세요.'" v-intro-step="3" :required="true" :toggle="false" type="text" :textarea="true" :margin="true" title="페이퍼 설명(1500자 이내)" placeholder="이 어플라이에 대한 설명을 입력해주세요." :content.sync="explaination" ></form-wrapper>
       </div>
       <div v-intro="'페이퍼를 설명할 수 있는 URL을 넣어주세요. 자보의 URL을 넣으시면 해당하는 자보의 미니뷰가 생성됩니다.'" v-intro-step="3" class="column">
         <form-wrapper :required="false" :toggle="false" type="text" :margin="true" title="페이퍼 설명 URL(자보 미니뷰)" placeholder="ex) https://zabo.sparcs.org/zabo/24" :content.sync="url" ></form-wrapper>
         <mini-view :url="url"></mini-view>
         <button v-if="StartFormValidation" @click="currentTotalState = 'end' " class="goNext">질문지 만들러 가기</button>
-        <button v-else @click="notYetWarn" class="notYet">필수란들을 채워주세요</button>
+        <button v-intro="'모든 필수란을 채우셔야 질문지를 생성하실 수 있습니다.'" v-else @click="notYetWarn" class="notYet">필수란들을 채워주세요</button>
       </div>
     </div>
   </div>
@@ -35,7 +35,7 @@
       </div>
     </div>
     <div class="row">
-      <div class="column">
+      <div v-intro-hint="'버튼을 클릭하시면 새로운 질문들을 추가하실 수 있습니다.'" v-intro-hint-position="'top-right'" class="column">
         <paper-input-form v-if="!reRender" v-for="(question, index) in questions" :key="index" :index="index" :margin="true" @deleteQuestion="deleteQuestion(index)" :isMultiple.sync="question.is_multiple" :choices.sync="question.choices" :content.sync="question.content" :type.sync="question.type"></paper-input-form>
         <button @click="addQuestion" class="addQuestion">+ 질문 추가</button>
       </div>
@@ -43,7 +43,7 @@
         <div class="manageTitleWrapper">
           <span class="manageTitle">유의 사항</span>
         </div>
-        <div class="manageTabWrapper">
+        <div v-intro-hint="'페이퍼 생성시 유의사항들입니다. 꼭 유의사항들을 숙지하시고 페이퍼를 생성해주시길 바랍니다.'" v-intro-hint-position="'top-right'" class="manageTabWrapper">
           <div class="singleManagement">한번 생성한 질문지는 수정할 수 없습니다.</div>
           <div class="singleManagement">두번째 유의사항입니다.</div>
         </div>
@@ -78,7 +78,18 @@ export default {
       time: "",
       url: "",
       currentTotalState: "start",
-      questions: [],
+       questions: [
+        // {
+        //   content: "",
+        //   choices: [
+        //     {
+        //       option: ""
+        //     }
+        //   ],
+        //   type: "C",
+        //   is_multiple: true
+        // }
+      ],
       reRender: false
     };
   },
@@ -89,8 +100,7 @@ export default {
   },
   mounted () {
     if (this.onBoardingState) {
-      this.$intro().start(); // start the guide
-      this.$store.commit("END_ONBOARDING", 'create')
+      this.$intro('#createIntro').start(); // start the guide
     }
   },
   computed: {
@@ -124,6 +134,9 @@ export default {
       }
       return true;
     }
+  },
+  beforeDestroy () {
+    this.$intro().hideHints();
   },
   methods: {
     notYetWarn() {
@@ -188,6 +201,19 @@ export default {
         type: "C",
         is_multiple: true
       });
+    }
+  },
+  watch: {
+    currentTotalState (val) {
+      console.log(val);
+      if (val == 'end') {
+        if (this.onBoardingState) {
+          setTimeout(() => {
+            this.$intro('#createIntro').showHints(); // show hints
+            this.$store.commit("END_ONBOARDING", 'create') // end the guide
+          }, 500)
+        }
+      }
     }
   }
 };
