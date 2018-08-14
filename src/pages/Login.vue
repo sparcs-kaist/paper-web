@@ -5,13 +5,11 @@
         <router-link to="/">
           <img src="@/assets/logo.png" id="logo">
         </router-link>
-        <transition name="slide-fade" mode="out-in">
-          <div key="option" v-if="isZabologin === false" style="padding-left: 0px;">
-            <v-btn @click="login" depressed color="indigo darken-3" class="sso-login">
-              sparcs sso로 로그인
-            </v-btn>
-          </div>
-        </transition>
+        <div key="option" v-if="isZabologin === false" style="padding-left: 0px;">
+          <v-btn @click="login" depressed color="indigo darken-3" class="sso-login">
+            sparcs sso로 로그인
+          </v-btn>
+        </div>
         <p class="copyright">
           Copyright 2018. All right reserved.
         </p>
@@ -115,20 +113,43 @@ export default {
         margin-top: 20px;
       }
     }
+    @include breakPoint('phone') {
+      width: 250px;
+      height: 200px;
+      #vform {
+        width: 200px;
+        height: 100px;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        position: absolute;
+        background-color: white;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        #logo {
+          height: 40px;
+          margin-left: -10px;
+          margin-bottom: 10px;
+        }
+        .sso-login {
+          width: 100%;
+          height: 40px;
+          font-size: $h2-font-size;
+          font-family: Nanumsquare;
+          font-weight: $big-font-weight;
+          color: white;
+          margin-left: 0px;
+        }
+        .copyright {
+          width: 100%;
+          text-align: center;
+          font-size: $small-font-weight;
+          margin-top: 10px;
+        }
+      }
+    }
   }
-}
-
-.slide-fade-enter-active {
-  transition: all 0.1s ease-in-out;
-}
-
-.slide-fade-leave-active {
-  transition: all 0.1s cubic-bezier(1, 0.5, 0.8, 1);
-}
-
-.slide-fade-enter,
-.slide-fade-leave-to {
-  transform: translate(30px);
-  opacity: 0;
 }
 </style>
