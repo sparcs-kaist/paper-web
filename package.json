@@ -17,6 +17,7 @@
   "dependencies": {
     "@mdi/font": "^2.5.94",
     "axios": "^0.18.0",
+    "babel-polyfill": "^6.26.0",
     "chart.js": "^2.7.2",
     "html2canvas": "^1.0.0-alpha.12",
     "http-server": "^0.11.1",
