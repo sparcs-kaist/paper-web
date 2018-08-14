@@ -1,7 +1,7 @@
 <template lang=''>
-<div>
+<div id="participateIntro">
 <div v-if="!loading && timeValid">
-  <div v-show="currentTotalState == 'start'" class="totalWrapper">
+  <div v-if="currentTotalState == 'start'" class="totalWrapper">
     <div class="row">
       <div class="headingWrapper">
         <span class="headingTitle">페이퍼 정보 |</span>
@@ -16,18 +16,18 @@
     </div>
     <div class="row">
       <div class="column">
-        <form-wrapper :disabled="true" :toggle="false" type="text" :margin="true" title="제목" placeholder="제목을 입력하세요." :content="title" ></form-wrapper>
-        <form-wrapper :disabled="true" :toggle="false" type="datetime-local" :margin="true" title="날짜 기한(Deadline)" placeholder="제목을 입력하세요." :content="time" ></form-wrapper>
-        <form-wrapper :disabled="true" :toggle="false" type="text" :textarea="true" :margin="true" title="페이퍼 설명(1500자 이내)" placeholder="이 어플라이에 대한 설명을 입력해주세요." :content="explaination" ></form-wrapper>
+        <form-wrapper v-intro="'페이퍼의 제목입니다.'" :disabled="true" :toggle="false" type="text" :margin="true" title="제목" placeholder="제목을 입력하세요." :content="title" ></form-wrapper>
+        <form-wrapper v-intro="'페이퍼의 날짜 기한(데드라인)입니다. 제출하신 질문지는 기한이 만료되기 전까지 마이페이지에서 수정이 가능합니다.'" v-intro-step="2" :disabled="true" :toggle="false" type="datetime-local" :margin="true" title="날짜 기한(Deadline)" placeholder="제목을 입력하세요." :content="time" ></form-wrapper>
+        <form-wrapper v-intro="'페이퍼의 설명입니다.'" v-intro-step="3" :disabled="true" :toggle="false" type="text" :textarea="true" :margin="true" title="페이퍼 설명(1500자 이내)" placeholder="이 어플라이에 대한 설명을 입력해주세요." :content="explaination" ></form-wrapper>
       </div>
       <div class="column">
         <form-wrapper :disabled="true" :toggle="false" type="text" :margin="true" title="페이퍼 설명 URL(자보 미니뷰)" placeholder="ex) https://zabo.sparcs.org/zabo/24" :content="url" ></form-wrapper>
-        <mini-view :url="url"></mini-view>
-        <button @click="currentTotalState = 'end' " class="goNext">질문지 작성하러 가기</button>
+        <mini-view v-intro="'페이퍼의 설명 링크 중 자보에 해당하는 URL이 있을 시 미니뷰가 표시됩니다.'" v-intro-step="4" :url="url"></mini-view>
+        <button v-intro="'버튼을 누르시면 질문지를 작성하러 가실 수 있습니다.'" v-intro-step="5" @click="currentTotalState = 'end' " class="goNext">질문지 작성하러 가기</button>
       </div>
     </div>
   </div>
-  <div id="participateScreenshot" v-show="currentTotalState == 'end'" class="totalWrapper">
+  <div id="participateScreenshot" v-if="currentTotalState == 'end'" class="totalWrapper">
     <div class="row">
       <div class="headingWrapper">
         <span class="headingTitle"><v-icon @click="currentTotalState = 'start'" class="arrowIcon">mdi-arrow-left</v-icon>질문지 답변 작성</span>
@@ -37,7 +37,7 @@
       <div class="column">
         <paper-answer-form :disabled="false" v-for="(question, index) in questions" :key="index" :margin="true" :choices="question.choices" :title="question.content" :type="question.type" :answers.sync="answers[index]"></paper-answer-form>
       </div>
-      <div class="column">
+      <div v-intro-hint="'질문지 제출시 유의사항들입니다. 꼭 유의사항들을 숙지하시고 질문지를 제출해주시기 바랍니다.'" v-intro-hint-position="'top-right'" class="column">
         <div class="manageTitleWrapper">
           <span class="manageTitle">유의 사항</span>
         </div>
@@ -118,8 +118,16 @@ export default {
           }
         });
         this.loading = false;
+        setTimeout(() => {
+          if (this.onBoardingState) {
+            this.$intro('#participateIntro').start(); // start the guide
+          }
+        }, 200)
       }
     });
+  },
+  beforeDestroy () {
+    this.$intro().hideHints();
   },
   components: {
     FormWrapper,
@@ -160,6 +168,21 @@ export default {
       var today = new Date();
       console.log(this.time, today.toISOString().substring(0, 16));
       return this.time > today.toISOString().substring(0, 16);
+    },
+    onBoardingState () {
+      return this.$store.getters.onBoardingState.participate;
+    },
+  },
+  watch: {
+    currentTotalState (val) {
+      if (val == 'end') {
+        if (this.onBoardingState) {
+          setTimeout(() => {
+            this.$intro('#participateIntro').showHints(); // show hints
+            this.$store.commit("END_ONBOARDING", 'participate') // end the guide
+          }, 200)
+        }
+      }
     }
   }
 };

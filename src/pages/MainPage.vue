@@ -4,13 +4,38 @@
   <div class="explaination">
     페이퍼 이용방법을 보고싶으시다면 아래 버튼을 눌러주세요.
   </div>
-  <button class="onBoardingButton">
-    페이퍼 설명 보러가기
+  <button @click="menuOnboarding" class="onBoardingButton">
+    메뉴 설명 보러가기
+  </button>
+  <button @click="createOnboarding" class="onBoardingButton">
+    페이퍼 생성하는법 보러가기
+  </button>
+  <button @click="participateOnboarding" class="onBoardingButton">
+    페이퍼 참여하는법 보러가기
   </button>
 </div>
 </template>
 <script>
-export default {};
+export default {
+  methods: {
+    menuOnboarding () {
+      this.$store.commit("START_ONBOARDING", 'menu');
+    },
+    createOnboarding () {
+      this.$store.commit("START_ONBOARDING", 'create');
+      this.$router.push({name: "CreatePaper"})
+    },
+    participateOnboarding () {
+      this.$store.commit("START_ONBOARDING", 'participate');
+      this.$router.push({name: "ParticipatePaper", params: {PaperId: 38}})
+    },
+  },
+  mounted () {
+    this.$store.commit("END_ONBOARDING", 'participate');
+    this.$store.commit("END_ONBOARDING", 'create');
+    this.$store.commit("END_ONBOARDING", 'menu');
+  }
+};
 </script>
 <style lang='scss' scoped>
 .totalWrapper {
@@ -39,11 +64,13 @@ export default {};
   .explaination {
     font-size: $big-font-size;
     text-align: center;
+    margin-bottom: 30px;
   }
   .onBoardingButton {
     @include largeButton(theme);
     width: 50%;
     margin-top: 20px;
+    border-radius: 2px;
   }
   @include breakPoint('phone') {
     .header {

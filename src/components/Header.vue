@@ -4,8 +4,8 @@
     <div class="headerWrapper">
       <div class="column">
         <img @click="mainPage" src="@/assets/logo.png" class="logo">
-        <span @click="selectTab('tab1')" :class="computedTab1 ? 'selectedTab' : 'tabs'">{{$t('페이퍼 생성하기')}}</span>
-        <span @click="selectTab('tab2')" :class="computedTab2 ? 'selectedTab' : 'tabs'">{{$t('페이퍼 찾아보기')}}</span>
+        <span v-intro="'이곳에서 새로운 페이퍼를 생성하실 수 있습니다.'" @click="selectTab('tab1')" :class="tab1 ? 'selectedTab' : 'tabs'">{{$t('페이퍼 생성하기')}}</span>
+        <span v-intro="'이곳에서 새로운 페이퍼를 찾아보실 수 있습니다.'" v-intro-step="2" @click="selectTab('tab2')" :class="tab2 ? 'selectedTab' : 'tabs'">{{$t('페이퍼 찾아보기')}}</span>
       </div>
       <div v-if="currentUser.nickName == undefined" class="column">
         <span @click="profileModalState = !profileModalState" class="userName">nickName</span>
@@ -16,11 +16,11 @@
         <v-icon @click="profileModalState = !profileModalState" medium class="arrowIcon">arrow_drop_down</v-icon>
       </div>
       <div class="profileModalWrapper" v-show="profileModalState">
-        <div @click="logout" class="singleTapWrapper">
+        <div v-intro="'페이퍼 서비스와 스팍스 SSO에서 로그아웃 됩니다.'" v-intro-step="3" @click="logout" class="singleTapWrapper">
           <v-icon class="profileIcons">power_settings_new</v-icon>
           <span class="profileSpan">{{$t('로그아웃')}}</span>
         </div>
-        <div @click="profilePush" class="singleTapWrapper">
+        <div v-intro="'생성 또는 참여하신 페이퍼를 수정&메일링 등으로 관리하실 수 있습니다.'" v-intro-step="4" @click="profilePush" class="singleTapWrapper">
           <v-icon class="profileIcons">mdi-content-copy</v-icon>
           <span class="profileSpan">{{$t('페이퍼 관리')}}</span>
         </div>
@@ -66,6 +66,20 @@ export default {
   props: {
     currentUserLoading: Boolean
   },
+  created () {
+    var val = this.$router.currentRoute.name;
+    this.profileModalState = false;
+    if (val == 'CreatePaper') {
+      this.tab1 = true;
+      this.tab2 = false;
+    } else if (val == 'SearchForPaper') {
+      this.tab2 = true;
+      this.tab1 = false;
+    } else {
+      this.tab1 = false;
+      this.tab2 = false;
+    }
+  },
   methods: {
     mainPage() {
       this.tab1 = false;
@@ -102,27 +116,54 @@ export default {
     currentUser() {
       return this.$store.getters.currentUser;
     },
-    computedTab1() {
-      console.log(this.$router.currentRoute.name);
-      if (this.tab1 == false) {
-        return false;
-      } else {
-        if (this.$router.currentRoute.name != "CreatePaper") {
-          return false;
-        }
-      }
-      return true;
+    // computedTab1() {
+    //   console.log(this.$router.currentRoute.name);
+    //   if (this.tab1 == false) {
+    //     return false;
+    //   } else {
+    //     if (this.$router.currentRoute.name != "CreatePaper") {
+    //       return false;
+    //     }
+    //   }
+    //   return true;
+    // },
+    // computedTab2() {
+    //   console.log(this.$router.currentRoute.name);
+    //   if (this.tab2 == false) {
+    //     return false;
+    //   } else {
+    //     if (this.$router.currentRoute.name != "SearchForPaper") {
+    //       return false;
+    //     }
+    //   }
+    //   return true;
+    // },
+    onBoardingState () {
+      return this.$store.getters.onBoardingState.menu;
     },
-    computedTab2() {
-      console.log(this.$router.currentRoute.name);
-      if (this.tab2 == false) {
-        return false;
-      } else {
-        if (this.$router.currentRoute.name != "SearchForPaper") {
-          return false;
-        }
+  },
+  watch: {
+    onBoardingState (val) {
+      if (val) {
+        setTimeout(() => {
+          this.profileModalState = true;
+          this.$intro().start(); // start the guide
+          this.$store.commit("END_ONBOARDING", 'menu') // end the guide
+        }, 200)
       }
-      return true;
+    },
+    '$router.currentRoute.name' (val) {
+      this.profileModalState = false;
+      if (val == 'CreatePaper') {
+        this.tab1 = true;
+        this.tab2 = false;
+      } else if (val == 'SearchForPaper') {
+        this.tab2 = true;
+        this.tab1 = false;
+      } else {
+        this.tab1 = false;
+        this.tab2 = false;
+      }
     }
   }
 };

@@ -7,7 +7,12 @@ export default {
     loggedInState: false,
     currentUser: {},
     participatedPapers: [],
-    createdPapers: []
+    createdPapers: [],
+    onBoarding: {
+      menu: false,
+      participate: false,
+      create: false,
+    }
   },
   actions,
   mutations,

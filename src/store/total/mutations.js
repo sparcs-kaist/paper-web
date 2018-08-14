@@ -26,6 +26,24 @@ const mutations = {
   },
   [types.SET_CREATED_PAPERS](state, payload) {
     state.createdPapers = payload;
+  },
+  [types.START_ONBOARDING] (state, payload) {
+    if (payload == 'participate') {
+      state.onBoarding.participate = true;
+    } else if (payload == 'menu') {
+      state.onBoarding.menu = true;
+    } else if (payload == 'create') {
+      state.onBoarding.create = true;
+    } 
+  },
+  [types.END_ONBOARDING] (state, payload) {
+    if (payload == 'participate') {
+      state.onBoarding.participate = false;
+    } else if (payload == 'menu') {
+      state.onBoarding.menu = false;
+    } else if (payload == 'create') {
+      state.onBoarding.create = false;
+    }
   }
 };
 
