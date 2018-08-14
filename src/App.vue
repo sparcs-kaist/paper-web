@@ -33,8 +33,8 @@ export default {
   },
   created() {
     console.log(this.$router.currentRoute);
-    if (localStorage.getItem("token")) {
-      this.$store.dispatch("login", localStorage.getItem("token").slice(6));
+    if (sessionStorage.getItem("token")) {
+      this.$store.dispatch("login", sessionStorage.getItem("token").slice(6));
     }
   },
   methods: {},

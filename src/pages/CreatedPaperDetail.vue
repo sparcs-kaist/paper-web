@@ -174,7 +174,7 @@ export default {
     axios({
       url: `/api/papers/${this.$route.params.paperId}/admin/`,
       headers: {
-        Authorization: localStorage.getItem("token")
+        Authorization: sessionStorage.getItem("token")
       }
     }).then(res => {
       const { participates, questions, title } = res.data;
@@ -212,7 +212,7 @@ export default {
           method: "post",
           url: "/api/mails/",
           headers: {
-            Authorization: localStorage.getItem("token")
+            Authorization: sessionStorage.getItem("token")
           },
           data: {
             sender_address: this.currentUser.email,
@@ -232,7 +232,7 @@ export default {
           method: "post",
           url: "/api/mails/",
           headers: {
-            Authorization: localStorage.getItem("token")
+            Authorization: sessionStorage.getItem("token")
           },
           data: {
             sender_address: this.currentUser.email,

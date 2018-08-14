@@ -101,7 +101,7 @@ export default {
           method: "delete",
           url: `/api/papers/${this.createdId}/`,
           headers: {
-            Authorization: localStorage.getItem("token")
+            Authorization: sessionStorage.getItem("token")
           }
         }).then(res => {
           if (res.status == 204) {
@@ -118,7 +118,7 @@ export default {
           method: "delete",
           url: `/api/participates/${this.participatedId}/`,
           headers: {
-            Authorization: localStorage.getItem("token")
+            Authorization: sessionStorage.getItem("token")
           }
         }).then(res => {
           if (res.status == 204) {

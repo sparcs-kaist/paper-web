@@ -9,7 +9,7 @@ import axios from "@/axios-auth";
 export default {
   created() {
     console.log(this.$route.params.email);
-    if (localStorage.getItem("token")) {
+    if (sessionStorage.getItem("token")) {
       this.$router.push({ name: "MainPage" });
     } else {
       axios({
@@ -21,7 +21,7 @@ export default {
         }
       }).then(res => {
         console.log(res);
-        localStorage.setItem("token", "PAPER " + res.data.token);
+        sessionStorage.setItem("token", "PAPER " + res.data.token);
         window.location.reload();
       });
     }

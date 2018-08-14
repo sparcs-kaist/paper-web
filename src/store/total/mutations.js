@@ -3,9 +3,9 @@ import * as types from "@/store/mutation-types";
 const mutations = {
   [types.LOGIN](state, token) {
     if (token) {
-      localStorage.setItem("token", "PAPER " + token);
+      sessionStorage.setItem("token", "PAPER " + token);
     }
-    if (localStorage.getItem("token")) {
+    if (sessionStorage.getItem("token")) {
       state.loggedInState = true;
     }
   },
@@ -15,7 +15,7 @@ const mutations = {
     } = state;
     state.loggedInState = false;
     state.currentUser = {};
-    localStorage.removeItem("token");
+    sessionStorage.removeItem("token");
     window.location = `http://ssal.sparcs.org:16138/api/logout/?email=${email}`;
   },
   [types.SET_CURRENT_USER](state, payload) {
