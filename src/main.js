@@ -14,6 +14,13 @@ import router from "./router";
 
 import "@mdi/font/css/materialdesignicons.css";
 
+import 'intro.js/introjs.css';
+
+import VueIntro from 'vue-introjs'
+
+var introJS = require('intro.js').introJs
+introJS().start()
+
 Vue.config.productionTip = false;
 
 Vue.use(Vuetify, {
@@ -26,6 +33,9 @@ Vue.use(vuexI18n.plugin, store, {
     console.warn(`i18n :: Key '${key}' not found for locale '${locale}'`);
   }
 });
+
+// Intro.js global binding
+Vue.use(VueIntro)
 
 Vue.i18n.add("en", translationEn);
 Vue.i18n.add("kr", translationKr);

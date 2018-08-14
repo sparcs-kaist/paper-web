@@ -1,16 +1,22 @@
 <template lang=''>
 <div class="totalWrapper">
   <div class="header"><span class="theme">페이퍼</span>는 카이스트 리크루팅 및 설문조사 서비스입니다.</div>
-  <div class="explaination">
+  <div v-intro="'The content of tooltip'" v-intro-step="2" class="explaination">
     페이퍼 이용방법을 보고싶으시다면 아래 버튼을 눌러주세요.
   </div>
-  <button class="onBoardingButton">
+  <button v-intro="'The content of tooltip'" v-intro-tooltip-class="'blue-bg'" @click="onBoardingStart" class="onBoardingButton">
     페이퍼 설명 보러가기
   </button>
 </div>
 </template>
 <script>
-export default {};
+export default {
+  methods: {
+    onBoardingStart () {
+      this.$intro().start(); // start the guide
+    }
+  }
+};
 </script>
 <style lang='scss' scoped>
 .totalWrapper {

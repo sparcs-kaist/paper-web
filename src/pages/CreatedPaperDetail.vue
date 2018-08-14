@@ -68,7 +68,7 @@
             label="합격자에게 보내는 메일"
             outline
             auto-grow
-            :value="passedUsersMail"
+            v-model="passedUsersMail"
             class="mailText"
             color="green"
           ></v-textarea>
@@ -78,7 +78,7 @@
             label="불합격자에게 보내는 메일"
             outline
             auto-grow
-            :value="failedUsersMail"
+            v-model="failedUsersMail"
             class="mailText"
             color="red"
           ></v-textarea>
@@ -109,7 +109,7 @@
             label="합격자에게 보내는 메일"
             outline
             auto-grow
-            :value="passedUsersMail"
+            v-model="passedUsersMail"
             class="mailText"
             color="green"
           ></v-textarea>
@@ -119,7 +119,7 @@
             label="불합격자에게 보내는 메일"
             outline
             auto-grow
-            :value="failedUsersMail"
+            v-model="failedUsersMail"
             class="mailText"
             color="red"
           ></v-textarea>
@@ -207,6 +207,7 @@ export default {
             emailList.push(this.participates[i].author.email);
           }
         }
+        console.log('1', this.passedUsersMail, '2', this.currentUser.email, '3', JSON.stringify(emailList).split('[')[1].split(']')[0])
         axios({
           method: "post",
           url: "/api/mails/",
@@ -215,7 +216,7 @@ export default {
           },
           data: {
             sender_address: this.currentUser.email,
-            receivers_address: JSON.stringify(emailList),
+            receivers_address: JSON.stringify(emailList).split('[')[1].split(']')[0],
             subject: "Pass",
             message: this.passedUsersMail
           }
@@ -235,7 +236,7 @@ export default {
           },
           data: {
             sender_address: this.currentUser.email,
-            receivers_address: JSON.stringify(emailList),
+            receivers_address: JSON.stringify(emailList).split('[')[1].split(']')[0],
             subject: "Fail",
             message: this.failedUsersMail
           }
