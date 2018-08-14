@@ -94,17 +94,17 @@ export default {
       justify-content: center;
       #logo {
         height: 70px;
-        margin-left: -20px;
+        margin-left: -10px;
         margin-bottom: 20px;
       }
       .sso-login {
-        width: 300px;
+        min-width: 300px;
         height: 80px;
         font-size: 14pt;
         font-family: Nanumsquare;
         font-weight: 700;
         color: white;
-        margin-left: 0px;
+        text-align: center;
       }
       .copyright {
         width: 100%;
@@ -134,6 +134,7 @@ export default {
           margin-bottom: 10px;
         }
         .sso-login {
+          min-width: 0;
           width: 100%;
           height: 40px;
           font-size: $h2-font-size;
