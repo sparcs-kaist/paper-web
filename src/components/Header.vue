@@ -4,8 +4,8 @@
     <div class="headerWrapper">
       <div class="column">
         <img @click="mainPage" src="@/assets/logo.png" class="logo">
-        <span @click="selectTab('tab1')" :class="computedTab1 ? 'selectedTab' : 'tabs'">{{$t('페이퍼 생성하기')}}</span>
-        <span @click="selectTab('tab2')" :class="computedTab2 ? 'selectedTab' : 'tabs'">{{$t('페이퍼 찾아보기')}}</span>
+        <span v-intro="'The content of tooltip'" @click="selectTab('tab1')" :class="computedTab1 ? 'selectedTab' : 'tabs'">{{$t('페이퍼 생성하기')}}</span>
+        <span v-intro="'The content of tooltip'" v-intro-step="2" @click="selectTab('tab2')" :class="computedTab2 ? 'selectedTab' : 'tabs'">{{$t('페이퍼 찾아보기')}}</span>
       </div>
       <div v-if="currentUser.nickName == undefined" class="column">
         <span @click="profileModalState = !profileModalState" class="userName">nickName</span>
@@ -16,11 +16,11 @@
         <v-icon @click="profileModalState = !profileModalState" medium class="arrowIcon">arrow_drop_down</v-icon>
       </div>
       <div class="profileModalWrapper" v-show="profileModalState">
-        <div @click="logout" class="singleTapWrapper">
+        <div v-intro="'The content of tooltip'" v-intro-step="3" @click="logout" class="singleTapWrapper">
           <v-icon class="profileIcons">power_settings_new</v-icon>
           <span class="profileSpan">{{$t('로그아웃')}}</span>
         </div>
-        <div @click="profilePush" class="singleTapWrapper">
+        <div v-intro="'The content of tooltip'" v-intro-step="4" @click="profilePush" class="singleTapWrapper">
           <v-icon class="profileIcons">mdi-content-copy</v-icon>
           <span class="profileSpan">{{$t('페이퍼 관리')}}</span>
         </div>
@@ -123,6 +123,20 @@ export default {
         }
       }
       return true;
+    },
+    onBoardingState () {
+      return this.$store.getters.onBoardingState.menu;
+    },
+  },
+  watch: {
+    onBoardingState (val) {
+      if (val) {
+        setTimeout(() => {
+          this.profileModalState = true;
+          this.$intro().start(); // start the guide
+          this.$store.commit("END_ONBOARDING", 'menu') // end the guide
+        }, 200)
+      }
     }
   }
 };

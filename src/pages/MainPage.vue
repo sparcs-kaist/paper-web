@@ -20,7 +20,6 @@ export default {
   methods: {
     menuOnboarding () {
       this.$store.commit("START_ONBOARDING", 'menu');
-      this.$router.push({name: "CreatePaper"})
     },
     createOnboarding () {
       this.$store.commit("START_ONBOARDING", 'create');
