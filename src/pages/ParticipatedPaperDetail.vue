@@ -104,7 +104,7 @@ export default {
       method: "get",
       url: `/api/participates/${this.$route.params.participatedId}/`,
       headers: {
-        Authorization: localStorage.getItem("token")
+        Authorization: sessionStorage.getItem("token")
       }
     }).then(res => {
       console.log(res);
@@ -125,7 +125,7 @@ export default {
         url: `/api/participates/${this.$route.params.participatedId}/`,
         headers: {
           "Content-Type": "application/json",
-          Authorization: localStorage.getItem("token")
+          Authorization: sessionStorage.getItem("token")
         },
         data: {
           paper: `${this.paperId}`,

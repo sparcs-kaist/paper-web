@@ -12,18 +12,16 @@ export default {};
 </script>
 <style scoped lang='scss'>
 .totalWrapper {
+  @include marginPage();
+  bottom: 68px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   position: absolute;
-  top: 90px;
-  bottom: 68px;
-  left: 0;
-  right: 0;
   font-size: 2em;
   .errorCode {
-    font-size: $max-font-size;
+    font-size: $small-max-font-size;
     margin-bottom: 30px;
   }
   .contentWrapper {
@@ -33,6 +31,20 @@ export default {};
   .routing {
     color: $theme-color;
     font-size: $big-font-size;
+  }
+  @include breakPoint('phone') {
+    left: 5%;
+    right: 5%;
+    .contentWrapper {
+      font-size: $biggest-font-size;
+    }
+  }
+  @include breakPoint('tablet') {
+    left: 5%;
+    right: 5%;
+    .contentWrapper {
+      font-size: $biggest-font-size;
+    }
   }
 }
 </style>

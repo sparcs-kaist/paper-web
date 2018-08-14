@@ -180,13 +180,13 @@ export default {
             method: "post",
             headers: {
               "Content-Type": "multipart/form-data",
-              Authorization: localStorage.getItem("token")
+              Authorization: sessionStorage.getItem("token")
             },
             data: formData
           }).then(res => {
             console.log(res);
             if (res.status == 201) {
-              this.$router.push({ name: "CreateSubmitted" });
+              this.$router.push({ name: "CreateSubmitted", params: {paperId: res.data.paper} });
             } else {
               console.warn("post is not been done! Error occured!");
             }

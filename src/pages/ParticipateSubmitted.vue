@@ -24,6 +24,7 @@ export default {
 <style scoped lang='scss'>
 .totalWrapper {
   @include marginPage();
+  bottom: 68px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -59,6 +60,26 @@ export default {
       &:hover {
         color: $font-black-dark;
       }
+    }
+  }
+  @include breakPoint('phone') {
+    left: 5%;
+    right: 5%;
+    .urlWrapper {
+      font-size: $biggest-font-size;
+    }
+    .replyWrapper {
+      font-size: $biggest-font-size;
+    }
+  }
+  @include breakPoint('tablet') {
+    left: 5%;
+    right: 5%;
+    .urlWrapper {
+      font-size: $biggest-font-size;
+    }
+    .replyWrapper {
+      font-size: $biggest-font-size;
     }
   }
 }

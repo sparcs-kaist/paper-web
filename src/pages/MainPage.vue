@@ -81,6 +81,7 @@ export default {
     }
     .onBoardingButton {
       width: 80%;
+      font-size: $h2-font-size;
     }
   }
 }

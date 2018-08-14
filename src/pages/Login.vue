@@ -42,7 +42,7 @@ export default {
       this.isZabologin = !this.isZabologin;
     },
     loginForAlpha() {
-      localStorage.setItem(
+      sessionStorage.setItem(
         "token",
         "PAPER eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJvcmlnX2lhdCI6MTUzMzAzMjQyOSwiZXhwIjoxNTY0NTY4NDI5LCJlbWFpbCI6InBhcGVyQHNwYXJjcy5vcmciLCJ1c2VybmFtZSI6InBhcGVyQHNwYXJjcy5vcmciLCJ1c2VyX2lkIjoxfQ.X28pGHU8fSpUhkPIK1QStN2UKwmkanxz4ZhMwo9Ork4"
       );
