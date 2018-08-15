@@ -45,10 +45,10 @@ export default {
   justify-content: center;
   align-items: center;
   padding: 0 20px;
-  // background-color: pink;
+  background-color: pink;
   background: linear-gradient(
-      rgba(255, 255, 255, 0.1),
-      rgba(255, 255, 255, 0.1)
+      rgba(255, 255, 255, 0.9),
+      rgba(255, 255, 255, 0.9)
     ),
     url("../assets/white_wood.jpg") no-repeat center center fixed;
   background-size: cover;
@@ -74,11 +74,17 @@ export default {
   }
   @include breakPoint('phone') {
     .header {
-      font-size: $h1-font-size;
+      font-size: $big-font-size;
     }
     .explaination {
       font-size: $normal-font-size;
     }
+    .onBoardingButton {
+      width: 80%;
+      font-size: $h2-font-size;
+    }
+  }
+  @include breakPoint('tablet') {
     .onBoardingButton {
       width: 80%;
       font-size: $h2-font-size;
