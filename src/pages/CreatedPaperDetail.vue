@@ -64,24 +64,20 @@
     <div v-if="participates.length != 0 && selectedTab == 2" class="row">
       <div class="column">
         <div class="singleMailTextWrapper">
-          <v-textarea
-            label="합격자에게 보내는 메일"
-            outline
-            auto-grow
+          <input placeholder="합격자에게 보내는 메일" v-model="passedUsersTitle" class="mailTitle"/>
+          <textarea
+            placeholder="합격자에게 보내는 메일"
             v-model="passedUsersMail"
             class="mailText"
-            color="green"
-          ></v-textarea>
+          ></textarea>
         </div>
         <div class="singleMailTextWrapper">
-          <v-textarea
-            label="불합격자에게 보내는 메일"
-            outline
-            auto-grow
+          <input placeholder="합격자에게 보내는 메일" v-model="failedUsersTitle" class="mailTitle"/>
+          <textarea
+            placeholder="불합격자에게 보내는 메일"
             v-model="failedUsersMail"
             class="mailText"
-            color="red"
-          ></v-textarea>
+          ></textarea>
         </div>
       </div>
       <div class="column">
@@ -93,7 +89,7 @@
             <span class="nickName">{{participate.author.nickName}}</span>
             <span @click="passList[index].type = 1" :class="passList[index].type == 1 ? 'passSpan greenPassSpan' : 'passSpan'">합격</span>
             <span @click="passList[index].type = 2" :class="passList[index].type == 2 ? 'passSpan redPassSpan' : 'passSpan'">불합격</span>
-            <span @click="passList[index].type = 3" :class="passList[index].type == 3 ? 'passSpan normalPassSpan' : 'passSpan'">미정</span>
+            <!-- <span @click="passList[index].type = 3" :class="passList[index].type == 3 ? 'passSpan normalPassSpan' : 'passSpan'">미정</span> -->
           </div>
         </div>
         <div class="MailTabWrapper">
@@ -105,24 +101,20 @@
     <div class="row" v-if="participates.length == 0 && selectedTab == 2">
       <div class="column">
         <div class="singleMailTextWrapper">
-          <v-textarea
-            label="합격자에게 보내는 메일"
-            outline
-            auto-grow
+          <input placeholder="합격자에게 보내는 메일" v-model="passedUsersTitle" class="mailTitle"/>
+          <textarea
+            placeholder="합격자에게 보내는 메일"
             v-model="passedUsersMail"
             class="mailText"
-            color="green"
-          ></v-textarea>
+          ></textarea>
         </div>
         <div class="singleMailTextWrapper">
-          <v-textarea
-            label="불합격자에게 보내는 메일"
-            outline
-            auto-grow
+          <input placeholder="합격자에게 보내는 메일" v-model="failedUsersTitle" class="mailTitle"/>
+          <textarea
+            placeholder="불합격자에게 보내는 메일"
             v-model="failedUsersMail"
             class="mailText"
-            color="red"
-          ></v-textarea>
+          ></textarea>
         </div>
       </div>
       <div class="column">
@@ -163,6 +155,8 @@ export default {
       passList: [],
       passedUsersMail: "",
       failedUsersMail: "",
+      passedUsersTitle: "",
+      failedUsersTitle: "",
       reRender: false
     };
   },
@@ -217,7 +211,7 @@ export default {
           data: {
             sender_address: this.currentUser.email,
             receivers_address: JSON.stringify(emailList).split('[')[1].split(']')[0],
-            subject: "Pass",
+            subject: this.passedUsersTitle,
             message: this.passedUsersMail
           }
         });
@@ -237,7 +231,7 @@ export default {
           data: {
             sender_address: this.currentUser.email,
             receivers_address: JSON.stringify(emailList).split('[')[1].split(']')[0],
-            subject: "Fail",
+            subject: this.failedUsersTitle,
             message: this.failedUsersMail
           }
         });
@@ -493,8 +487,35 @@ export default {
       .column {
         .singleMailTextWrapper {
           margin-top: 10px;
-          .mailText {
+          font-size: $h2-font-size;
+          .mailTitle {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid $green-color;
+            border-radius: 5px;
+            margin-bottom: 5px;
             font-family: "NanumSquare", sans-serif;
+            &:focus {
+              outline: none;
+            }
+          }
+          .mailText {
+            width: 100%;
+            min-height: 200px;
+            font-family: "NanumSquare", sans-serif;
+            border: 1px solid $green-color;
+            border-radius: 5px;
+            padding: 10px;
+            margin-bottom: 10px;
+            resize: none;
+            &:focus {
+              outline: none;
+            }
+          }
+          &:last-child {
+            .mailTitle, .mailText {
+              border: 1px solid $red-color;
+            }
           }
         }
         .manageTitleWrapper {

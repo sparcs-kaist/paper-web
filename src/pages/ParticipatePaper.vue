@@ -4,26 +4,26 @@
   <div v-if="currentTotalState == 'start'" class="totalWrapper">
     <div class="row">
       <div class="headingWrapper">
-        <span class="headingTitle">페이퍼 정보 |</span>
+        <span class="headingTitle">{{title}} |</span>
       </div>
       <div class="categoryWrapper">
-        <span class="categoryHeading">카테고리 </span>
-        <input name="recruiting" type="radio" class="radio" value="recruiting" v-model="selectedCategory"/>
-        <label for="recruiting" class="label" >리크루팅</label>
-        <input disabled name="survey" type="radio" class="radio" value="survey" v-model="selectedCategory"/>
-        <label for="survey" class="label" >설문 조사</label>
+        <span class="categoryHeading">카테고리 : </span>
+        <span class="label">리크루팅</span>
+        <!-- <input name="recruiting" type="radio" class="radio" value="recruiting" v-model="selectedCategory"/> -->
+        <!-- <label for="recruiting" class="label" >리크루팅</label> -->
+        <!-- <input disabled name="survey" type="radio" class="radio" value="survey" v-model="selectedCategory"/> -->
+        <!-- <label for="survey" class="label" >설문 조사</label> -->
       </div>
     </div>
     <div class="row">
       <div class="column">
-        <form-wrapper v-intro="'페이퍼의 제목입니다.'" :disabled="true" :toggle="false" type="text" :margin="true" title="제목" placeholder="제목을 입력하세요." :content="title" ></form-wrapper>
         <form-wrapper v-intro="'페이퍼의 날짜 기한(데드라인)입니다. 제출하신 질문지는 기한이 만료되기 전까지 마이페이지에서 수정이 가능합니다.'" v-intro-step="2" :disabled="true" :toggle="false" type="datetime-local" :margin="true" title="날짜 기한(Deadline)" placeholder="제목을 입력하세요." :content="time" ></form-wrapper>
-        <form-wrapper v-intro="'페이퍼의 설명입니다.'" v-intro-step="3" :disabled="true" :toggle="false" type="text" :textarea="true" :margin="true" title="페이퍼 설명(1500자 이내)" placeholder="이 어플라이에 대한 설명을 입력해주세요." :content="explaination" ></form-wrapper>
+        <form-wrapper v-intro="'페이퍼의 설명입니다.'" v-intro-step="3" :disabled="true" :toggle="false" type="text" :textarea="true" :margin="true" title="페이퍼 설명" placeholder="이 어플라이에 대한 설명을 입력해주세요." :content="explaination" ></form-wrapper>
       </div>
       <div class="column">
-        <form-wrapper :disabled="true" :toggle="false" type="text" :margin="true" title="페이퍼 설명 URL(자보 미니뷰)" placeholder="ex) https://zabo.sparcs.org/zabo/24" :content="url" ></form-wrapper>
+        <form-wrapper :disabled="true" :toggle="false" type="text" :margin="true" title="페이퍼 설명 URL(자보 미니뷰)" placeholder="URL이 존재하지 않습니다." :content="url" ></form-wrapper>
         <mini-view v-intro="'페이퍼의 설명 링크 중 자보에 해당하는 URL이 있을 시 미니뷰가 표시됩니다.'" v-intro-step="4" :url="url"></mini-view>
-        <button v-intro="'버튼을 누르시면 질문지를 작성하러 가실 수 있습니다.'" v-intro-step="5" @click="currentTotalState = 'end' " class="goNext">질문지 작성하러 가기</button>
+        <button v-intro="'버튼을 누르시면 질문지를 작성하러 가실 수 있습니다.'" v-intro-step="5" @click="currentTotalState = 'end' " class="goNext">질문지 작성</button>
       </div>
     </div>
   </div>
@@ -120,13 +120,13 @@ export default {
         this.loading = false;
         setTimeout(() => {
           if (this.onBoardingState) {
-            this.$intro('#participateIntro').start(); // start the guide
+            this.$intro("#participateIntro").start(); // start the guide
           }
-        }, 200)
+        }, 200);
       }
     });
   },
-  beforeDestroy () {
+  beforeDestroy() {
     this.$intro().hideHints();
   },
   components: {
@@ -169,18 +169,18 @@ export default {
       console.log(this.time, today.toISOString().substring(0, 16));
       return this.time > today.toISOString().substring(0, 16);
     },
-    onBoardingState () {
+    onBoardingState() {
       return this.$store.getters.onBoardingState.participate;
-    },
+    }
   },
   watch: {
-    currentTotalState (val) {
-      if (val == 'end') {
+    currentTotalState(val) {
+      if (val == "end") {
         if (this.onBoardingState) {
           setTimeout(() => {
-            this.$intro('#participateIntro').showHints(); // show hints
-            this.$store.commit("END_ONBOARDING", 'participate') // end the guide
-          }, 200)
+            this.$intro("#participateIntro").showHints(); // show hints
+            this.$store.commit("END_ONBOARDING", "participate"); // end the guide
+          }, 200);
         }
       }
     }
@@ -190,15 +190,15 @@ export default {
 <style lang='scss' scoped>
 .totalWrapper {
   @include marginPage();
-  @include breakPoint('phone') {
+  @include breakPoint("phone") {
     left: 5%;
     right: 5%;
   }
-  @include breakPoint('tablet') {
+  @include breakPoint("tablet") {
     left: 5%;
     right: 5%;
   }
-  @include breakPoint('desktop') {
+  @include breakPoint("desktop") {
     top: 100px;
   }
   top: 100px;
@@ -213,7 +213,7 @@ export default {
     align-items: flex-start;
     &:first-child {
       align-items: center;
-      @include breakPoint('phone'){
+      @include breakPoint("phone") {
         flex-direction: column;
         justify-content: flex-start;
         align-items: flex-start;
@@ -237,9 +237,9 @@ export default {
           color: $essential-color;
           margin-left: 5px;
         }
-        @include breakPoint('phone'){
+        @include breakPoint("phone") {
           .headingTitle {
-            font-size: $normal-font-size;
+            font-size: $h1-font-size;
             font-weight: $big-font-weight;
             .arrowIcon {
               font-size: 24px;
@@ -249,10 +249,10 @@ export default {
         }
       }
       .categoryWrapper {
-        @include breakPoint('desktop') {
+        @include breakPoint("desktop") {
           margin-left: 40px;
         }
-        @include breakPoint('tablet') {
+        @include breakPoint("tablet") {
           margin-left: 30px;
         }
         .categoryHeading {
@@ -312,7 +312,7 @@ export default {
               font-size: $h1-font-size;
               font-weight: $big-font-weight;
             }
-            @include breakPoint('phone') {
+            @include breakPoint("phone") {
               margin-top: 0;
               .manageTitle {
                 font-size: $normal-font-size;
@@ -336,7 +336,7 @@ export default {
               margin: 10px 0;
               font-size: $h1-font-size;
               font-weight: $big-font-weight;
-              @include breakPoint('phone') {
+              @include breakPoint("phone") {
                 font-size: $h2-font-size;
               }
             }
