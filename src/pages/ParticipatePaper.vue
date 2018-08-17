@@ -43,7 +43,7 @@
         </div>
         <div class="manageTabWrapper">
           <div class="singleManagement">제출하신 질문지는 데드라인이 지날때까지 수정 가능합니다.</div>
-          <div class="singleManagement">두번째 유의사항입니다.</div>
+          <div class="singleManagement">페이퍼에 대한 합격 / 불합격 메일을 받고싶으시다면 마이페이지에서 메일을 수정하시거나 등록해주세요.</div>
         </div>
         <button @click="submitPaper" class="goNext">답변 제출하기</button>
       </div>
@@ -83,10 +83,12 @@ export default {
       questions: [],
       answers: [],
       loading: true,
-      email: ""
+      email: "",
+      localOnBoardingState: false
     };
   },
   mounted() {
+    this.localOnBoardingState = this.onBoardingState
     axios({
       method: "get",
       url: `/api/papers/${this.$route.params.PaperId}/`
@@ -119,8 +121,9 @@ export default {
         });
         this.loading = false;
         setTimeout(() => {
-          if (this.onBoardingState) {
+          if (this.localOnBoardingState) {
             this.$intro("#participateIntro").start(); // start the guide
+            this.$store.commit("END_ONBOARDING", "participate"); // end the guide
           }
         }, 200);
       }
@@ -176,10 +179,9 @@ export default {
   watch: {
     currentTotalState(val) {
       if (val == "end") {
-        if (this.onBoardingState) {
+        if (this.localOnBoardingState) {
           setTimeout(() => {
             this.$intro("#participateIntro").showHints(); // show hints
-            this.$store.commit("END_ONBOARDING", "participate"); // end the guide
           }, 200);
         }
       }
@@ -330,12 +332,10 @@ export default {
             flex-wrap: wrap;
             padding: 20px;
             .singleManagement {
-              display: flex;
-              align-items: center;
-              justify-content: flex-start;
               margin: 10px 0;
               font-size: $h1-font-size;
               font-weight: $big-font-weight;
+              text-align: center;
               @include breakPoint("phone") {
                 font-size: $h2-font-size;
               }
