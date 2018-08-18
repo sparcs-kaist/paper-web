@@ -169,6 +169,7 @@ export default {
           });
           formData.append("title", this.title);
           formData.append("content", this.explaination);
+          formData.append("poster_url", this.url);
           formData.append("preview_image", file);
           formData.append("questions", JSON.stringify(this.questions));
           formData.append(

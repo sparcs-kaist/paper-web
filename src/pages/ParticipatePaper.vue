@@ -98,7 +98,7 @@ export default {
         this.title = res.data.title;
         this.explaination = res.data.content;
         this.questions = res.data.questions;
-        this.url = res.data.url;
+        this.url = res.data.poster_url;
         this.email = res.data.author.email;
         this.time =
           res.data.deadline.split(" ")[0] +
