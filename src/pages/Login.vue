@@ -47,7 +47,7 @@ export default {
       window.location.reload();
     },
     login() {
-      window.location = "http://ssal.sparcs.org:16138/api/login/";
+      window.location = "http://tong.sparcs.org:16138/api/login/";
     }
   }
 };
@@ -113,7 +113,7 @@ export default {
         margin-top: 20px;
       }
     }
-    @include breakPoint('phone') {
+    @include breakPoint("phone") {
       width: 250px;
       height: 200px;
       #vform {

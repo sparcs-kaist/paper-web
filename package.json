@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "A Vue.js project",
   "author": "ujin43255252 <ujin43255252@gmail.com>",
-  "proxy": "http://ssal.sparcs.org:16138",
+  "proxy": "http://tong.sparcs.org:16138",
   "private": true,
   "scripts": {
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",

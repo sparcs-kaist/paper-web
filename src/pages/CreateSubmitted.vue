@@ -1,7 +1,7 @@
 <template lang=''>
   <div class="totalWrapper">
     <span class="replyWrapper">페이퍼를 성공적으로 생성하셨습니다.</span>
-    <span class="urlWrapper">질문지 공유 URL : https://ssal.sparcs.org:16139/paper/participate/{{$route.params.paperId}}</span>
+    <span class="urlWrapper">질문지 공유 URL : https://paper.sparcs.org/paper/participate/{{$route.params.paperId}}</span>
     <div class="tabWrapper">
       <span @click="routing('Main')" class="tabs">메인으로 돌아가기</span>
       <span @click="routing('MyPage')" class="tabs">마이페이지 가기</span>
@@ -30,11 +30,11 @@ export default {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  @include breakPoint('phone') {
+  @include breakPoint("phone") {
     left: 5%;
     right: 5%;
   }
-  @include breakPoint('tablet') {
+  @include breakPoint("tablet") {
     left: 5%;
     right: 5%;
   }
