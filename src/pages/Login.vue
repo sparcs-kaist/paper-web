@@ -40,7 +40,7 @@ export default {
       this.isZabologin = !this.isZabologin;
     },
     login() {
-      window.location = "http://ssal.sparcs.org:16138/api/login/";
+      window.location = "http://tong.sparcs.org:16138/api/login/";
     }
   }
 };
