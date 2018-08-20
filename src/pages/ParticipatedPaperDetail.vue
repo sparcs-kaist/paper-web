@@ -3,7 +3,7 @@
   <div v-if="!loading && timeValid" class="createdTotalWrapper">
     <div class="row">
       <div class="headingWrapper">
-        <span class="headingTitle">{{title}}</span>
+        <span class="headingTitle"><v-icon @click="$router.go(-1)" class="arrowIcon">mdi-arrow-left</v-icon>{{title}}</span>
       </div>
     </div>
     <div class="row">
@@ -112,7 +112,10 @@ export default {
       this.finalAnswers = this.computedAnswers;
       this.paperId = res.data.paper.id;
       this.title = res.data.paper.title;
-      this.time = res.data.paper.deadline.split(' ')[0] + "T" + res.data.paper.deadline.split(' ')[0];
+      this.time =
+        res.data.paper.deadline.split(" ")[0] +
+        "T" +
+        res.data.paper.deadline.split(" ")[0];
       this.email = res.data.author.email;
       this.loading = false;
     });
@@ -143,15 +146,15 @@ export default {
 <style lang='scss' scoped>
 .createdTotalWrapper {
   @include marginPage();
-  @include breakPoint('phone') {
+  @include breakPoint("phone") {
     left: 5%;
     right: 5%;
   }
-  @include breakPoint('tablet') {
+  @include breakPoint("tablet") {
     left: 5%;
     right: 5%;
   }
-  @include breakPoint('desktop') {
+  @include breakPoint("desktop") {
     top: 100px;
   }
   display: flex;
@@ -177,7 +180,7 @@ export default {
           font-size: $big-font-size;
           font-weight: $big-font-weight;
         }
-        @include breakPoint('phone'){
+        @include breakPoint("phone") {
           .headingTitle {
             font-size: $normal-font-size;
             font-weight: $big-font-weight;

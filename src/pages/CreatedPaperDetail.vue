@@ -3,7 +3,7 @@
   <div v-if="!loading" class="createdTotalWrapper">
     <div class="row">
       <div class="headingWrapper">
-        <span class="headingTitle">{{title}}</span>
+        <span class="headingTitle"><v-icon @click="$router.go(-1)" class="arrowIcon">mdi-arrow-left</v-icon>{{title}}</span>
       </div>
       <div class="tabsWrapper">
         <div @click="selectedTab = 1" :class="selectedTab == 1 ? 'singleTabWrapper selectedTab' : 'singleTabWrapper'">
@@ -201,7 +201,6 @@ export default {
             emailList.push(this.participates[i].author.email);
           }
         }
-        console.log('1', this.passedUsersMail, '2', this.currentUser.email, '3', JSON.stringify(emailList).split('[')[1].split(']')[0])
         axios({
           method: "post",
           url: "/api/mails/",
@@ -210,9 +209,19 @@ export default {
           },
           data: {
             sender_address: this.currentUser.email,
-            receivers_address: JSON.stringify(emailList).split('[')[1].split(']')[0],
+            receivers_address: JSON.stringify(emailList)
+              .split("[")[1]
+              .split("]")[0],
             subject: this.passedUsersTitle,
             message: this.passedUsersMail
+          }
+        }).then(res => {
+          if (res.status == 201) {
+            alert("메일이 정상적으로 보내졌습니다.");
+            this.passedUsersTitle = "";
+            this.passedUsersMail = "";
+          } else {
+            alert("메일을 보내는데 실패하였습니다.");
           }
         });
       }
@@ -230,9 +239,19 @@ export default {
           },
           data: {
             sender_address: this.currentUser.email,
-            receivers_address: JSON.stringify(emailList).split('[')[1].split(']')[0],
+            receivers_address: JSON.stringify(emailList)
+              .split("[")[1]
+              .split("]")[0],
             subject: this.failedUsersTitle,
             message: this.failedUsersMail
+          }
+        }).then(res => {
+          if (res.status == 201) {
+            alert("메일이 정상적으로 보내졌습니다.");
+            this.failedUsersTitle = "";
+            this.failedUsersMail = "";
+          } else {
+            alert("메일을 보내는데 실패하였습니다.");
           }
         });
       }
@@ -342,15 +361,15 @@ export default {
 <style lang='scss' scoped>
 .createdTotalWrapper {
   @include marginPage();
-  @include breakPoint('phone') {
+  @include breakPoint("phone") {
     left: 5%;
     right: 5%;
   }
-  @include breakPoint('tablet') {
+  @include breakPoint("tablet") {
     left: 5%;
     right: 5%;
   }
-  @include breakPoint('desktop') {
+  @include breakPoint("desktop") {
     top: 100px;
   }
   display: flex;
@@ -376,7 +395,7 @@ export default {
           font-size: $big-font-size;
           font-weight: $big-font-weight;
         }
-        @include breakPoint('phone'){
+        @include breakPoint("phone") {
           .headingTitle {
             font-size: $normal-font-size;
             font-weight: $big-font-weight;
@@ -398,7 +417,7 @@ export default {
           display: flex;
           justify-content: center;
           align-items: center;
-          @include breakPoint('phone') {
+          @include breakPoint("phone") {
             font-size: $normal-font-size;
           }
           cursor: pointer;
@@ -451,7 +470,7 @@ export default {
       margin-left: 10px;
       font-size: $h1-font-size;
     }
-    &:last-child{
+    &:last-child {
       width: 100%;
       display: flex;
       justify-content: flex-start;
@@ -513,7 +532,8 @@ export default {
             }
           }
           &:last-child {
-            .mailTitle, .mailText {
+            .mailTitle,
+            .mailText {
               border: 1px solid $red-color;
             }
           }
@@ -525,7 +545,7 @@ export default {
             font-size: $h1-font-size;
             font-weight: $big-font-weight;
           }
-          @include breakPoint('phone') {
+          @include breakPoint("phone") {
             margin-top: 0;
             .manageTitle {
               font-size: $normal-font-size;
@@ -564,7 +584,7 @@ export default {
             height: 35px;
             width: 45%;
             font-size: $normal-font-size;
-            @include breakPoint('phone') {
+            @include breakPoint("phone") {
               width: 100%;
               font-size: $h2-font-size;
             }

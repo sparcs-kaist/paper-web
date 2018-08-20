@@ -42,7 +42,7 @@ export default {
   },
   computed: {
     miniview() {
-      var expUrl = /^http[s]?\:\/\/tong.sparcs.org:16139\/zabo\//;
+      var expUrl = /^http[s]?\:\/\/ssal.sparcs.org:16139\/zabo\//;
       return expUrl.test(this.url);
     }
   },
@@ -72,7 +72,7 @@ export default {
       }
       console.log(zaboId);
       axios
-        .get("http://tong.sparcs.org:16135/api/zaboes/" + zaboId)
+        .get("http://ssal.sparcs.org:16135/api/zaboes/" + zaboId)
         .then(res => {
           const {
             title,
@@ -107,7 +107,7 @@ export default {
         let zabo = this.url.split("/");
         let zaboId = zabo[zabo.length - 1];
         axios
-          .get("http://tong.sparcs.org:16135/api/zaboes/" + zaboId)
+          .get("http://ssal.sparcs.org:16135/api/zaboes/" + zaboId)
           .then(res => {
             const {
               title,

@@ -54,10 +54,12 @@ export default {
   methods: {
     search() {
       this.loading = true;
-      axios.get(`/api/papers/?search=${this.searchTerm}`).then(res => {
-        this.papers = res.data.data;
-        this.loading = false;
-      });
+      if (this.searchTerm != "") {
+        axios.get(`/api/papers/?search=${this.searchTerm}`).then(res => {
+          this.papers = res.data.data;
+          this.loading = false;
+        });
+      }
     }
   }
 };
