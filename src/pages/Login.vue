@@ -39,15 +39,8 @@ export default {
     zabologin() {
       this.isZabologin = !this.isZabologin;
     },
-    loginForAlpha() {
-      sessionStorage.setItem(
-        "token",
-        "PAPER eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJvcmlnX2lhdCI6MTUzMzAzMjQyOSwiZXhwIjoxNTY0NTY4NDI5LCJlbWFpbCI6InBhcGVyQHNwYXJjcy5vcmciLCJ1c2VybmFtZSI6InBhcGVyQHNwYXJjcy5vcmciLCJ1c2VyX2lkIjoxfQ.X28pGHU8fSpUhkPIK1QStN2UKwmkanxz4ZhMwo9Ork4"
-      );
-      window.location.reload();
-    },
     login() {
-      window.location = "http://tong.sparcs.org:16138/api/login/";
+      window.location = "http://ssal.sparcs.org:16138/api/login/";
     }
   }
 };
