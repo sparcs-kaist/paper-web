@@ -38,7 +38,7 @@ export default new Router({
       component: ParticipatePaper
     },
     {
-      path: "/login/:email",
+      path: "/login/:token",
       name: "LoginCallback",
       component: LoginCallback
     },

@@ -8,23 +8,9 @@ import axios from "@/axios-auth";
 
 export default {
   created() {
-    console.log(this.$route.params.email);
-    if (sessionStorage.getItem("token")) {
-      this.$router.push({ name: "MainPage" });
-    } else {
-      axios({
-        url: "/api-token-auth/",
-        method: "post",
-        data: {
-          email: this.$route.params.email,
-          password: this.$route.params.email
-        }
-      }).then(res => {
-        console.log(res);
-        sessionStorage.setItem("token", "PAPER " + res.data.token);
-        window.location.reload();
-      });
-    }
+    console.log(this.$route.params.token);
+    sessionStorage.setItem("token", "PAPER " + this.$route.params.token);
+    window.location.reload();
   }
 };
 </script>
