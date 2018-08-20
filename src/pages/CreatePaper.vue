@@ -45,7 +45,7 @@
         </div>
         <div v-intro-hint="'페이퍼 생성시 유의사항들입니다. 꼭 유의사항들을 숙지하시고 페이퍼를 생성해주시길 바랍니다.'" v-intro-hint-position="'top-right'" class="manageTabWrapper">
           <div class="singleManagement">한번 생성한 질문지는 수정할 수 없습니다.</div>
-          <div class="singleManagement">두번째 유의사항입니다.</div>
+          <div class="singleManagement">원작자의 승낙 없이 복사/복제/변경 등의 방법으로 사용하거나 이를 타인에게 제공할 수 없습니다.</div>
         </div>
         <button v-show="EndFormValidation" @click="submitPaper" class="goNext">질문지 생성하기</button>
         <button v-show="!EndFormValidation" @click="notYetWarn" class="notYet">모든 란을 채워주세요</button>
@@ -78,7 +78,7 @@ export default {
       time: "",
       url: "",
       currentTotalState: "start",
-       questions: [
+      questions: [
         // {
         //   content: "",
         //   choices: [
@@ -98,9 +98,9 @@ export default {
     MiniView,
     PaperInputForm
   },
-  mounted () {
+  mounted() {
     if (this.onBoardingState) {
-      this.$intro('#createIntro').start(); // start the guide
+      this.$intro("#createIntro").start(); // start the guide
     }
   },
   computed: {
@@ -116,7 +116,7 @@ export default {
       }
       return true;
     },
-    onBoardingState () {
+    onBoardingState() {
       return this.$store.getters.onBoardingState.create;
     },
     EndFormValidation() {
@@ -135,7 +135,7 @@ export default {
       return true;
     }
   },
-  beforeDestroy () {
+  beforeDestroy() {
     this.$intro().hideHints();
   },
   methods: {
@@ -187,7 +187,10 @@ export default {
           }).then(res => {
             console.log(res);
             if (res.status == 201) {
-              this.$router.push({ name: "CreateSubmitted", params: {paperId: res.data.paper} });
+              this.$router.push({
+                name: "CreateSubmitted",
+                params: { paperId: res.data.paper }
+              });
             } else {
               console.warn("post is not been done! Error occured!");
             }
@@ -205,14 +208,14 @@ export default {
     }
   },
   watch: {
-    currentTotalState (val) {
+    currentTotalState(val) {
       console.log(val);
-      if (val == 'end') {
+      if (val == "end") {
         if (this.onBoardingState) {
           setTimeout(() => {
-            this.$intro('#createIntro').showHints(); // show hints
-            this.$store.commit("END_ONBOARDING", 'create') // end the guide
-          }, 500)
+            this.$intro("#createIntro").showHints(); // show hints
+            this.$store.commit("END_ONBOARDING", "create"); // end the guide
+          }, 500);
         }
       }
     }
@@ -222,17 +225,17 @@ export default {
 <style lang='scss' scoped>
 .totalWrapper {
   @include marginPage();
-  @include breakPoint('phone') {
+  @include breakPoint("phone") {
     top: 90px;
     left: 5%;
     right: 5%;
   }
-  @include breakPoint('tablet') {
+  @include breakPoint("tablet") {
     top: 90px;
     left: 5%;
     right: 5%;
   }
-  @include breakPoint('desktop') {
+  @include breakPoint("desktop") {
     top: 100px;
   }
   display: flex;
@@ -245,15 +248,15 @@ export default {
     justify-content: flex-start;
     align-items: flex-start;
     &:first-child {
-      @include breakPoint('phone'){
+      @include breakPoint("phone") {
         flex-direction: column;
         justify-content: flex-start;
         align-items: flex-start;
       }
-      @include breakPoint('tablet'){
+      @include breakPoint("tablet") {
         align-items: center;
       }
-      @include breakPoint('desktop') {
+      @include breakPoint("desktop") {
         align-items: center;
       }
       .headingWrapper {
@@ -275,7 +278,7 @@ export default {
           color: $essential-color;
           margin-left: 5px;
         }
-        @include breakPoint('phone'){
+        @include breakPoint("phone") {
           .headingTitle {
             font-size: $normal-font-size;
             font-weight: $big-font-weight;
@@ -287,10 +290,10 @@ export default {
         }
       }
       .categoryWrapper {
-        @include breakPoint('desktop') {
+        @include breakPoint("desktop") {
           margin-left: 40px;
         }
-        @include breakPoint('tablet') {
+        @include breakPoint("tablet") {
           margin-left: 30px;
         }
         .categoryHeading {
@@ -350,7 +353,7 @@ export default {
               font-size: $h1-font-size;
               font-weight: $big-font-weight;
             }
-            @include breakPoint('phone') {
+            @include breakPoint("phone") {
               margin-top: 0;
               .manageTitle {
                 font-size: $normal-font-size;
@@ -374,7 +377,7 @@ export default {
               margin: 10px 0;
               font-size: $h1-font-size;
               text-align: center;
-              @include breakPoint('phone') {
+              @include breakPoint("phone") {
                 font-size: $h2-font-size;
               }
               font-weight: $big-font-weight;
