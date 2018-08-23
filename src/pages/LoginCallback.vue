@@ -9,8 +9,12 @@ import axios from "@/axios-auth";
 export default {
   created() {
     console.log(this.$route.params.token);
-    sessionStorage.setItem("token", "PAPER " + this.$route.params.token);
-    window.location.reload();
+    if (sessionStorage.getItem("token")) {
+      this.$router.push({ name: "MainPage" });
+    } else {
+      sessionStorage.setItem("token", "PAPER " + this.$route.params.token);
+      window.location.reload();
+    }
   }
 };
 </script>
