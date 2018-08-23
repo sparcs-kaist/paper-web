@@ -18,22 +18,22 @@
 <script>
 export default {
   methods: {
-    menuOnboarding () {
-      this.$store.commit("START_ONBOARDING", 'menu');
+    menuOnboarding() {
+      this.$store.commit("START_ONBOARDING", "menu");
     },
-    createOnboarding () {
-      this.$store.commit("START_ONBOARDING", 'create');
-      this.$router.push({name: "CreatePaper"})
+    createOnboarding() {
+      this.$store.commit("START_ONBOARDING", "create");
+      this.$router.push({ name: "CreatePaper" });
     },
-    participateOnboarding () {
-      this.$store.commit("START_ONBOARDING", 'participate');
-      this.$router.push({name: "ParticipatePaper", params: {PaperId: 38}})
-    },
+    participateOnboarding() {
+      this.$store.commit("START_ONBOARDING", "participate");
+      this.$router.push({ name: "ParticipatePaper", params: { PaperId: 38 } });
+    }
   },
-  mounted () {
-    this.$store.commit("END_ONBOARDING", 'participate');
-    this.$store.commit("END_ONBOARDING", 'create');
-    this.$store.commit("END_ONBOARDING", 'menu');
+  mounted() {
+    this.$store.commit("END_ONBOARDING", "participate");
+    this.$store.commit("END_ONBOARDING", "create");
+    this.$store.commit("END_ONBOARDING", "menu");
   }
 };
 </script>
@@ -72,7 +72,7 @@ export default {
     margin-top: 20px;
     border-radius: 2px;
   }
-  @include breakPoint('phone') {
+  @include breakPoint("phone") {
     .header {
       font-size: $big-font-size;
     }
@@ -84,7 +84,7 @@ export default {
       font-size: $h2-font-size;
     }
   }
-  @include breakPoint('tablet') {
+  @include breakPoint("tablet") {
     .onBoardingButton {
       width: 80%;
       font-size: $h2-font-size;

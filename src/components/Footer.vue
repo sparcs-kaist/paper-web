@@ -78,7 +78,7 @@ export default {
 <style scoped lang='scss'>
 .footerWrapper {
   display: flex;
-  position: fixed;
+  position: relative;
   height: 68px;
   width: 100%;
   bottom: 0;

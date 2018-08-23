@@ -3,7 +3,7 @@
     <div v-if="loggedInState" class="private">
       <Header :currentUserLoading="currentUserLoading" />
       <router-view :key="$route.name + ($route.params.id || '')"></router-view>
-      <Footer />
+      <!-- <Footer /> -->
     </div>
     <div v-if="!loggedInState" class="public">
       <login v-if="$router.currentRoute.name != 'LoginCallback'"></login>
