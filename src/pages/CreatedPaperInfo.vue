@@ -61,7 +61,6 @@ export default {
       method: "get",
       url: `/api/papers/${this.$route.params.paperId}/`
     }).then(res => {
-      console.log(res);
       if (res.status == 200) {
         this.title = res.data.title;
         this.explaination = res.data.content;
@@ -109,7 +108,7 @@ export default {
     onBoardingState() {
       return this.$store.getters.onBoardingState.participate;
     }
-  },
+  }
 };
 </script>
 <style lang='scss' scoped>

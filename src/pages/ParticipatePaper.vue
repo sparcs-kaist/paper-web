@@ -9,10 +9,6 @@
       <div class="categoryWrapper">
         <span class="categoryHeading">카테고리 : </span>
         <span class="label">리크루팅</span>
-        <!-- <input name="recruiting" type="radio" class="radio" value="recruiting" v-model="selectedCategory"/> -->
-        <!-- <label for="recruiting" class="label" >리크루팅</label> -->
-        <!-- <input disabled name="survey" type="radio" class="radio" value="survey" v-model="selectedCategory"/> -->
-        <!-- <label for="survey" class="label" >설문 조사</label> -->
       </div>
     </div>
     <div class="row">
@@ -88,12 +84,11 @@ export default {
     };
   },
   mounted() {
-    this.localOnBoardingState = this.onBoardingState
+    this.localOnBoardingState = this.onBoardingState;
     axios({
       method: "get",
       url: `/api/papers/${this.$route.params.PaperId}/`
     }).then(res => {
-      console.log(res);
       if (res.status == 200) {
         this.title = res.data.title;
         this.explaination = res.data.content;
@@ -139,8 +134,6 @@ export default {
   },
   methods: {
     submitPaper() {
-      console.log(this.$route.params.PaperId);
-      console.log(JSON.stringify(this.answers));
       axios({
         method: "post",
         url: "/api/participates/",
@@ -163,13 +156,11 @@ export default {
         title: "",
         options: [""]
       });
-      console.log(this.questions);
     }
   },
   computed: {
     timeValid() {
       var today = new Date();
-      console.log(this.time, today.toISOString().substring(0, 16));
       return this.time > today.toISOString().substring(0, 16);
     },
     onBoardingState() {

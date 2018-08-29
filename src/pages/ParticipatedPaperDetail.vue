@@ -59,7 +59,6 @@ export default {
   computed: {
     timeValid() {
       var today = new Date();
-      console.log(this.time, today.toISOString().substring(0, 16));
       return this.time > today.toISOString().substring(0, 16);
     },
     computedAnswers() {
@@ -107,7 +106,6 @@ export default {
         Authorization: sessionStorage.getItem("token")
       }
     }).then(res => {
-      console.log(res);
       this.answers = res.data.answers;
       this.finalAnswers = this.computedAnswers;
       this.paperId = res.data.paper.id;
@@ -122,7 +120,6 @@ export default {
   },
   methods: {
     submitPaper() {
-      console.log(this.finalAnswers);
       axios({
         method: "put",
         url: `/api/participates/${this.$route.params.participatedId}/`,

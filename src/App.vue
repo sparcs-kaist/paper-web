@@ -32,7 +32,6 @@ export default {
     };
   },
   created() {
-    console.log(this.$router.currentRoute);
     if (sessionStorage.getItem("token")) {
       this.$store.dispatch("login", sessionStorage.getItem("token").slice(6));
     }

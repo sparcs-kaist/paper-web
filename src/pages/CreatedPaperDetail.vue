@@ -172,7 +172,6 @@ export default {
       }
     }).then(res => {
       const { participates, questions, title } = res.data;
-      console.log(participates, questions);
       this.participates = participates;
       this.questions = questions;
       this.title = title;
@@ -262,7 +261,6 @@ export default {
       return this.$store.getters.currentUser;
     },
     computedAnswers() {
-      console.log(this.answers);
       if (this.answers.length > 0 && this.participates.length != 0) {
         return this.answers.map(answerList => {
           return answerList.map(answer => {

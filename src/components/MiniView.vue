@@ -71,7 +71,6 @@ export default {
       } else {
         zaboId = zabo[zabo.length - 1];
       }
-      console.log(zaboId);
       axios.get(zaboURL + "/api/zaboes/" + zaboId).then(res => {
         const {
           title,

@@ -147,7 +147,6 @@ export default {
       for (let i = 0; i < this.questions.length; i++) {
         if (i != index) {
           newQuestions.push(this.questions[i]);
-          console.log(newQuestions, i, index);
         }
       }
       this.questions = newQuestions;
@@ -185,7 +184,6 @@ export default {
             },
             data: formData
           }).then(res => {
-            console.log(res);
             if (res.status == 201) {
               this.$router.push({
                 name: "CreateSubmitted",
@@ -209,7 +207,6 @@ export default {
   },
   watch: {
     currentTotalState(val) {
-      console.log(val);
       if (val == "end") {
         if (this.onBoardingState) {
           setTimeout(() => {

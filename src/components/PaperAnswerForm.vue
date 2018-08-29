@@ -76,7 +76,6 @@ export default {
   },
   methods: {
     emit() {
-      console.log(this.computedAnswers);
       this.$emit("update:answers", this.computedAnswers);
     },
     addOption(event, index) {
