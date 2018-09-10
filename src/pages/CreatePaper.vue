@@ -18,6 +18,13 @@
       <div class="column">
         <form-wrapper v-intro="'페이퍼의 제목을 입력하는 란입니다.'" :required="true" :toggle="false" type="text" :margin="true" title="제목" placeholder="제목을 입력하세요." :content.sync="title" ></form-wrapper>
         <form-wrapper v-intro="'페이퍼의 날짜 기한(데드라인)을 입력하는 란입니다. 데드라인을 넘은 페이퍼는 자동으로 모집이 종료됩니다.'" v-intro-step="2" :required="true" :toggle="false" type="datetime-local" :margin="true" title="날짜 기한(Deadline)" placeholder="제목을 입력하세요." :content.sync="time" ></form-wrapper>
+        <div class="categoryWrapper">
+          <span class="categoryHeading">카이스트외 참가 여부 </span>
+          <input name="poss" type="radio" class="radio" :value="true" v-model="outsideKAIST"/>
+          <label for="poss" class="label" >가능</label>
+          <input name="imposs" type="radio" class="radio" :value="false" v-model="outsideKAIST"/>
+          <label for="imposs" class="label" >불가능</label>
+        </div>
         <form-wrapper v-intro="'페이퍼에 대한 설명을 1500자 이내로 적어주세요.'" v-intro-step="3" :required="true" :toggle="false" type="text" :textarea="true" :margin="true" title="페이퍼 설명(1500자 이내)" placeholder="이 어플라이에 대한 설명을 입력해주세요." :content.sync="explaination" ></form-wrapper>
       </div>
       <div v-intro="'페이퍼를 설명할 수 있는 URL을 넣어주세요. 자보의 URL을 넣으시면 해당하는 자보의 미니뷰가 생성됩니다.'" v-intro-step="3" class="column">
@@ -90,7 +97,8 @@ export default {
         //   is_multiple: true
         // }
       ],
-      reRender: false
+      reRender: false,
+      outsideKAIST: false
     };
   },
   components: {
