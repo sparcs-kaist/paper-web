@@ -1,5 +1,5 @@
 <template lang=''>
-<div id="participateIntro">
+<div v-if="!error" id="participateIntro">
 <div v-if="!loading && timeValid">
   <div v-if="currentTotalState == 'start'" class="totalWrapper">
     <div class="row">
@@ -59,6 +59,11 @@
   <span class="emailSpan">관리자 이메일 : {{email}}</span>
 </div>
 </div>
+<div v-else class="expiredPaper">
+  <span class="expiredSpan">카이스트인만 지원할 수 있는 페이퍼입니다.</span>
+  <span class="expiredSpan">페이퍼 관리자에게 문의해주십시요.</span>
+  <span class="emailSpan">관리자 이메일 : {{email}}</span>
+</div>
 </template>
 <script>
 import FormWrapper from "@/components/FormWrapper";
@@ -80,7 +85,8 @@ export default {
       answers: [],
       loading: true,
       email: "",
-      localOnBoardingState: false
+      localOnBoardingState: false,
+      error: false
     };
   },
   mounted() {
@@ -122,6 +128,9 @@ export default {
           }
         }, 200);
       }
+    })
+    .error(err => {
+      this.error = true;
     });
   },
   beforeDestroy() {
