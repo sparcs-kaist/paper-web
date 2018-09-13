@@ -18,8 +18,9 @@
       <div class="column">
         <form-wrapper v-intro="'페이퍼의 제목을 입력하는 란입니다.'" :required="true" :toggle="false" type="text" :margin="true" title="제목" placeholder="제목을 입력하세요." :content.sync="title" ></form-wrapper>
         <form-wrapper v-intro="'페이퍼의 날짜 기한(데드라인)을 입력하는 란입니다. 데드라인을 넘은 페이퍼는 자동으로 모집이 종료됩니다.'" v-intro-step="2" :required="true" :toggle="false" type="datetime-local" :margin="true" title="날짜 기한(Deadline)" placeholder="제목을 입력하세요." :content.sync="time" ></form-wrapper>
-        <div class="categoryWrapper">
-          <span class="categoryHeading">카이스트외 참가 여부 </span>
+        <div class="radioWrapper">
+          <span class="radioHeading">카이스트외 참가 여부 </span>
+          <span class="requiredSpan">*</span>
           <input name="poss" type="radio" class="radio" :value="true" v-model="outsideKAIST"/>
           <label for="poss" class="label" >가능</label>
           <input name="imposs" type="radio" class="radio" :value="false" v-model="outsideKAIST"/>
@@ -176,6 +177,7 @@ export default {
           });
           formData.append("title", this.title);
           formData.append("content", this.explaination);
+          formData.append("only_kaist", !this.outsideKAIST)
           formData.append("poster_url", this.url);
           formData.append("preview_image", file);
           formData.append("questions", JSON.stringify(this.questions));
@@ -348,6 +350,25 @@ export default {
           .addQuestion {
             @include largeButton(green);
             margin-top: 12px;
+          }
+        }
+        .radioWrapper {
+          margin-top: 35px;
+          .radioHeading {
+            font-size: $h1-font-size;
+            font-weight: $big-font-weight;
+          }
+          .requiredSpan {
+            margin-left: 10px;
+            margin-right: 20px;
+            font-size: $h2-font-size;
+            color: $essential-color;
+          }
+          .radio {
+            margin-left: 15px;
+          }
+          .label {
+            font-size: $normal-font-size;
           }
         }
         &:last-child {
