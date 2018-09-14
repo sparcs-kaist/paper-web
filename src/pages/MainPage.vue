@@ -18,22 +18,22 @@
 <script>
 export default {
   methods: {
-    menuOnboarding () {
-      this.$store.commit("START_ONBOARDING", 'menu');
+    menuOnboarding() {
+      this.$store.commit("START_ONBOARDING", "menu");
     },
-    createOnboarding () {
-      this.$store.commit("START_ONBOARDING", 'create');
-      this.$router.push({name: "CreatePaper"})
+    createOnboarding() {
+      this.$store.commit("START_ONBOARDING", "create");
+      this.$router.push({ name: "CreatePaper" });
     },
-    participateOnboarding () {
-      this.$store.commit("START_ONBOARDING", 'participate');
-      this.$router.push({name: "ParticipatePaper", params: {PaperId: 38}})
-    },
+    participateOnboarding() {
+      this.$store.commit("START_ONBOARDING", "participate");
+      this.$router.push({ name: "ParticipatePaper", params: { PaperId: 38 } });
+    }
   },
-  mounted () {
-    this.$store.commit("END_ONBOARDING", 'participate');
-    this.$store.commit("END_ONBOARDING", 'create');
-    this.$store.commit("END_ONBOARDING", 'menu');
+  mounted() {
+    this.$store.commit("END_ONBOARDING", "participate");
+    this.$store.commit("END_ONBOARDING", "create");
+    this.$store.commit("END_ONBOARDING", "menu");
   }
 };
 </script>
@@ -45,10 +45,10 @@ export default {
   justify-content: center;
   align-items: center;
   padding: 0 20px;
-  // background-color: pink;
+  background-color: pink;
   background: linear-gradient(
-      rgba(255, 255, 255, 0.1),
-      rgba(255, 255, 255, 0.1)
+      rgba(255, 255, 255, 0.9),
+      rgba(255, 255, 255, 0.9)
     ),
     url("../assets/white_wood.jpg") no-repeat center center fixed;
   background-size: cover;
@@ -72,13 +72,19 @@ export default {
     margin-top: 20px;
     border-radius: 2px;
   }
-  @include breakPoint('phone') {
+  @include breakPoint("phone") {
     .header {
-      font-size: $h1-font-size;
+      font-size: $big-font-size;
     }
     .explaination {
       font-size: $normal-font-size;
     }
+    .onBoardingButton {
+      width: 80%;
+      font-size: $h2-font-size;
+    }
+  }
+  @include breakPoint("tablet") {
     .onBoardingButton {
       width: 80%;
       font-size: $h2-font-size;

@@ -6,6 +6,7 @@ import LoginCallback from "@/pages/LoginCallback.vue";
 import CreatePaper from "@/pages/CreatePaper.vue";
 import CreateSubmitted from "@/pages/CreateSubmitted.vue";
 import CreatedPaperDetail from "@/pages/CreatedPaperDetail.vue";
+import CreatedPaperInfo from "@/pages/CreatedPaperInfo.vue";
 import ParticipatedPaperDetail from "@/pages/ParticipatedPaperDetail.vue";
 import ParticipateSubmitted from "@/pages/ParticipateSubmitted.vue";
 import ParticipatePaper from "@/pages/ParticipatePaper.vue";
@@ -37,7 +38,7 @@ export default new Router({
       component: ParticipatePaper
     },
     {
-      path: "/login/:email",
+      path: "/login/:token",
       name: "LoginCallback",
       component: LoginCallback
     },
@@ -57,9 +58,14 @@ export default new Router({
       component: SearchForPaper
     },
     {
-      path: "/user/created/:paperId",
+      path: "/user/created/manage/:paperId",
       name: "CreatedPaperDetail",
       component: CreatedPaperDetail
+    },
+    {
+      path: "/user/created/info/:paperId",
+      name: "CreatedPaperInfo",
+      component: CreatedPaperInfo
     },
     {
       path: "/user/participated/:participatedId",

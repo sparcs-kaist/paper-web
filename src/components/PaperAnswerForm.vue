@@ -2,20 +2,6 @@
   <div class="formWrapper" :class="margin && 'marginTop'">
     <div class="formTitleWrapper">
       <v-text-field class="formTitle" disabled label="질문" outline v-model="formTitle"></v-text-field>
-      <div class="tabsWrapper">
-        <div class="singleTabWrapper">
-          <v-icon :color="optionsType == 'C' ? 'purple darken-2' : 'grey darken-1'">mdi-checkbox-marked-outline</v-icon>
-          <span :class="optionsType == 'C' ? 'themeSpan optionSpan' : 'optionSpan'">체크박스</span>
-        </div>
-        <div class="singleTabWrapper">
-          <v-icon :color="optionsType == 'R' ? 'purple darken-2' : 'grey darken-1'">mdi-radiobox-marked</v-icon>
-          <span :class="optionsType == 'R' ? 'themeSpan optionSpan' : 'optionSpan'">객관식 질문</span>
-        </div>
-        <div class="singleTabWrapper">
-          <v-icon :color="optionsType == 'O' ? 'purple darken-2' : 'grey darken-1'">mdi-text</v-icon>
-          <span :class="optionsType == 'O' ? 'themeSpan optionSpan' : 'optionSpan'">주관식</span>
-        </div>
-      </div>
     </div>
     <v-radio-group v-intro-hint="'라디오 버튼'" v-intro-hint-position="'top-right'" v-model="finalAnswer.selects" v-if="optionsType == 'R'" class="optionsWrapper">
       <v-radio color="black" :disabled="disabled" v-for="(option, index) in inputOptions" :key="index" style="height: 40px; margin: 0; padding: 0;" @click.native="$emit('update:answers', computedAnswers)" :label="option.option" :value="option.id"></v-radio>
@@ -59,11 +45,11 @@ export default {
     if (this.onBoardingState) {
       setTimeout(() => {
         this.$intro().showHints(); // show hints
-      }, 200)
+      }, 200);
     }
   },
   computed: {
-    onBoardingState () {
+    onBoardingState() {
       return this.$store.getters.onBoardingState.participate;
     },
     computedAnswers() {
@@ -90,7 +76,6 @@ export default {
   },
   methods: {
     emit() {
-      console.log(this.computedAnswers);
       this.$emit("update:answers", this.computedAnswers);
     },
     addOption(event, index) {
@@ -123,7 +108,7 @@ export default {
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;
-    margin-bottom: 12px;
+    // margin-bottom: 12px;
     width: 100%;
     .formTitle {
       font-size: $normal-font-size;
@@ -150,7 +135,7 @@ export default {
         &:first-child {
           margin-left: 0;
         }
-        @include breakPoint('phone')  {
+        @include breakPoint("phone") {
           font-size: $small-font-size;
         }
         .optionSpan {
@@ -195,7 +180,7 @@ export default {
 }
 .marginTop {
   margin-top: 30px;
-  @include breakPoint('phone') {
+  @include breakPoint("phone") {
     margin-top: 10px;
   }
 }

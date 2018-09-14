@@ -3,7 +3,7 @@
     <div v-if="loggedInState" class="private">
       <Header :currentUserLoading="currentUserLoading" />
       <router-view :key="$route.name + ($route.params.id || '')"></router-view>
-      <Footer />
+      <!-- <Footer /> -->
     </div>
     <div v-if="!loggedInState" class="public">
       <login v-if="$router.currentRoute.name != 'LoginCallback'"></login>
@@ -32,7 +32,6 @@ export default {
     };
   },
   created() {
-    console.log(this.$router.currentRoute);
     if (sessionStorage.getItem("token")) {
       this.$store.dispatch("login", sessionStorage.getItem("token").slice(6));
     }

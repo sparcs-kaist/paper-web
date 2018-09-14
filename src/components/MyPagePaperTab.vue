@@ -32,7 +32,7 @@
       </div>
       <div v-show="!deleteModalState" class="singleModalWrapper">
         <v-icon class="modalIcon">mdi-content-paste</v-icon>
-        <router-link :to="`/user/created/${createdId}`" class="modalSpan">페이퍼 관리하기</router-link>
+        <router-link :to="`/user/created/manage/${createdId}`" class="modalSpan">페이퍼 관리하기</router-link>
       </div>
       <div v-show="deleteModalState" class="singleModalWrapper deleteModal">
         <div class="modalSpan">정말로 삭제하시겠습니까?</div>
@@ -84,15 +84,15 @@ export default {
       }
       if (this.type == "created") {
         this.$router.push({
-          name: "CreatedPaperDetail",
+          name: "CreatedPaperInfo",
           params: { paperId: this.createdId }
         });
       }
       if (this.type == "participate") {
         this.$router.push({
           name: "ParticipatePaper",
-          params: {PaperId: this.participateId}
-        })
+          params: { PaperId: this.participateId }
+        });
       }
     },
     deleteCreatedPaper() {

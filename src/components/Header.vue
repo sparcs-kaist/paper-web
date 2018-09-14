@@ -66,13 +66,13 @@ export default {
   props: {
     currentUserLoading: Boolean
   },
-  created () {
+  created() {
     var val = this.$router.currentRoute.name;
     this.profileModalState = false;
-    if (val == 'CreatePaper') {
+    if (val == "CreatePaper") {
       this.tab1 = true;
       this.tab2 = false;
-    } else if (val == 'SearchForPaper') {
+    } else if (val == "SearchForPaper") {
       this.tab2 = true;
       this.tab1 = false;
     } else {
@@ -116,48 +116,26 @@ export default {
     currentUser() {
       return this.$store.getters.currentUser;
     },
-    // computedTab1() {
-    //   console.log(this.$router.currentRoute.name);
-    //   if (this.tab1 == false) {
-    //     return false;
-    //   } else {
-    //     if (this.$router.currentRoute.name != "CreatePaper") {
-    //       return false;
-    //     }
-    //   }
-    //   return true;
-    // },
-    // computedTab2() {
-    //   console.log(this.$router.currentRoute.name);
-    //   if (this.tab2 == false) {
-    //     return false;
-    //   } else {
-    //     if (this.$router.currentRoute.name != "SearchForPaper") {
-    //       return false;
-    //     }
-    //   }
-    //   return true;
-    // },
-    onBoardingState () {
+    onBoardingState() {
       return this.$store.getters.onBoardingState.menu;
-    },
+    }
   },
   watch: {
-    onBoardingState (val) {
+    onBoardingState(val) {
       if (val) {
         setTimeout(() => {
           this.profileModalState = true;
           this.$intro().start(); // start the guide
-          this.$store.commit("END_ONBOARDING", 'menu') // end the guide
-        }, 200)
+          this.$store.commit("END_ONBOARDING", "menu"); // end the guide
+        }, 200);
       }
     },
-    '$router.currentRoute.name' (val) {
+    "$router.currentRoute.name"(val) {
       this.profileModalState = false;
-      if (val == 'CreatePaper') {
+      if (val == "CreatePaper") {
         this.tab1 = true;
         this.tab2 = false;
-      } else if (val == 'SearchForPaper') {
+      } else if (val == "SearchForPaper") {
         this.tab2 = true;
         this.tab1 = false;
       } else {

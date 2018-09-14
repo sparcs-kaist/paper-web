@@ -35,6 +35,7 @@
 </template>
 <script>
 import axios from "@/axios-auth";
+import { baseURL, zaboURL } from "@/variables.js";
 
 export default {
   props: {
@@ -42,7 +43,7 @@ export default {
   },
   computed: {
     miniview() {
-      var expUrl = /^http[s]?\:\/\/ssal.sparcs.org:16139\/zabo\//;
+      var expUrl = /^http[s]?\:\/\/zabo.sparcs.org\/zabo\//;
       return expUrl.test(this.url);
     }
   },
@@ -70,10 +71,40 @@ export default {
       } else {
         zaboId = zabo[zabo.length - 1];
       }
-      console.log(zaboId);
-      axios
-        .get("http://ssal.sparcs.org:16135/api/zaboes/" + zaboId)
-        .then(res => {
+      axios.get(zaboURL + "/api/zaboes/" + zaboId).then(res => {
+        const {
+          title,
+          category,
+          author: { nickName, profile_image },
+          content,
+          location,
+          posters,
+          like_count,
+          link_url
+        } = res.data;
+        this.category = category;
+        this.title = title;
+        this.profileImage = profile_image;
+        this.nickName = nickName;
+        this.content = content;
+        this.location = location;
+        this.posterImage = posters[0].image_thumbnail;
+        this.likeCount = like_count;
+        this.loading = false;
+      });
+    }
+  },
+  methods: {
+    gotoZabo() {
+      window.location.replace(this.url);
+    }
+  },
+  watch: {
+    miniview(val) {
+      if (val) {
+        let zabo = this.url.split("/");
+        let zaboId = zabo[zabo.length - 1];
+        axios.get(zaboURL + "/api/zaboes/" + zaboId).then(res => {
           const {
             title,
             category,
@@ -94,41 +125,6 @@ export default {
           this.likeCount = like_count;
           this.loading = false;
         });
-    }
-  },
-  methods: {
-    gotoZabo() {
-      window.location.replace(this.url);
-    }
-  },
-  watch: {
-    miniview(val) {
-      if (val) {
-        let zabo = this.url.split("/");
-        let zaboId = zabo[zabo.length - 1];
-        axios
-          .get("http://ssal.sparcs.org:16135/api/zaboes/" + zaboId)
-          .then(res => {
-            const {
-              title,
-              category,
-              author: { nickName, profile_image },
-              content,
-              location,
-              posters,
-              like_count,
-              link_url
-            } = res.data;
-            this.category = category;
-            this.title = title;
-            this.profileImage = profile_image;
-            this.nickName = nickName;
-            this.content = content;
-            this.location = location;
-            this.posterImage = posters[0].image_thumbnail;
-            this.likeCount = like_count;
-            this.loading = false;
-          });
       }
     }
   }

@@ -36,7 +36,7 @@
 </template>
 <script>
 import MyPagePaperTab from "@/components/MyPagePaperTab";
-import axios from '@/axios-auth';
+import axios from "@/axios-auth";
 
 export default {
   data() {
@@ -52,13 +52,14 @@ export default {
     MyPagePaperTab
   },
   methods: {
-    search () {
+    search() {
       this.loading = true;
-      axios.get(`/api/papers/?search=${this.searchTerm}`)
-        .then(res => {
+      if (this.searchTerm != "") {
+        axios.get(`/api/papers/?search=${this.searchTerm}`).then(res => {
           this.papers = res.data.data;
           this.loading = false;
-        })
+        });
+      }
     }
   }
 };
@@ -66,15 +67,15 @@ export default {
 <style lang='scss' scoped>
 .searchTotalWrapper {
   @include marginPage();
-  @include breakPoint('phone') {
+  @include breakPoint("phone") {
     left: 5%;
     right: 5%;
   }
-  @include breakPoint('tablet') {
+  @include breakPoint("tablet") {
     left: 5%;
     right: 5%;
   }
-  @include breakPoint('desktop') {
+  @include breakPoint("desktop") {
     top: 80px;
   }
   .tabItemsWrapper {
@@ -82,16 +83,13 @@ export default {
     width: 100%;
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: flex-start;
     padding: 20px 20px;
     margin-bottom: 100px;
-    max-height: 60vh;
-    overflow-y: scroll;
-    overflow-x: hidden;
     @include scrollBarDark(small);
-    @include breakPoint('phone') {
-      justify-content: center;
+    @include breakPoint("phone") {
+      justify-content: space-around;
     }
   }
 }

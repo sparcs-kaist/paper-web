@@ -3,7 +3,7 @@
   <div v-if="!loading" class="createdTotalWrapper">
     <div class="row">
       <div class="headingWrapper">
-        <span class="headingTitle">{{title}}</span>
+        <span class="headingTitle"><v-icon @click="$router.go(-1)" class="arrowIcon">mdi-arrow-left</v-icon>{{title}}</span>
       </div>
       <div class="tabsWrapper">
         <div @click="selectedTab = 1" :class="selectedTab == 1 ? 'singleTabWrapper selectedTab' : 'singleTabWrapper'">
@@ -64,24 +64,20 @@
     <div v-if="participates.length != 0 && selectedTab == 2" class="row">
       <div class="column">
         <div class="singleMailTextWrapper">
-          <v-textarea
-            label="합격자에게 보내는 메일"
-            outline
-            auto-grow
+          <input placeholder="합격자에게 보내는 메일" v-model="passedUsersTitle" class="mailTitle"/>
+          <textarea
+            placeholder="합격자에게 보내는 메일"
             v-model="passedUsersMail"
             class="mailText"
-            color="green"
-          ></v-textarea>
+          ></textarea>
         </div>
         <div class="singleMailTextWrapper">
-          <v-textarea
-            label="불합격자에게 보내는 메일"
-            outline
-            auto-grow
+          <input placeholder="합격자에게 보내는 메일" v-model="failedUsersTitle" class="mailTitle"/>
+          <textarea
+            placeholder="불합격자에게 보내는 메일"
             v-model="failedUsersMail"
             class="mailText"
-            color="red"
-          ></v-textarea>
+          ></textarea>
         </div>
       </div>
       <div class="column">
@@ -93,7 +89,7 @@
             <span class="nickName">{{participate.author.nickName}}</span>
             <span @click="passList[index].type = 1" :class="passList[index].type == 1 ? 'passSpan greenPassSpan' : 'passSpan'">합격</span>
             <span @click="passList[index].type = 2" :class="passList[index].type == 2 ? 'passSpan redPassSpan' : 'passSpan'">불합격</span>
-            <span @click="passList[index].type = 3" :class="passList[index].type == 3 ? 'passSpan normalPassSpan' : 'passSpan'">미정</span>
+            <!-- <span @click="passList[index].type = 3" :class="passList[index].type == 3 ? 'passSpan normalPassSpan' : 'passSpan'">미정</span> -->
           </div>
         </div>
         <div class="MailTabWrapper">
@@ -105,24 +101,20 @@
     <div class="row" v-if="participates.length == 0 && selectedTab == 2">
       <div class="column">
         <div class="singleMailTextWrapper">
-          <v-textarea
-            label="합격자에게 보내는 메일"
-            outline
-            auto-grow
+          <input placeholder="합격자에게 보내는 메일" v-model="passedUsersTitle" class="mailTitle"/>
+          <textarea
+            placeholder="합격자에게 보내는 메일"
             v-model="passedUsersMail"
             class="mailText"
-            color="green"
-          ></v-textarea>
+          ></textarea>
         </div>
         <div class="singleMailTextWrapper">
-          <v-textarea
-            label="불합격자에게 보내는 메일"
-            outline
-            auto-grow
+          <input placeholder="합격자에게 보내는 메일" v-model="failedUsersTitle" class="mailTitle"/>
+          <textarea
+            placeholder="불합격자에게 보내는 메일"
             v-model="failedUsersMail"
             class="mailText"
-            color="red"
-          ></v-textarea>
+          ></textarea>
         </div>
       </div>
       <div class="column">
@@ -163,6 +155,8 @@ export default {
       passList: [],
       passedUsersMail: "",
       failedUsersMail: "",
+      passedUsersTitle: "",
+      failedUsersTitle: "",
       reRender: false
     };
   },
@@ -178,7 +172,6 @@ export default {
       }
     }).then(res => {
       const { participates, questions, title } = res.data;
-      console.log(participates, questions);
       this.participates = participates;
       this.questions = questions;
       this.title = title;
@@ -207,7 +200,6 @@ export default {
             emailList.push(this.participates[i].author.email);
           }
         }
-        console.log('1', this.passedUsersMail, '2', this.currentUser.email, '3', JSON.stringify(emailList).split('[')[1].split(']')[0])
         axios({
           method: "post",
           url: "/api/mails/",
@@ -216,9 +208,19 @@ export default {
           },
           data: {
             sender_address: this.currentUser.email,
-            receivers_address: JSON.stringify(emailList).split('[')[1].split(']')[0],
-            subject: "Pass",
+            receivers_address: JSON.stringify(emailList)
+              .split("[")[1]
+              .split("]")[0],
+            subject: this.passedUsersTitle,
             message: this.passedUsersMail
+          }
+        }).then(res => {
+          if (res.status == 201) {
+            alert("메일이 정상적으로 보내졌습니다.");
+            this.passedUsersTitle = "";
+            this.passedUsersMail = "";
+          } else {
+            alert("메일을 보내는데 실패하였습니다.");
           }
         });
       }
@@ -236,9 +238,19 @@ export default {
           },
           data: {
             sender_address: this.currentUser.email,
-            receivers_address: JSON.stringify(emailList).split('[')[1].split(']')[0],
-            subject: "Fail",
+            receivers_address: JSON.stringify(emailList)
+              .split("[")[1]
+              .split("]")[0],
+            subject: this.failedUsersTitle,
             message: this.failedUsersMail
+          }
+        }).then(res => {
+          if (res.status == 201) {
+            alert("메일이 정상적으로 보내졌습니다.");
+            this.failedUsersTitle = "";
+            this.failedUsersMail = "";
+          } else {
+            alert("메일을 보내는데 실패하였습니다.");
           }
         });
       }
@@ -249,7 +261,6 @@ export default {
       return this.$store.getters.currentUser;
     },
     computedAnswers() {
-      console.log(this.answers);
       if (this.answers.length > 0 && this.participates.length != 0) {
         return this.answers.map(answerList => {
           return answerList.map(answer => {
@@ -348,15 +359,15 @@ export default {
 <style lang='scss' scoped>
 .createdTotalWrapper {
   @include marginPage();
-  @include breakPoint('phone') {
+  @include breakPoint("phone") {
     left: 5%;
     right: 5%;
   }
-  @include breakPoint('tablet') {
+  @include breakPoint("tablet") {
     left: 5%;
     right: 5%;
   }
-  @include breakPoint('desktop') {
+  @include breakPoint("desktop") {
     top: 100px;
   }
   display: flex;
@@ -382,7 +393,7 @@ export default {
           font-size: $big-font-size;
           font-weight: $big-font-weight;
         }
-        @include breakPoint('phone'){
+        @include breakPoint("phone") {
           .headingTitle {
             font-size: $normal-font-size;
             font-weight: $big-font-weight;
@@ -404,7 +415,7 @@ export default {
           display: flex;
           justify-content: center;
           align-items: center;
-          @include breakPoint('phone') {
+          @include breakPoint("phone") {
             font-size: $normal-font-size;
           }
           cursor: pointer;
@@ -457,7 +468,7 @@ export default {
       margin-left: 10px;
       font-size: $h1-font-size;
     }
-    &:last-child{
+    &:last-child {
       width: 100%;
       display: flex;
       justify-content: flex-start;
@@ -493,8 +504,36 @@ export default {
       .column {
         .singleMailTextWrapper {
           margin-top: 10px;
-          .mailText {
+          font-size: $h2-font-size;
+          .mailTitle {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid $green-color;
+            border-radius: 5px;
+            margin-bottom: 5px;
             font-family: "NanumSquare", sans-serif;
+            &:focus {
+              outline: none;
+            }
+          }
+          .mailText {
+            width: 100%;
+            min-height: 200px;
+            font-family: "NanumSquare", sans-serif;
+            border: 1px solid $green-color;
+            border-radius: 5px;
+            padding: 10px;
+            margin-bottom: 10px;
+            resize: none;
+            &:focus {
+              outline: none;
+            }
+          }
+          &:last-child {
+            .mailTitle,
+            .mailText {
+              border: 1px solid $red-color;
+            }
           }
         }
         .manageTitleWrapper {
@@ -504,7 +543,7 @@ export default {
             font-size: $h1-font-size;
             font-weight: $big-font-weight;
           }
-          @include breakPoint('phone') {
+          @include breakPoint("phone") {
             margin-top: 0;
             .manageTitle {
               font-size: $normal-font-size;
@@ -543,7 +582,7 @@ export default {
             height: 35px;
             width: 45%;
             font-size: $normal-font-size;
-            @include breakPoint('phone') {
+            @include breakPoint("phone") {
               width: 100%;
               font-size: $h2-font-size;
             }

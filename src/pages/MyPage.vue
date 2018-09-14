@@ -57,11 +57,11 @@ export default {
 <style lang='scss' scoped>
 .totalWrapper {
   @include marginPage();
-  @include breakPoint('phone') {
+  @include breakPoint("phone") {
     left: 5%;
     right: 5%;
   }
-  @include breakPoint('tablet') {
+  @include breakPoint("tablet") {
     left: 5%;
     right: 5%;
   }
@@ -88,7 +88,7 @@ export default {
         .tabSpan {
           font-size: $big-font-size;
           cursor: pointer;
-          @include breakPoint('phone') {
+          @include breakPoint("phone") {
             font-size: $normal-font-size;
           }
         }
@@ -109,15 +109,12 @@ export default {
     .contentWrapper {
       flex: 1;
       width: 100%;
-      background-color: #ececec;
+      background-color: white;
       margin-top: 25px;
-      padding: 25px 20px;
-      // max-height: 650px;
-      overflow-y: scroll;
-      overflow-x: hidden;
+      padding: 25px 20px 60px 20px;
       display: flex;
-      justify-content: space-between;
-      @include breakPoint('phone') {
+      justify-content: space-around;
+      @include breakPoint("phone") {
         justify-content: center;
       }
       align-items: flex-start;
