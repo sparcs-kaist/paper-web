@@ -87,9 +87,9 @@ export default {
 <style lang='scss' scoped>
 .searchTotalWrapper {
   .tabItemsWrapper {
-    background-color: #ececec;
+    background-color: #fff;
     width: 100%;
-    min-height: 700px;
+    min-height: 100vh;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
@@ -102,10 +102,15 @@ export default {
     .doesNotExist {
       width: 100%;
       height: 100px;
-      font-size: 2em;
+      font-size: $big-font-size;
       display: flex;
       justify-content: center;
       align-items: center;
+    }
+    @include breakPoint('phone') {
+      .doesNotExist{
+        font-size: $h2-font-size;
+      }
     }
   }
 }
