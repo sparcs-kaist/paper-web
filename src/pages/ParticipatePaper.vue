@@ -141,7 +141,7 @@ export default {
         url: "/api/participates/",
         headers: {
           "Content-Type": "application/json",
-          Authorization: sessionStorage.getItem("token")
+          Authorization: localStorage.getItem("token")
         },
         data: {
           paper: this.$route.params.PaperId,

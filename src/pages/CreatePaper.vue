@@ -182,7 +182,7 @@ export default {
             method: "post",
             headers: {
               "Content-Type": "multipart/form-data",
-              Authorization: sessionStorage.getItem("token")
+              Authorization: localStorage.getItem("token")
             },
             data: formData
           }).then(res => {

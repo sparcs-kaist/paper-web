@@ -56,7 +56,7 @@ export default {
           message: this.message
         },
         headers: {
-          Authorization: sessionStorage.getItem("token"),
+          Authorization: localStorage.getItem("token"),
           "Content-Type": "application/json"
         }
       }).then(res => {

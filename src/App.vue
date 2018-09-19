@@ -35,8 +35,8 @@ export default {
     if (!localStorage.getItem("currentPage")) {
       localStorage.setItem("currentPage", window.location.href);
     }
-    if (sessionStorage.getItem("token")) {
-      this.$store.dispatch("login", sessionStorage.getItem("token").slice(6));
+    if (localStorage.getItem("token")) {
+      this.$store.dispatch("login", localStorage.getItem("token").slice(6));
     }
   },
   methods: {},

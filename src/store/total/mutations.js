@@ -3,9 +3,9 @@ import * as types from "@/store/mutation-types";
 const mutations = {
   [types.LOGIN](state, token) {
     if (token) {
-      sessionStorage.setItem("token", "PAPER " + token);
+      localStorage.setItem("token", "PAPER " + token);
     }
-    if (sessionStorage.getItem("token")) {
+    if (localStorage.getItem("token")) {
       state.loggedInState = true;
     }
   },
@@ -15,7 +15,7 @@ const mutations = {
     } = state;
     state.loggedInState = false;
     state.currentUser = {};
-    sessionStorage.removeItem("token");
+    localStorage.removeItem("token");
     window.location = `http://ssal.sparcs.org:16138/api/logout/?email=${email}`;
   },
   [types.SET_CURRENT_USER](state, payload) {
@@ -27,21 +27,21 @@ const mutations = {
   [types.SET_CREATED_PAPERS](state, payload) {
     state.createdPapers = payload;
   },
-  [types.START_ONBOARDING] (state, payload) {
-    if (payload == 'participate') {
+  [types.START_ONBOARDING](state, payload) {
+    if (payload == "participate") {
       state.onBoarding.participate = true;
-    } else if (payload == 'menu') {
+    } else if (payload == "menu") {
       state.onBoarding.menu = true;
-    } else if (payload == 'create') {
+    } else if (payload == "create") {
       state.onBoarding.create = true;
-    } 
+    }
   },
-  [types.END_ONBOARDING] (state, payload) {
-    if (payload == 'participate') {
+  [types.END_ONBOARDING](state, payload) {
+    if (payload == "participate") {
       state.onBoarding.participate = false;
-    } else if (payload == 'menu') {
+    } else if (payload == "menu") {
       state.onBoarding.menu = false;
-    } else if (payload == 'create') {
+    } else if (payload == "create") {
       state.onBoarding.create = false;
     }
   }

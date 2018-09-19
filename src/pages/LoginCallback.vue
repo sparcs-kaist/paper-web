@@ -8,11 +8,11 @@ import axios from "@/axios-auth";
 
 export default {
   created() {
-    if (sessionStorage.getItem("token")) {
+    if (localStorage.getItem("token")) {
       window.location.href = localStorage.getItem("currentPage");
       localStorage.removeItem("currentPage");
     } else {
-      sessionStorage.setItem("token", "PAPER " + this.$route.params.token);
+      localStorage.setItem("token", "PAPER " + this.$route.params.token);
       window.location.reload();
     }
   }

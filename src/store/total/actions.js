@@ -7,7 +7,7 @@ const actions = {
     axios({
       url: "/api/participates/created/",
       headers: {
-        Authorization: sessionStorage.getItem("token")
+        Authorization: localStorage.getItem("token")
       }
     }).then(res => {
       commit(types.SET_PARTICIPATED_PAPERS, res.data.data);
@@ -17,7 +17,7 @@ const actions = {
     axios({
       url: "/api/papers/created/",
       headers: {
-        Authorization: sessionStorage.getItem("token")
+        Authorization: localStorage.getItem("token")
       }
     }).then(res => {
       commit(types.SET_CREATED_PAPERS, res.data.data);
