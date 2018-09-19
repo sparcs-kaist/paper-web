@@ -32,6 +32,13 @@ export default {
     };
   },
   created() {
+    if (localStorage.getItem("currentPage")) {
+      window.location.href = localStorage.getItem("currentPage");
+      localStorage.removeItem("currentPage");
+    } else {
+      localStorage.setItem("currentPage", window.location.href);
+    }
+
     if (sessionStorage.getItem("token")) {
       this.$store.dispatch("login", sessionStorage.getItem("token").slice(6));
     }
