@@ -17,8 +17,10 @@
         <form-wrapper v-intro="'페이퍼의 설명입니다.'" v-intro-step="3" :disabled="true" :toggle="false" type="text" :textarea="true" :margin="true" title="페이퍼 설명" placeholder="이 어플라이에 대한 설명을 입력해주세요." :content="explaination" ></form-wrapper>
       </div>
       <div class="column">
-        <form-wrapper :disabled="true" :toggle="false" type="text" :margin="true" title="페이퍼 설명 URL(자보 미니뷰)" placeholder="URL이 존재하지 않습니다." :content="url" ></form-wrapper>
-        <mini-view v-intro="'페이퍼의 설명 링크 중 자보에 해당하는 URL이 있을 시 미니뷰가 표시됩니다.'" v-intro-step="4" :url="url"></mini-view>
+        <div v-intro="'페이퍼의 설명 링크 중 자보에 해당하는 URL이 있을 시 미니뷰가 표시됩니다.'" v-intro-step="4">
+          <form-wrapper :disabled="true" :toggle="false" type="text" :margin="true" title="페이퍼 설명 URL(자보 미니뷰)" placeholder="URL이 존재하지 않습니다." :content="url" ></form-wrapper>
+          <mini-view :url="url"></mini-view>
+        </div>
         <button v-intro="'버튼을 누르시면 질문지를 작성하러 가실 수 있습니다.'" v-intro-step="5" @click="currentTotalState = 'end' " class="goNext">질문지 작성</button>
       </div>
     </div>

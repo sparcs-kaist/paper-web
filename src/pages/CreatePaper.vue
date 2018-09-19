@@ -20,11 +20,13 @@
         <form-wrapper v-intro="'페이퍼의 날짜 기한(데드라인)을 입력하는 란입니다. 데드라인을 넘은 페이퍼는 자동으로 모집이 종료됩니다.'" v-intro-step="2" :required="true" :toggle="false" type="datetime-local" :margin="true" title="날짜 기한(Deadline)" placeholder="제목을 입력하세요." :content.sync="time" ></form-wrapper>
         <form-wrapper v-intro="'페이퍼에 대한 설명을 1500자 이내로 적어주세요.'" v-intro-step="3" :required="true" :toggle="false" type="text" :textarea="true" :margin="true" title="페이퍼 설명(1500자 이내)" placeholder="이 어플라이에 대한 설명을 입력해주세요." :content.sync="explaination" ></form-wrapper>
       </div>
-      <div v-intro="'페이퍼를 설명할 수 있는 URL을 넣어주세요. 자보의 URL을 넣으시면 해당하는 자보의 미니뷰가 생성됩니다.'" v-intro-step="3" class="column">
-        <form-wrapper :required="false" :toggle="false" type="text" :margin="true" title="페이퍼 설명 URL(자보 미니뷰)" placeholder="ex) https://zabo.sparcs.org/zabo/24" :content.sync="url" ></form-wrapper>
-        <mini-view :url="url"></mini-view>
+      <div class="column">
+        <div v-intro="'페이퍼를 설명할 수 있는 URL을 넣어주세요. 자보의 URL을 넣으시면 해당하는 자보의 미니뷰가 생성됩니다.'" v-intro-step="4">
+          <form-wrapper :required="false" :toggle="false" type="text" :margin="true" title="페이퍼 설명 URL(자보 미니뷰)" placeholder="ex) https://zabo.sparcs.org/zabo/24" :content.sync="url" ></form-wrapper>
+          <mini-view :url="url"></mini-view>
+        </div>
         <button v-if="StartFormValidation" @click="currentTotalState = 'end' " class="goNext">질문지 만들러 가기</button>
-        <button v-intro="'모든 필수란을 채우셔야 질문지를 생성하실 수 있습니다.'" v-else @click="notYetWarn" class="notYet">필수란들을 채워주세요</button>
+        <button v-intro="'모든 필수란을 채우셔야 질문지를 생성하실 수 있습니다.'" v-intro-step="5" v-else @click="notYetWarn" class="notYet">필수란들을 채워주세요</button>
       </div>
     </div>
   </div>
