@@ -9,7 +9,8 @@ import axios from "@/axios-auth";
 export default {
   created() {
     if (sessionStorage.getItem("token")) {
-      this.$router.push({ name: "MainPage" });
+      window.location.href = localStorage.getItem("currentPage");
+      localStorage.removeItem("currentPage");
     } else {
       sessionStorage.setItem("token", "PAPER " + this.$route.params.token);
       window.location.reload();

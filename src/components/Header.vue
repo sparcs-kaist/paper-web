@@ -5,13 +5,14 @@
       <div class="column">
         <img @click="mainPage" src="@/assets/logo.png" class="logo">
         <span v-intro="'이곳에서 새로운 페이퍼를 생성하실 수 있습니다.'" @click="selectTab('tab1')" :class="tab1 ? 'selectedTab' : 'tabs'">{{$t('페이퍼 생성하기')}}</span>
-        <span v-intro="'이곳에서 새로운 페이퍼를 찾아보실 수 있습니다.'" v-intro-step="2" @click="selectTab('tab2')" :class="tab2 ? 'selectedTab' : 'tabs'">{{$t('페이퍼 찾아보기')}}</span>
       </div>
       <div v-if="currentUser.nickName == undefined" class="column">
+        <v-icon v-intro="'이곳에서 새로운 페이퍼를 찾아보실 수 있습니다.'" v-intro-step="2" @click.stop="onSearch" class="right searchIcon">search</v-icon>
         <span @click="profileModalState = !profileModalState" class="userName">nickName</span>
         <v-icon @click="profileModalState = !profileModalState" medium class="arrowIcon">arrow_drop_down</v-icon>
       </div>
       <div v-else class="column">
+        <v-icon v-intro="'이곳에서 새로운 페이퍼를 찾아보실 수 있습니다.'" v-intro-step="2" @click.stop="onSearch" class="right searchIcon">search</v-icon>
         <span @click="profileModalState = !profileModalState" class="userName">{{currentUser.nickName}}</span>
         <v-icon @click="profileModalState = !profileModalState" medium class="arrowIcon">arrow_drop_down</v-icon>
       </div>
@@ -30,15 +31,15 @@
     </div>
     <div class="mobileHeaderWrapper">
       <img @click="mainPage" src="@/assets/logo.png" class="logo">
-      <v-icon v-show="dropdownState == false" @click="dropdownState = true">mdi-menu</v-icon>
-      <v-icon v-show="dropdownState == true" @click="dropdownState = false">mdi-close</v-icon>
+      <div>
+        <v-icon @click.stop="onSearch" class="mobileRight searchIcon">search</v-icon>
+        <v-icon v-show="dropdownState == false" @click="dropdownState = true">mdi-menu</v-icon>
+        <v-icon v-show="dropdownState == true" @click="dropdownState = false">mdi-close</v-icon>
+      </div>
     </div>
     <div v-show="dropdownState" class="dropdownList">
       <div @click="selectTab('tab1')" class="dropdownContent">
         {{ $t('페이퍼 생성하기') }}
-      </div>
-      <div @click="selectTab('tab2')" class="dropdownContent">
-        {{ $t('페이퍼 찾아보기') }}
       </div>
       <div @click="profilePush" class="dropdownContent">
         {{ $t('페이퍼 관리')}}
@@ -47,20 +48,26 @@
         {{ $t('로그아웃')}}
       </div>
     </div>
+    <search-modal @closeSearchModal="searchModalState = false" :dialog="searchModalState" />
   </div>
 </template>
 
 <script>
+import SearchModal from '@/components/SearchModal';
+
 export default {
   name: "Header",
-  components: {},
+  components: {
+    SearchModal
+  },
   data() {
     return {
       tab1: false,
       tab2: false,
       selectedTab: "",
       profileModalState: false,
-      dropdownState: false
+      dropdownState: false,
+      searchModalState: false
     };
   },
   props: {
@@ -110,6 +117,9 @@ export default {
       this.profileModalState = false;
       this.dropdownState = false;
       this.$router.push({ name: "MyPage" });
+    },
+    onSearch() {
+      this.searchModalState = true;
     }
   },
   computed: {
@@ -214,6 +224,12 @@ export default {
           @include smallBoxShadow();
         }
       }
+      .right {
+        margin-right: 27px;
+      }
+      .searchIcon {
+        cursor: pointer;
+      }
       .userName {
         font-size: $normal-font-size;
         font-weight: $normal-font-weight;
@@ -282,6 +298,9 @@ export default {
       height: 27px;
       cursor: pointer;
     }
+    .mobileRight {
+      margin-right: 10px;
+    }
   }
   .dropdownList {
     background-color: $transparent-white;
@@ -303,6 +322,9 @@ export default {
   }
   @include breakPoint("phone") {
     .headerWrapper {
+      display: none;
+    }
+    .right {
       display: none;
     }
   }
